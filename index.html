@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>ARCH 360 Tour</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --accent: #00c8ff;
+      --accent2: #0077aa;
+      --bg: #080c12;
+      --surface: rgba(255,255,255,0.04);
+      --border: rgba(255,255,255,0.08);
+    }
+
+    html, body {
+      height: 100%;
+      background: var(--bg);
+      color: #e8edf2;
+      font-family: 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* ── Background star-like particles ── */
+    body::before {
+      content: '';
+  position: fixed;
+  inset: 0;
+  background: #000000;
+    }
+
+    /* ── Header ── */
+    header {
+      display: none
+    }
+
+    .logo {
+      font-size: 1em;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .header-badge {
+      font-size: 0.72em;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+    }
+
+    /* ── Hero ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 24px 80px;
+      position: relative;
+    }
+	.hero-logo {
+  width: 90px;   /* try 80–140px range */
+  height: auto;
+  display: block;
+  margin: 0 auto 24px;
+}
+
+    .hero-eyebrow {
+      font-size: 0.75em;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: #00000;
+      margin-bottom: 10px;
+      opacity: 0.85;
+    }
+
+    h1 {
+      font-size: clamp(2.2rem, 6vw, 4.5rem);
+      font-weight: 200;
+      line-height: 1.12;
+      letter-spacing: -0.5px;
+      margin-bottom: 28px;
+      max-width: 720px;
+    }
+
+    h1 strong {
+      font-weight: 600;
+      color: var(--accent);
+    }
+
+    .hero-desc {
+      font-size: clamp(0.95rem, 2vw, 1.15rem);
+      line-height: 1.7;
+      color: rgba(232,237,242,0.6);
+      max-width: 520px;
+      margin-bottom: 52px;
+    }
+
+    /* ── CTA buttons ── */
+    .btn-group {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 16px 36px;
+      background: #000000;
+      color: #000000;
+      font-size: 0.95em;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      text-decoration: none;
+	  stroke-width: 1px;
+      border-radius: 0px;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+	  border: 1px solid rgba(255,255,255,0.14);
+	  
+      
+    }
+	.btn-text {
+  color: #ffffff;
+}
+
+    .btn-primary:hover {
+      background: #ffffff;
+      transform: translateY(-2px);
+      
+    }
+	.btn-primary:hover .btn-text {
+  color: #000000;
+}
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 16px 32px;
+      background: #000000;
+      color: #e8edf2;
+      font-size: 0.9em;
+      letter-spacing: 1px;
+      text-decoration: none;
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 0px;
+      transition: background 0.2s, border-color 0.2s;
+    }
+
+    .btn-secondary:hover {
+       background: #ffffff;
+      transform: translateY(-2px);
+    }
+	.btn-secondary:hover .btn-text {
+  color: #000000;
+}
+
+    /* ── Feature cards ── */
+    .features {
+      padding: 80px 24px 100px;
+      max-width: 980px;
+      margin: 0 auto;
+    }
+
+    .features-title {
+      text-align: center;
+      font-size: 0.72em;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.3);
+      margin-bottom: 48px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 28px 24px;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .card:hover {
+      border-color: rgba(0,200,255,0.2);
+      background: rgba(0,200,255,0.03);
+    }
+
+    .card-icon {
+      font-size: 1.6em;
+      margin-bottom: 14px;
+      display: block;
+    }
+
+    .card h3 {
+      font-size: 0.9em;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .card p {
+      font-size: 0.85em;
+      line-height: 1.6;
+      color: rgba(232,237,242,0.55);
+    }
+
+    /* ── How to navigate ── */
+    .how-to {
+      max-width: 700px;
+      margin: 0 auto 100px;
+      padding: 0 24px;
+    }
+
+    .how-to h2 {
+      text-align: center;
+      font-size: 0.72em;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.3);
+      margin-bottom: 32px;
+    }
+
+    .steps {
+      display: grid;
+      gap: 12px;
+    }
+
+    .step {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 18px 20px;
+    }
+
+    .step-num {
+      min-width: 28px;
+      height: 28px;
+      background: rgba(0,200,255,0.12);
+      border: 1px solid rgba(0,200,255,0.25);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75em;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .step-text {
+      font-size: 0.85em;
+      line-height: 1.6;
+      color: rgba(232,237,242,0.65);
+    }
+
+    .step-text strong {
+      color: #e8edf2;
+    }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 24px;
+      text-align: center;
+      font-size: 0.75em;
+      color: rgba(255,255,255,0.2);
+      letter-spacing: 1px;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 500px) {
+      .btn-group { flex-direction: column; align-items: center; }
+      .btn-primary, .btn-secondary { width: 100%; max-width: 300px; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <span class="logo">ARCH 360 Tour</span>
+  <span class="header-badge">WebXR · 360°</span>
+</header>
+
+<main>
+  <section class="hero">
+  <img src="images/Logo1.png" alt="ARCH 360 Tour logo" class="hero-logo">
+    <p class="hero-eyebrow">ARCH 360 Tour</p>
+    
+    <p class="hero-desc">
+      
+    </p>
+    <div class="btn-group">
+      <a href="tour.html" class="btn-primary">
+                 <span class="btn-text">Enter Tour</span>
+      </a>
+      <a href="tour.html?vr=1" class="btn-secondary">
+                <span class="btn-text">ENTER IN VR</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="features">
+    <p class="features-title">What's inside</p>
+    <div class="cards">
+      <div class="card">
+        <span class="card-icon">🌐</span>
+        <h3>Full 360° Views</h3>
+        <p>23 locations rendered as 4K equirectangular panoramas, each with accurate lighting and reflections.</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">👁</span>
+        <h3>Gaze to Travel</h3>
+        <p>Simply look at a waypoint marker for a moment and you'll be transported there — works with or without controllers.</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">🥽</span>
+        <h3>Quest 3 Ready</h3>
+        <p>Fully immersive on Meta Quest 3 via WebXR. Point with the controller or use gaze navigation.</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">📱</span>
+        <h3>Any Device</h3>
+        <p>Desktop, tablet, or phone — the tour adapts to your device automatically with no app to install.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="how-to">
+    <h2>How to navigate</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <p class="step-text"><strong>Look around</strong> — drag to pan on desktop, tilt your device on mobile, or simply move your head in VR.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <p class="step-text"><strong>Find a waypoint marker</strong> — white circles sit on the floor where each nearby location is, just like a street-view walk-through.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <p class="step-text"><strong>Gaze to travel</strong> — click or tap a circle (or hold your gaze on it for ~2 seconds in VR). You'll fade and arrive there.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <p class="step-text">On <strong>Quest 3</strong>: press the VR button, point your right controller at a marker and press trigger — or just use gaze.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  Best experienced with headphones &nbsp;·&nbsp; Requires a modern browser with WebGL
+</footer>
+
+</body>
+</html>
+
