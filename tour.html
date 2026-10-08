@@ -191,7 +191,7 @@
    the Blender file). Blender is Z-up, A-Frame is Y-up:
      aframe.x =  blender.x,  aframe.y = blender.z,  aframe.z = -blender.y
 ══════════════════════════════════════════════════════════════════════ */
-const START_SCENE    = 'camera_001';
+const START_SCENE    = 'pathway_01';
 const GAZE_MS        = 1800;   // must match the gaze cursor fuseTimeout
 const MAX_MARKER_M   = 14;     // far circles are pulled in to this distance (direction is kept)
 const CIRCLE_RADIUS  = 0.32;   // metres, at true distance → far circles look smaller, like Street View
@@ -204,7 +204,7 @@ for (const s of window.TOUR_SCENES) {
   SCENES[s.id] = {
     name:        s.placeholder ? `${s.name} (coming soon)` : s.name,
     area:        s.area || '',
-    image:       IMG_DIR + s.id + '.jpg',
+    image:       IMG_DIR + (s.image || s.id + '.jpg'),
     eye:         { x: s.pos[0], y: s.pos[1], z: s.pos[2] },   // Blender coords
     floorZ:      s.floorZ,
     neighbours:  s.neighbours,
@@ -340,7 +340,7 @@ function buildHotspot (toId, p) {
 
   // Label floating above the circle, always readable. Show the floor when the circle leads to a different area.
   const t = SCENES[toId];
-  const name = t.area && t.area !== SCENES[currentScene].area ? `${t.area} · ${t.name}` : t.name;
+  const name = t.name;   // location names are self-explanatory (e.g. "Kitchen", "Terrace 01")
   const label = document.createElement('a-entity');
   label.setAttribute('face-camera', '');
   label.setAttribute('position', `0 ${(r * 1.6 + 0.25).toFixed(2)} 0`);
@@ -400,7 +400,8 @@ function applySky (sceneId) {
 
 function updateHud () {
   const s = SCENES[currentScene];
-  sceneNameEl.textContent = s.area ? `${s.area} · ${s.name}` : s.name;
+  // Show the floor too, unless the name already says it (e.g. "Ground Floor Entrance", "Turf")
+  sceneNameEl.textContent = (s.area && !s.name.toLowerCase().startsWith(s.area.toLowerCase())) ? `${s.area} · ${s.name}` : s.name;
   selectEl.value = currentScene;
 }
 

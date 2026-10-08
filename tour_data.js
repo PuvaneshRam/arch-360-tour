@@ -2,9 +2,11 @@
 // neighbours = circles shown at that camera (walk graph from line-of-sight + same-floor rooms).
 window.TOUR_SCENES = [
  {
-  "id": "camera_001",
-  "name": "Camera 01",
+  "id": "pathway_01",
+  "name": "Pathway 01",
+  "camera": "Camera 01",
   "area": "Outdoor",
+  "image": "pathway_01.jpg",
   "pos": [
    2.792,
    -66.566,
@@ -13,14 +15,16 @@ window.TOUR_SCENES = [
   "floorZ": 0.0,
   "placeholder": false,
   "neighbours": [
-   "camera_003",
-   "camera_002"
+   "pathway_02",
+   "turf"
   ]
  },
  {
-  "id": "camera_002",
-  "name": "Camera 02",
+  "id": "turf",
+  "name": "Turf",
+  "camera": "Camera 02",
   "area": "Turf",
+  "image": "turf.jpg",
   "pos": [
    1.855,
    -43.501,
@@ -29,16 +33,18 @@ window.TOUR_SCENES = [
   "floorZ": 4.864,
   "placeholder": false,
   "neighbours": [
-   "camera_003",
-   "camera_004",
-   "camera_001",
-   "camera_005"
+   "pathway_02",
+   "pathway_03",
+   "pathway_01",
+   "pathway_04"
   ]
  },
  {
-  "id": "camera_003",
-  "name": "Camera 03",
+  "id": "pathway_02",
+  "name": "Pathway 02",
+  "camera": "Camera 03",
   "area": "Outdoor",
+  "image": "pathway_02.jpg",
   "pos": [
    2.792,
    -46.899,
@@ -47,15 +53,17 @@ window.TOUR_SCENES = [
   "floorZ": -0.0,
   "placeholder": false,
   "neighbours": [
-   "camera_002",
-   "camera_001",
-   "camera_004"
+   "turf",
+   "pathway_01",
+   "pathway_03"
   ]
  },
  {
-  "id": "camera_004",
-  "name": "Camera 04",
+  "id": "pathway_03",
+  "name": "Pathway 03",
+  "camera": "Camera 04",
   "area": "Outdoor",
+  "image": "pathway_03.jpg",
   "pos": [
    2.792,
    -27.09,
@@ -64,15 +72,17 @@ window.TOUR_SCENES = [
   "floorZ": 0.0,
   "placeholder": false,
   "neighbours": [
-   "camera_002",
-   "camera_005",
-   "camera_003"
+   "turf",
+   "pathway_04",
+   "pathway_02"
   ]
  },
  {
-  "id": "camera_005",
-  "name": "Camera 05",
+  "id": "pathway_04",
+  "name": "Pathway 04",
+  "camera": "Camera 05",
   "area": "Outdoor",
+  "image": "pathway_04.jpg",
   "pos": [
    2.792,
    -9.342,
@@ -81,15 +91,17 @@ window.TOUR_SCENES = [
   "floorZ": 0.0,
   "placeholder": false,
   "neighbours": [
-   "camera_006",
-   "camera_004",
-   "camera_002"
+   "ground_floor_entrance",
+   "pathway_03",
+   "turf"
   ]
  },
  {
-  "id": "camera_006",
-  "name": "Camera 06",
+  "id": "ground_floor_entrance",
+  "name": "Ground Floor Entrance",
+  "camera": "Camera 06",
   "area": "Ground Floor",
+  "image": "ground_floor_entrance.jpg",
   "pos": [
    2.815,
    0.369,
@@ -98,15 +110,17 @@ window.TOUR_SCENES = [
   "floorZ": 0.656,
   "placeholder": false,
   "neighbours": [
-   "camera_007",
-   "camera_009",
-   "camera_005"
+   "multipurpose_room",
+   "ground_floor_steps",
+   "pathway_04"
   ]
  },
  {
-  "id": "camera_007",
-  "name": "Camera 07",
+  "id": "multipurpose_room",
+  "name": "Multipurpose Room",
+  "camera": "Camera 07",
   "area": "Ground Floor",
+  "image": "multipurpose_room.jpg",
   "pos": [
    4.735,
    3.642,
@@ -115,14 +129,16 @@ window.TOUR_SCENES = [
   "floorZ": 0.656,
   "placeholder": false,
   "neighbours": [
-   "camera_008",
-   "camera_006"
+   "maids_room",
+   "ground_floor_entrance"
   ]
  },
  {
-  "id": "camera_008",
-  "name": "Camera 08",
+  "id": "maids_room",
+  "name": "Maid's Room",
+  "camera": "Camera 08",
   "area": "Ground Floor",
+  "image": "maids_room.jpg",
   "pos": [
    1.816,
    5.109,
@@ -131,13 +147,15 @@ window.TOUR_SCENES = [
   "floorZ": 0.66,
   "placeholder": false,
   "neighbours": [
-   "camera_007"
+   "multipurpose_room"
   ]
  },
  {
-  "id": "camera_009",
-  "name": "Camera 09",
+  "id": "ground_floor_steps",
+  "name": "Ground Floor Steps",
+  "camera": "Camera 09",
   "area": "Ground Floor",
+  "image": "ground_floor_steps.jpg",
   "pos": [
    7.076,
    0.071,
@@ -146,14 +164,16 @@ window.TOUR_SCENES = [
   "floorZ": 2.262,
   "placeholder": false,
   "neighbours": [
-   "camera_010",
-   "camera_006"
+   "first_floor_entrance",
+   "ground_floor_entrance"
   ]
  },
  {
-  "id": "camera_010",
-  "name": "Camera 10",
+  "id": "first_floor_entrance",
+  "name": "First Floor Entrance",
+  "camera": "Camera 10",
   "area": "First Floor",
+  "image": "first_floor_entrance.jpg",
   "pos": [
    3.18,
    0.071,
@@ -162,17 +182,19 @@ window.TOUR_SCENES = [
   "floorZ": 3.656,
   "placeholder": false,
   "neighbours": [
-   "camera_011",
-   "camera_013",
-   "camera_009",
-   "camera_012",
-   "camera_014"
+   "hall",
+   "kitchen",
+   "ground_floor_steps",
+   "bedroom_01",
+   "first_floor_steps"
   ]
  },
  {
-  "id": "camera_011",
-  "name": "Camera 11",
+  "id": "hall",
+  "name": "Hall",
+  "camera": "Camera 11",
   "area": "First Floor",
+  "image": "hall.jpg",
   "pos": [
    2.847,
    -2.693,
@@ -181,13 +203,15 @@ window.TOUR_SCENES = [
   "floorZ": 3.656,
   "placeholder": false,
   "neighbours": [
-   "camera_010"
+   "first_floor_entrance"
   ]
  },
  {
-  "id": "camera_012",
-  "name": "Camera 12",
+  "id": "bedroom_01",
+  "name": "Bedroom 01",
+  "camera": "Camera 12",
   "area": "First Floor",
+  "image": "bedroom_01.jpg",
   "pos": [
    5.126,
    3.792,
@@ -196,14 +220,16 @@ window.TOUR_SCENES = [
   "floorZ": 3.656,
   "placeholder": false,
   "neighbours": [
-   "camera_013",
-   "camera_010"
+   "kitchen",
+   "first_floor_entrance"
   ]
  },
  {
-  "id": "camera_013",
-  "name": "Camera 13",
+  "id": "kitchen",
+  "name": "Kitchen",
+  "camera": "Camera 13",
   "area": "First Floor",
+  "image": "kitchen.jpg",
   "pos": [
    1.555,
    3.154,
@@ -212,14 +238,16 @@ window.TOUR_SCENES = [
   "floorZ": 3.656,
   "placeholder": false,
   "neighbours": [
-   "camera_010",
-   "camera_012"
+   "first_floor_entrance",
+   "bedroom_01"
   ]
  },
  {
-  "id": "camera_014",
-  "name": "Camera 14",
+  "id": "first_floor_steps",
+  "name": "First Floor Steps",
+  "camera": "Camera 14",
   "area": "First Floor",
+  "image": "first_floor_steps.jpg",
   "pos": [
    7.161,
    0.046,
@@ -228,14 +256,16 @@ window.TOUR_SCENES = [
   "floorZ": 5.29,
   "placeholder": false,
   "neighbours": [
-   "camera_010",
-   "camera_015"
+   "first_floor_entrance",
+   "second_floor_entrance"
   ]
  },
  {
-  "id": "camera_015",
-  "name": "Camera 15",
+  "id": "second_floor_entrance",
+  "name": "Second Floor Entrance",
+  "camera": "Camera 15",
   "area": "Second Floor",
+  "image": "second_floor_entrance.jpg",
   "pos": [
    2.867,
    0.137,
@@ -244,17 +274,19 @@ window.TOUR_SCENES = [
   "floorZ": 6.656,
   "placeholder": false,
   "neighbours": [
-   "camera_018",
-   "camera_016",
-   "camera_017",
-   "camera_014",
-   "camera_019"
+   "bathroom",
+   "bedroom_02",
+   "bedroom_03",
+   "first_floor_steps",
+   "second_floor_steps"
   ]
  },
  {
-  "id": "camera_016",
-  "name": "Camera 16",
+  "id": "bedroom_02",
+  "name": "Bedroom 02",
+  "camera": "Camera 16",
   "area": "Second Floor",
+  "image": "bedroom_02.jpg",
   "pos": [
    2.966,
    -3.728,
@@ -263,13 +295,15 @@ window.TOUR_SCENES = [
   "floorZ": 6.656,
   "placeholder": false,
   "neighbours": [
-   "camera_015"
+   "second_floor_entrance"
   ]
  },
  {
-  "id": "camera_017",
-  "name": "Camera 17",
+  "id": "bedroom_03",
+  "name": "Bedroom 03",
+  "camera": "Camera 17",
   "area": "Second Floor",
+  "image": "bedroom_03.jpg",
   "pos": [
    3.832,
    4.242,
@@ -278,14 +312,16 @@ window.TOUR_SCENES = [
   "floorZ": 6.656,
   "placeholder": false,
   "neighbours": [
-   "camera_018",
-   "camera_015"
+   "bathroom",
+   "second_floor_entrance"
   ]
  },
  {
-  "id": "camera_018",
-  "name": "Camera 18",
+  "id": "bathroom",
+  "name": "Bathroom",
+  "camera": "Camera 18",
   "area": "Second Floor",
+  "image": "bathroom.jpg",
   "pos": [
    1.282,
    2.145,
@@ -294,14 +330,16 @@ window.TOUR_SCENES = [
   "floorZ": 6.673,
   "placeholder": false,
   "neighbours": [
-   "camera_015",
-   "camera_017"
+   "second_floor_entrance",
+   "bedroom_03"
   ]
  },
  {
-  "id": "camera_019",
-  "name": "Camera 19",
+  "id": "second_floor_steps",
+  "name": "Second Floor Steps",
+  "camera": "Camera 19",
   "area": "Second Floor",
+  "image": "second_floor_steps.jpg",
   "pos": [
    7.175,
    -0.141,
@@ -310,14 +348,16 @@ window.TOUR_SCENES = [
   "floorZ": 8.272,
   "placeholder": false,
   "neighbours": [
-   "camera_020",
-   "camera_015"
+   "third_floor_entrance",
+   "second_floor_entrance"
   ]
  },
  {
-  "id": "camera_020",
-  "name": "Camera 20",
+  "id": "third_floor_entrance",
+  "name": "Third Floor Entrance",
+  "camera": "Camera 20",
   "area": "Third Floor",
+  "image": "third_floor_entrance.jpg",
   "pos": [
    3.17,
    0.225,
@@ -326,16 +366,18 @@ window.TOUR_SCENES = [
   "floorZ": 9.656,
   "placeholder": false,
   "neighbours": [
-   "camera_023",
-   "camera_021",
-   "camera_019",
-   "camera_022"
+   "terrace_03",
+   "terrace_01",
+   "second_floor_steps",
+   "terrace_02"
   ]
  },
  {
-  "id": "camera_021",
-  "name": "Camera 21",
+  "id": "terrace_01",
+  "name": "Terrace 01",
+  "camera": "Camera 21",
   "area": "Third Floor",
+  "image": "terrace_01.jpg",
   "pos": [
    5.591,
    -3.154,
@@ -344,14 +386,16 @@ window.TOUR_SCENES = [
   "floorZ": 9.656,
   "placeholder": false,
   "neighbours": [
-   "camera_020",
-   "camera_023"
+   "third_floor_entrance",
+   "terrace_03"
   ]
  },
  {
-  "id": "camera_022",
-  "name": "Camera 22",
+  "id": "terrace_02",
+  "name": "Terrace 02",
+  "camera": "Camera 22",
   "area": "Third Floor",
+  "image": "terrace_02.jpg",
   "pos": [
    3.144,
    4.542,
@@ -360,14 +404,16 @@ window.TOUR_SCENES = [
   "floorZ": 9.656,
   "placeholder": false,
   "neighbours": [
-   "camera_020",
-   "camera_023"
+   "third_floor_entrance",
+   "terrace_03"
   ]
  },
  {
-  "id": "camera_023",
-  "name": "Camera 23",
+  "id": "terrace_03",
+  "name": "Terrace 03",
+  "camera": "Camera 23",
   "area": "Third Floor",
+  "image": "terrace_03.jpg",
   "pos": [
    4.64,
    1.206,
@@ -376,9 +422,9 @@ window.TOUR_SCENES = [
   "floorZ": 12.356,
   "placeholder": false,
   "neighbours": [
-   "camera_020",
-   "camera_022",
-   "camera_021"
+   "third_floor_entrance",
+   "terrace_02",
+   "terrace_01"
   ]
  }
 ];
