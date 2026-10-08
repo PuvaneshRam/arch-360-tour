@@ -64,11 +64,21 @@
       position: relative;
     }
 	.hero-logo {
-  width: 90px;   /* try 80–140px range */
+  width: 180px;  /* Digital Arc Media logo — includes its own wordmark, so keep it readable */
+  max-width: 60vw;
   height: auto;
   display: block;
   margin: 0 auto 24px;
 }
+
+    .powered-by {
+      margin-top: 40px;
+      font-size: 0.72em;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: rgba(232,237,242,0.45);
+    }
+    .powered-by strong { color: #e8edf2; font-weight: 600; }
 
     .hero-eyebrow {
       font-size: 0.75em;
@@ -301,7 +311,7 @@
 
 <main>
   <section class="hero">
-  <img src="images/Logo1.png" alt="ARCH 360 Tour logo" class="hero-logo">
+  <img src="images/logo.png" alt="Digital Arc Media" class="hero-logo">
     <p class="hero-eyebrow">ARCH 360 Tour</p>
     
     <p class="hero-desc">
@@ -315,6 +325,7 @@
                 <span class="btn-text">ENTER IN VR</span>
       </a>
     </div>
+    <p class="powered-by">Powered by <strong>Digital Arc Media</strong></p>
   </section>
 
   <section class="features">
@@ -367,7 +378,7 @@
 </main>
 
 <footer>
-  Best experienced with headphones &nbsp;·&nbsp; Requires a modern browser with WebGL
+  ARCH 360 Tour &nbsp;·&nbsp; Powered by Digital Arc Media &nbsp;·&nbsp; Requires a modern browser with WebGL
 </footer>
 
 </body>
