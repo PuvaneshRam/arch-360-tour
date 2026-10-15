@@ -140,6 +140,7 @@
   -->
   <a-sky
     id="sky"
+    follow-eye
     radius="490"
     segments-height="64"
     segments-width="128"
@@ -187,7 +188,7 @@
   <a-entity id="mouse-cursor" cursor="rayOrigin: mouse; fuse: false" raycaster="objects: .hs-target; far: 600"></a-entity>
 
   <!-- Hotspot container — rebuilt on every scene change -->
-  <a-entity id="hotspots"></a-entity>
+  <a-entity id="hotspots" follow-eye></a-entity>
 </a-scene>
 
 <script>
@@ -227,6 +228,15 @@ const SCENE_IDS = Object.keys(SCENES);
 AFRAME.registerComponent('face-camera', {
   init () { this.camEl = document.querySelector('#cam'); this._v = new THREE.Vector3(); },
   tick () { this.camEl.object3D.getWorldPosition(this._v); this.el.object3D.lookAt(this._v); }
+});
+
+/* follow-eye — keeps the panorama and the circles centred on the viewer's head.
+   In a headset the eye sits at the user's real height (~1.6 m above the rig) and moves
+   when they lean; without this the sphere is off-centre (warped, wrong scale) and the
+   floor circles hang far below the floor in the image. */
+AFRAME.registerComponent('follow-eye', {
+  init () { this.camEl = document.querySelector('#cam'); },
+  tick () { this.camEl.object3D.getWorldPosition(this.el.object3D.position); }
 });
 
 /* hotspot-nav — gaze progress ring + navigation on click */
@@ -462,6 +472,11 @@ async function init () {
   setTimeout(() => SCENES[START_SCENE].neighbours.forEach(id => preloadImg(SCENES[id].image)), 1500);
   if (new URLSearchParams(location.search).get('vr') === '1') aScene.enterVR();
 }
+
+/* ?r=<metres> — panorama sphere radius. In a headset this sets the depth the eyes perceive
+   for the whole image (small = close, room-sized; large = far away). For trying values on Quest. */
+const skyR = parseFloat(new URLSearchParams(location.search).get('r'));
+if (skyR >= 1 && skyR <= 490) skyEl.setAttribute('radius', skyR);
 
 const aScene = document.querySelector('#a-scene');
 aScene.addEventListener('enter-vr', () => {
