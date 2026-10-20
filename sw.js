@@ -2,7 +2,7 @@
    Pages & data: network first (so updates show up), falling back to cache when offline.
    Panoramas, icons and the A-Frame library: cache first (they rarely change, and they're big).
    Bump CACHE when you want every installed app to drop its old cache. */
-const CACHE = 'arch360-v1';
+const CACHE = 'arch360-v2';
 const SHELL = ['./', './index.html', './tour.html', './tour_data.js', './manifest.json',
                './images/logo.png', './images/icon-192.png', './images/icon-512.png'];
 
