@@ -149,7 +149,7 @@
   </a-sky>
 
   <!-- The viewer stands exactly where the Blender camera was (eye at the rig origin) -->
-  <a-entity id="rig" position="0 0 0">
+  <a-entity id="rig" position="0 0 0" snap-turn>
     <a-entity
       id="cam"
       camera="fov: 80; near: 0.05; far: 600"
@@ -237,6 +237,31 @@ AFRAME.registerComponent('face-camera', {
 AFRAME.registerComponent('follow-eye', {
   init () { this.camEl = document.querySelector('#cam'); },
   tick () { this.camEl.object3D.getWorldPosition(this.el.object3D.position); }
+});
+
+/* snap-turn — Quest thumbstick left/right turns the view in 30° steps (comfortable, no motion sickness).
+   The rig turns around the head, so the viewer stays exactly at the panorama centre. */
+const SNAP_DEG = 30;
+AFRAME.registerComponent('snap-turn', {
+  init () {
+    this.camEl = document.querySelector('#cam');
+    this.armed = { left: true, right: true };
+    this._head = new THREE.Vector3(); this._after = new THREE.Vector3();
+    for (const hand of ['left', 'right']) {
+      document.querySelector('#ctrl-' + hand).addEventListener('thumbstickmoved', e => this.onStick(hand, e.detail.x));
+    }
+  },
+  onStick (hand, x) {
+    if (Math.abs(x) < 0.3) { this.armed[hand] = true; return; }      // stick back to centre → ready again
+    if (!this.armed[hand] || Math.abs(x) < 0.7) return;
+    this.armed[hand] = false;
+    const rig = this.el.object3D;
+    this.camEl.object3D.getWorldPosition(this._head);
+    rig.rotation.y += THREE.MathUtils.degToRad(x > 0 ? -SNAP_DEG : SNAP_DEG);   // right = turn right
+    rig.updateMatrixWorld(true);
+    this.camEl.object3D.getWorldPosition(this._after);
+    rig.position.add(this._head.sub(this._after));                    // keep the head where it was
+  }
 });
 
 /* hotspot-nav — gaze progress ring + navigation on click */
@@ -465,7 +490,7 @@ async function init () {
   setTimeout(() => { loadingEl.style.display = 'none'; }, 650);
 
   const hint = document.querySelector('#nav-hint'), ua = navigator.userAgent;
-  if (/Quest/i.test(ua))               hint.textContent = 'Point at a circle and pull the trigger — or gaze at it — to walk there';
+  if (/Quest/i.test(ua))               hint.textContent = 'Point at a circle and pull the trigger — or gaze at it — to walk there · thumbstick left/right to turn';
   else if (/Mobi|Android/i.test(ua))   hint.textContent = 'Tap a circle on the floor to walk there';
   else                                 hint.textContent = 'Click a circle on the floor to walk there · drag to look around · VR button for headsets';
 
