@@ -150,7 +150,7 @@
   </a-sky>
 
   <!-- The viewer stands exactly where the Blender camera was (eye at the rig origin) -->
-  <a-entity id="rig" position="0 0 0" snap-turn hold-to-exit>
+  <a-entity id="rig" position="0 0 0" snap-turn hold-to-exit wide-view>
     <a-entity
       id="cam"
       camera="fov: 80; near: 0.05; far: 600"
@@ -181,6 +181,17 @@
           material="depthTest: false"></a-text>
       </a-entity>
 
+      <!-- Wide-view progress: shown while A / X is held; after 1 s it switches Wide view on/off -->
+      <a-entity id="wide-progress" position="0 0 -0.7" visible="false">
+        <a-ring radius-inner="0.045" radius-outer="0.055"
+          material="color: #ffffff; opacity: 0.25; transparent: true; shader: flat; depthTest: false"></a-ring>
+        <a-entity id="wide-ring"
+          geometry="primitive: ring; radiusInner: 0.045; radiusOuter: 0.055; thetaStart: 90; thetaLength: 0"
+          material="color: #4fc3f7; opacity: 0.95; transparent: true; shader: flat; side: double; depthTest: false"></a-entity>
+        <a-text id="wide-text" value="Hold for Wide view" align="center" width="0.6" color="#ffffff" position="0 -0.09 0"
+          material="depthTest: false"></a-text>
+      </a-entity>
+
       <!-- Fade plane — black quad in front of the camera for scene transitions -->
       <a-plane
         id="fade"
@@ -192,9 +203,13 @@
     </a-entity>
 
     <!-- Quest / PCVR controllers -->
-    <a-entity id="ctrl-left"  laser-controls="hand: left"  raycaster="objects: .hs-target; showLine: false; far: 600"></a-entity>
-    <a-entity id="ctrl-right" laser-controls="hand: right" raycaster="objects: .hs-target; showLine: true; lineColor: #ffffff; lineOpacity: 0.5; far: 600"></a-entity>
+    <a-entity id="ctrl-left"  laser-controls="hand: left"  raycaster="objects: .hs-target, .wide-target; showLine: false; far: 600"></a-entity>
+    <a-entity id="ctrl-right" laser-controls="hand: right" raycaster="objects: .hs-target, .wide-target; showLine: true; lineColor: #ffffff; lineOpacity: 0.5; far: 600"></a-entity>
   </a-entity>
+
+  <!-- Wide view: a 16:9 cinema screen showing a normal (PC-style) view of the panorama -->
+  <a-entity id="wide-screen" visible="false"
+    geometry="primitive: plane; width: 4; height: 2.25"></a-entity>
 
   <!-- Mouse / touch clicking on desktop & phone -->
   <a-entity id="mouse-cursor" cursor="rayOrigin: mouse; fuse: false" raycaster="objects: .hs-target; far: 600"></a-entity>
@@ -278,7 +293,7 @@ AFRAME.registerComponent('snap-turn', {
   },
   onStick (hand, x) {
     if (Math.abs(x) < 0.3) { this.armed[hand] = true; return; }      // stick back to centre → ready again
-    if (!this.armed[hand] || Math.abs(x) < 0.7) return;
+    if (!this.armed[hand] || Math.abs(x) < 0.7 || (wideView && wideView.active)) return;   // in Wide the stick pans the screen
     this.armed[hand] = false;
     turnView(x > 0 ? -SNAP_DEG : SNAP_DEG);                           // right = turn right
   }
@@ -314,6 +329,110 @@ AFRAME.registerComponent('hold-to-exit', {
     const t = (performance.now() - this.start) / EXIT_HOLD_MS;
     this.ring.setAttribute('geometry', 'thetaLength', Math.min(360, t * 360));
     if (t >= 1) { this.cancel(); this.el.sceneEl.exitVR(); }
+  }
+});
+
+/* wide-view — hold A (right controller) or X (left) for 1 s to switch to a cinema screen showing a normal,
+   PC-style view of the panorama; hold again to go back to 360. While Wide is on:
+   · a second camera at the viewer's eye renders the panorama + circles into the screen texture,
+   · the 360 sphere and the floating circles are moved to a hidden layer so only the screen shows them,
+   · thumbstick left/right pans and up/down tilts the picture (like dragging on a PC),
+   · pointing at a circle on the screen and pulling the trigger walks there. */
+const WIDE_HOLD_MS = 1000, WIDE_LAYER = 5, WIDE_PAN_DEG_S = 90, WIDE_TILT_DEG_S = 60;
+let wideView = null;   // the component, so navigation / snap-turn can ask whether Wide is on
+AFRAME.registerComponent('wide-view', {
+  init () {
+    wideView = this;
+    this.active = false; this.holdStart = null;
+    this.yaw = 0; this.pitch = 0; this.stick = { left: { x: 0, y: 0 }, right: { x: 0, y: 0 } };
+    this.camEl = document.querySelector('#cam');
+    this.screenEl = document.querySelector('#wide-screen');
+    this.box = document.querySelector('#wide-progress');
+    this.ring = document.querySelector('#wide-ring');
+    this.text = document.querySelector('#wide-text');
+    this.rt = new THREE.WebGLRenderTarget(1920, 1080);
+    this.cam2 = new THREE.PerspectiveCamera(65, 16 / 9, 0.05, 600);   // ~100° wide, like the PC view
+    this.cam2.layers.set(WIDE_LAYER);
+    this.raycaster = new THREE.Raycaster(); this.raycaster.layers.set(WIDE_LAYER);
+    this.screenMat = new THREE.MeshBasicMaterial({ map: this.rt.texture, toneMapped: false });
+    this.screenEl.addEventListener('click', e => this.clickScreen(e));
+    for (const [hand, btn] of [['right', 'a'], ['left', 'x']]) {
+      const ctrl = document.querySelector('#ctrl-' + hand);
+      ctrl.addEventListener(btn + 'buttondown', () => this.beginHold());
+      ctrl.addEventListener(btn + 'buttonup', () => this.cancelHold());
+      ctrl.addEventListener('thumbstickmoved', e => { this.stick[hand] = { x: e.detail.x, y: e.detail.y }; });
+    }
+    this.el.sceneEl.addEventListener('exit-vr', () => { this.cancelHold(); if (this.active) this.setActive(false); });
+    this._v = new THREE.Vector3(); this._e = new THREE.Euler(0, 0, 0, 'YXZ');
+  },
+  beginHold () {
+    if (!this.el.sceneEl.is('vr-mode')) return;
+    this.holdStart = performance.now();
+    this.text.setAttribute('value', this.active ? 'Hold for 360 view' : 'Hold for Wide view');
+    this.box.setAttribute('visible', true);
+  },
+  cancelHold () {
+    this.holdStart = null;
+    this.box.setAttribute('visible', false);
+    this.ring.setAttribute('geometry', 'thetaLength', 0);
+  },
+  headYaw () {   // the direction the viewer's head faces, in world degrees
+    this._e.setFromQuaternion(this.camEl.object3D.getWorldQuaternion(new THREE.Quaternion()), 'YXZ');
+    return THREE.MathUtils.radToDeg(this._e.y);
+  },
+  setActive (on) {
+    this.active = on;
+    const sky = document.querySelector('#sky').object3D, hs = document.querySelector('#hotspots').object3D;
+    if (on) {
+      this.yaw = this.headYaw(); this.pitch = 0;
+      // put the screen 3 m in front of the viewer, at eye height, facing them
+      this.camEl.object3D.getWorldPosition(this._v);
+      const r = THREE.MathUtils.degToRad(this.yaw);
+      this.screenEl.object3D.position.set(this._v.x - Math.sin(r) * 3, this._v.y, this._v.z - Math.cos(r) * 3);
+      this.screenEl.object3D.rotation.set(0, r, 0);
+      this.screenEl.getObject3D('mesh').material = this.screenMat;
+      this.screenEl.setAttribute('visible', true);
+      this.screenEl.classList.add('wide-target');
+    } else {
+      this.screenEl.setAttribute('visible', false);
+      this.screenEl.classList.remove('wide-target');
+      sky.traverse(o => o.layers.set(0)); hs.traverse(o => o.layers.set(0));
+      turnView(this.yaw - this.headYaw());   // back in 360, facing where the screen was looking
+    }
+  },
+  clickScreen (e) {
+    const uv = e.detail && e.detail.intersection && e.detail.intersection.uv;
+    if (!this.active || !uv) return;
+    this.raycaster.setFromCamera(new THREE.Vector2(uv.x * 2 - 1, uv.y * 2 - 1), this.cam2);
+    for (const hit of this.raycaster.intersectObject(document.querySelector('#hotspots').object3D, true)) {
+      let o = hit.object;
+      while (o && !(o.el && o.el.classList.contains('hs-target'))) o = o.parent;
+      if (o) { navigateTo(o.el.components['hotspot-nav'].data.targetId); return; }
+    }
+  },
+  tick (t, dt) {
+    if (this.holdStart !== null) {
+      const p = (performance.now() - this.holdStart) / WIDE_HOLD_MS;
+      this.ring.setAttribute('geometry', 'thetaLength', Math.min(360, p * 360));
+      if (p >= 1) { this.cancelHold(); this.setActive(!this.active); }
+    }
+    if (!this.active) return;
+    // pan / tilt with either thumbstick (stick forward = look up)
+    const s = dt / 1000, x = this.stick.left.x + this.stick.right.x, y = this.stick.left.y + this.stick.right.y;
+    if (Math.abs(x) > 0.15) this.yaw -= x * WIDE_PAN_DEG_S * s;
+    if (Math.abs(y) > 0.15) this.pitch = THREE.MathUtils.clamp(this.pitch - y * WIDE_TILT_DEG_S * s, -70, 70);
+    // the panorama and circles are only seen by the screen camera
+    document.querySelector('#sky').object3D.traverse(o => o.layers.set(WIDE_LAYER));
+    document.querySelector('#hotspots').object3D.traverse(o => o.layers.set(WIDE_LAYER));
+    this.camEl.object3D.getWorldPosition(this.cam2.position);
+    this.cam2.rotation.set(THREE.MathUtils.degToRad(this.pitch), THREE.MathUtils.degToRad(this.yaw), 0, 'YXZ');
+    this.cam2.updateMatrixWorld();
+    const renderer = this.el.sceneEl.renderer, xrOn = renderer.xr.enabled, prev = renderer.getRenderTarget();
+    renderer.xr.enabled = false;              // plain (non-stereo) render into the screen texture
+    renderer.setRenderTarget(this.rt);
+    renderer.render(this.el.sceneEl.object3D, this.cam2);
+    renderer.setRenderTarget(prev);
+    renderer.xr.enabled = xrOn;
   }
 });
 
@@ -526,7 +645,10 @@ async function navigateTo (targetId) {
   await animateFade(1, 420);
   await preloadImg(SCENES[targetId].image);
   currentScene = targetId;
-  if (TURN_ON_ARRIVAL[currentScene]) turnView(TURN_ON_ARRIVAL[currentScene]);   // while the screen is black
+  if (TURN_ON_ARRIVAL[currentScene]) {                                            // while the screen is black
+    if (wideView && wideView.active) wideView.yaw += TURN_ON_ARRIVAL[currentScene];
+    else turnView(TURN_ON_ARRIVAL[currentScene]);
+  }
   applySky(currentScene);
   refreshHotspots();
   updateHud();
@@ -565,7 +687,7 @@ async function init () {
   setTimeout(() => { loadingEl.style.display = 'none'; }, 650);
 
   const hint = document.querySelector('#nav-hint'), ua = navigator.userAgent;
-  if (/Quest/i.test(ua))               hint.textContent = 'Point at a circle and pull the trigger — or gaze at it — to walk there · thumbstick left/right to turn · hold B or Y for 2 s to exit VR';
+  if (/Quest/i.test(ua))               hint.textContent = 'Point at a circle and pull the trigger — or gaze at it — to walk there · thumbstick left/right to turn · hold A or X for Wide view · hold B or Y for 2 s to exit VR';
   else if (/Mobi|Android/i.test(ua))   hint.textContent = 'Tap a circle on the floor to walk there';
   else                                 hint.textContent = 'Click a circle on the floor to walk there · drag to look around · VR button for headsets';
 
