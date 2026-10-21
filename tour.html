@@ -546,6 +546,31 @@ AFRAME.registerComponent('wide-view', {
   }
 });
 
+/* label-size — on a computer or phone a circle's name is enlarged with its distance, so it always reads at about the
+   same size on screen (a little larger on small touch screens); near names keep their size. In VR it is unchanged.
+   h = the label's own height, k = the circle's pull-in scale (both from buildHotspot). */
+const LABEL_SCREEN = { pc: 0.055, phone: 0.08 };   // label height ÷ distance: ≈ 3.2° on a computer, ≈ 4.6° on a phone
+const IS_TOUCH = matchMedia('(pointer: coarse)').matches;
+const LABEL_TEXT_BOOST = 2;                         // computer / phone: text size inside the name box (VR keeps 1)
+AFRAME.registerComponent('label-size', {
+  schema: { h: { type: 'number' }, k: { type: 'number', default: 1 } },
+  init () { this.camEl = document.querySelector('#cam'); this._c = new THREE.Vector3(); this._l = new THREE.Vector3(); },
+  tick () {
+    const o = this.el.object3D;
+    if (!o.visible) return;
+    const vr = this.el.sceneEl.is('vr-mode');
+    let s = 1;
+    if (!vr) {
+      this.camEl.object3D.getWorldPosition(this._c); o.getWorldPosition(this._l);
+      const want = this._c.distanceTo(this._l) * (IS_TOUCH ? LABEL_SCREEN.phone : LABEL_SCREEN.pc);
+      s = Math.max(1, want / (this.data.h * this.data.k));
+    }
+    o.scale.setScalar(s);
+    const txt = this.el.querySelector('a-text');                     // text twice as big inside its box (not in VR)
+    if (txt) txt.object3D.scale.setScalar(vr ? 1 : LABEL_TEXT_BOOST);
+  }
+});
+
 /* hotspot-nav — pointing at a circle (mouse, finger or controller laser) shows its name and brightens it;
    clicking / tapping / pulling the trigger walks there. */
 AFRAME.registerComponent('hotspot-nav', {
@@ -683,16 +708,22 @@ function buildHotspot (toId, p) {
   const here = SCENES[currentScene];
   const name = (t.area !== here.area && !t.name.toLowerCase().startsWith(t.area.toLowerCase()))
     ? `${t.area} · ${t.name}` : t.name;   // e.g. "Second Floor · Staircase 1" when the circle leads to another floor
+  // The label's origin is its bottom edge, so when it is enlarged (computer / phone) it grows upwards, off the circle.
+  const labelH = 0.2 * scale * 0.8;
   const label = document.createElement('a-entity');
   label.setAttribute('id', 'lbl-' + toId);
   label.setAttribute('visible', false);
   label.setAttribute('face-camera', '');
-  label.setAttribute('position', `0 ${(r * 1.6 + 0.25).toFixed(2)} 0`);
+  label.setAttribute('position', `0 ${(r * 1.6 + 0.17).toFixed(2)} 0`);
+  label.setAttribute('label-size', { h: labelH, k: p.k });
+  const content = document.createElement('a-entity');
+  content.setAttribute('position', `0 ${(labelH / 2).toFixed(3)} 0`);
+  label.appendChild(content);
   const bg = document.createElement('a-plane');
   bg.setAttribute('width', Math.max(0.9, name.length * 0.085) * scale * 0.8);
-  bg.setAttribute('height', 0.2 * scale * 0.8);
+  bg.setAttribute('height', labelH);
   bg.setAttribute('material', 'color: #000000; opacity: 0.7; transparent: true; shader: flat; side: double; depthTest: false');
-  label.appendChild(bg);
+  content.appendChild(bg);
   const txt = document.createElement('a-text');
   txt.setAttribute('value', name);
   txt.setAttribute('align', 'center');
@@ -700,7 +731,7 @@ function buildHotspot (toId, p) {
   txt.setAttribute('width', 1.6 * scale * 0.8);
   txt.setAttribute('position', '0 0 0.01');
   txt.setAttribute('material', 'depthTest: false');
-  label.appendChild(txt);
+  content.appendChild(txt);
   root.appendChild(label);
 
   return root;
