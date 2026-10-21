@@ -239,14 +239,27 @@ AFRAME.registerComponent('follow-eye', {
   tick () { this.camEl.object3D.getWorldPosition(this.el.object3D.position); }
 });
 
-/* snap-turn — Quest thumbstick left/right turns the view in 30° steps (comfortable, no motion sickness).
-   The rig turns around the head, so the viewer stays exactly at the panorama centre. */
+/* turnView — turns the viewer left (+) or right (−) by `deg` around their own head, so they stay
+   exactly at the panorama centre. Works on desktop, phone and in VR (it turns the rig, not the head). */
+const _head = new THREE.Vector3(), _after = new THREE.Vector3();
+function turnView (deg) {
+  const rig = document.querySelector('#rig').object3D, cam = document.querySelector('#cam').object3D;
+  cam.getWorldPosition(_head);
+  rig.rotation.y += THREE.MathUtils.degToRad(deg);
+  rig.updateMatrixWorld(true);
+  cam.getWorldPosition(_after);
+  rig.position.add(_head.sub(_after));                                // keep the head where it was
+}
+
+/* Turn the view when arriving at these locations (degrees). The middle stair landings switch back,
+   so turning around puts the next flight in front of the viewer. */
+const TURN_ON_ARRIVAL = { gf_staircase_2: 180, ff_staircase_2: 180, sf_staircase_2: 180 };
+
+/* snap-turn — Quest thumbstick left/right turns the view in 30° steps (comfortable, no motion sickness). */
 const SNAP_DEG = 30;
 AFRAME.registerComponent('snap-turn', {
   init () {
-    this.camEl = document.querySelector('#cam');
     this.armed = { left: true, right: true };
-    this._head = new THREE.Vector3(); this._after = new THREE.Vector3();
     for (const hand of ['left', 'right']) {
       document.querySelector('#ctrl-' + hand).addEventListener('thumbstickmoved', e => this.onStick(hand, e.detail.x));
     }
@@ -255,12 +268,7 @@ AFRAME.registerComponent('snap-turn', {
     if (Math.abs(x) < 0.3) { this.armed[hand] = true; return; }      // stick back to centre → ready again
     if (!this.armed[hand] || Math.abs(x) < 0.7) return;
     this.armed[hand] = false;
-    const rig = this.el.object3D;
-    this.camEl.object3D.getWorldPosition(this._head);
-    rig.rotation.y += THREE.MathUtils.degToRad(x > 0 ? -SNAP_DEG : SNAP_DEG);   // right = turn right
-    rig.updateMatrixWorld(true);
-    this.camEl.object3D.getWorldPosition(this._after);
-    rig.position.add(this._head.sub(this._after));                    // keep the head where it was
+    turnView(x > 0 ? -SNAP_DEG : SNAP_DEG);                           // right = turn right
   }
 });
 
@@ -454,6 +462,7 @@ async function navigateTo (targetId) {
   await animateFade(1, 420);
   await preloadImg(SCENES[targetId].image);
   currentScene = targetId;
+  if (TURN_ON_ARRIVAL[currentScene]) turnView(TURN_ON_ARRIVAL[currentScene]);   // while the screen is black
   applySky(currentScene);
   refreshHotspots();
   updateHud();
