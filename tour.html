@@ -181,7 +181,6 @@
     }
     .guide-nav button:hover, #guide-skip:hover { background: #fff; color: #000; transform: translateY(-2px); }
     #guide-next { min-width: 170px; border-color: rgba(255,255,255,0.45); }
-    #guide-back[disabled] { display: none; }
     .guide-foot {
       display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap;
       margin-top: 20px; padding-top: 14px; border-top: 1px solid rgba(255,255,255,0.08);
@@ -919,7 +918,6 @@ function renderGuide () {
     `<div>${controllerSVG('left', s.on, s.arrows)}<div class="cap">Left</div></div>` +
     `<div>${controllerSVG('right', s.on, s.arrows)}<div class="cap">Right</div></div>`;
   document.querySelector('#guide-dots').innerHTML = GUIDE_STEPS.map((_, i) => `<span class="${i === guideStep ? 'on' : ''}"></span>`).join('');
-  document.querySelector('#guide-back').disabled = guideStep === 0;
   document.querySelector('#guide-next').textContent = last ? 'Enter VR' : 'Next';
 }
 function openGuide () {
@@ -934,7 +932,9 @@ function startVR () {
   Promise.resolve(aScene.enterVR()).catch(() => {});
 }
 document.querySelector('#vr-btn').addEventListener('click', openGuide);
-document.querySelector('#guide-back').addEventListener('click', () => { if (guideStep > 0) { guideStep--; renderGuide(); } });
+document.querySelector('#guide-back').addEventListener('click', () => {
+  if (guideStep > 0) { guideStep--; renderGuide(); } else location.href = 'index.html';   // first page: back to the home page
+});
 document.querySelector('#guide-next').addEventListener('click', () => {
   if (guideStep < GUIDE_STEPS.length - 1) { guideStep++; renderGuide(); } else startVR();
 });
