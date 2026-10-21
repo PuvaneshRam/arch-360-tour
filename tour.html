@@ -164,14 +164,14 @@
     .ctl-body { fill: #0b1017; stroke: rgba(255,255,255,0.3); stroke-width: 2; }
     .ctl-part { fill: #161d27; stroke: rgba(255,255,255,0.4); stroke-width: 1.5; }
     .ctl-label { fill: rgba(232,237,242,0.7); font: 600 12px 'Segoe UI', system-ui, sans-serif; text-anchor: middle; dominant-baseline: central; letter-spacing: 1px; }
-    .ctl-hl { fill: #00c8ff; stroke: #9ae9ff; animation: ctl-pulse 1.2s ease-in-out infinite; }
-    .ctl-label.on { fill: #001018; }
-    .ctl-arrow { fill: #00c8ff; font: 700 15px 'Segoe UI', system-ui, sans-serif; text-anchor: middle; dominant-baseline: central; }
+    .ctl-hl { fill: #f26522; stroke: #ffb48c; animation: ctl-pulse 1.2s ease-in-out infinite; }
+    .ctl-label.on { fill: #ffffff; }
+    .ctl-arrow { fill: #f26522; font: 700 15px 'Segoe UI', system-ui, sans-serif; text-anchor: middle; dominant-baseline: central; }
     @keyframes ctl-pulse { 50% { opacity: 0.55; } }
     @media (prefers-reduced-motion: reduce) { .ctl-hl { animation: none; } }
     .guide-dots { display: flex; justify-content: center; gap: 8px; margin: 14px 0 18px; }
     .guide-dots span { width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,0.18); }
-    .guide-dots span.on { background: #00c8ff; }
+    .guide-dots span.on { background: #f26522; }
     .guide-nav { display: flex; align-items: center; justify-content: center; gap: 14px; flex-wrap: wrap; }
     .guide-nav button, #guide-skip {
       background: #000; color: #fff; border: 1px solid rgba(255,255,255,0.14); border-radius: 0;
@@ -187,7 +187,7 @@
       font-size: 0.72em; letter-spacing: 2px; text-transform: uppercase; color: rgba(232,237,242,0.45);
     }
     .guide-foot label { display: flex; align-items: center; gap: 8px; cursor: pointer; }
-    .guide-foot input { accent-color: #00c8ff; }
+    .guide-foot input { accent-color: #f26522; }
     #guide-skip { padding: 9px 16px; font-size: 0.95em; letter-spacing: 2px; color: rgba(232,237,242,0.75); }
 
     #wide-close {
@@ -884,7 +884,7 @@ function controllerSVG (hand, on, arrows) {
   const top = { x: L ? 104 : 56, y: 76, t: L ? 'Y' : 'B' }, bottom = { x: L ? 94 : 66, y: 106, t: L ? 'X' : 'A' };
   const cls = part => on.includes(part) ? 'ctl-hl' : 'ctl-part';
   return `<svg viewBox="0 -26 160 236" role="img" aria-label="${hand} controller">
-    <text class="ctl-label" x="80" y="-16" style="${on.includes('trigger') ? 'fill:#00c8ff' : ''}">Trigger</text>
+    <text class="ctl-label" x="80" y="-16" style="${on.includes('trigger') ? 'fill:#f26522' : ''}">Trigger</text>
     <path class="${cls('trigger')}" d="M58 12 Q80 0 102 12 L98 21 Q80 11 62 21 Z"/>
     <path class="ctl-body" d="M40 42 Q40 16 80 16 Q120 16 120 42 L120 100 Q120 128 104 140 L96 196 Q80 206 64 196 L56 140 Q40 128 40 100 Z"/>
     <circle class="${cls('stick')}" cx="${stick.x}" cy="${stick.y}" r="17"/>
