@@ -451,71 +451,111 @@ AFRAME.registerComponent('hold-to-exit', {
   }
 });
 
-/* wide-view — in VR, HOLD A (right controller) or X (left) to see a wider view: the panorama is squeezed around
-   the direction you are looking, so about 1.6× more of it fits in view. Let go and it eases back to normal.
-   The circles hide while it is wide (they would not line up with the squeezed image). */
+/* wide-view — in VR, HOLD A (right controller) or X (left) for a wide-angle view around where you look:
+   everything at angle θ from your gaze is shown from angle 1.6 × θ, evenly in every direction (like a wide-angle
+   lens), so more of the room fits in view with no cut or smear at the ceiling, floor or corners. Let go and it
+   eases back. A lens material is put on the panorama only while widened — the normal view keeps its own material.
+   The circles hide while widened (they would not line up with the lens view). */
 const WIDE_ZOOM = 1.6, WIDE_LAYER = 5;
 let wideView = null;   // the component, so snap-turn can ask whether the view is widened
 
 /* Where a direction (A-Frame axes, relative to the eye) lands on the equirectangular image: u 0..1 left→right, v 0..1 bottom→top.
-   The image centre is straight ahead (−Z); turning right moves right in the image. Used by the page's Wide button too. */
+   The image centre is straight ahead (−Z); turning right moves right in the image. Used by the page's Wide button. */
 function directionToUV (x, y, z) {
   const lon = Math.atan2(x, -z), lat = Math.atan2(y, Math.hypot(x, z));
   return { u: 0.5 + lon / (2 * Math.PI), v: 0.5 + lat / Math.PI };
 }
 
+/* The lens: works in the sphere's own (local) directions, so the sky's rotation and mirroring don't matter.
+   uv follows THREE.SphereGeometry: x = −cos(φ)·sin(θ), y = cos(θ), z = sin(φ)·sin(θ), u = φ / 2π, v = 1 − θ / π. */
+const WIDE_LENS_VERTEX = `
+varying vec3 vDir;
+void main () {
+  vDir = position;
+  gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+}`;
+const WIDE_LENS_FRAGMENT = `
+uniform sampler2D map;
+uniform vec3 gaze;      // where the viewer looks, in the sphere's local space (unit length)
+uniform float zoom;     // 1 = normal, 1.6 = 60% wider
+varying vec3 vDir;
+const float PI = 3.14159265358979;
+void main () {
+  vec3 d = normalize(vDir);
+  float c = clamp(dot(d, gaze), -1.0, 1.0);
+  float a = acos(c);                                   // angle between this pixel and the gaze
+  vec3 s = d;
+  if (a > 1e-4) {
+    vec3 side = normalize(d - gaze * c);               // direction away from the gaze, along the sphere
+    float b = min(a * zoom, PI);                       // show what lies zoom × further out
+    s = gaze * cos(b) + side * sin(b);
+  }
+  float phi = atan(s.z, -s.x);
+  if (phi < 0.0) phi += 2.0 * PI;
+  vec2 uv = vec2(phi / (2.0 * PI), 1.0 - acos(clamp(s.y, -1.0, 1.0)) / PI);
+  // pick the texture detail level from a seam-free copy of u, so no line appears where the image wraps round
+  vec2 uv2 = vec2(fract(uv.x + 0.5), uv.y);
+  vec2 dx = dFdx(uv), dy = dFdy(uv), dx2 = dFdx(uv2), dy2 = dFdy(uv2);
+  if (abs(dx2.x) < abs(dx.x)) dx.x = dx2.x;
+  if (abs(dy2.x) < abs(dy.x)) dy.x = dy2.x;
+  gl_FragColor = textureGrad(map, uv, dx, dy);
+  #include <colorspace_fragment>
+}`;
+
 AFRAME.registerComponent('wide-view', {
   init () {
     wideView = this;
-    this.held = false; this.active = false; this.k = 1; this.center = { u: 0.5, v: 0.5 };
+    this.held = false; this.active = false; this.k = 1;
     this.camEl = document.querySelector('#cam');
     this.skyEl = document.querySelector('#sky');
-    this.raycaster = new THREE.Raycaster();
-    this._o = new THREE.Vector3(); this._d = new THREE.Vector3();
+    this.lens = new THREE.ShaderMaterial({
+      uniforms: { map: { value: null }, gaze: { value: new THREE.Vector3(0, 0, -1) }, zoom: { value: 1 } },
+      vertexShader: WIDE_LENS_VERTEX, fragmentShader: WIDE_LENS_FRAGMENT,
+      side: THREE.BackSide, depthWrite: false
+    });
+    this.normal = null;   // the panorama's own material while the lens is on
+    this._d = new THREE.Vector3(); this._inv = new THREE.Matrix4();
     for (const [hand, btn] of [['right', 'a'], ['left', 'x']]) {
       const ctrl = document.querySelector('#ctrl-' + hand);
       ctrl.addEventListener(btn + 'buttondown', () => this.press());
       ctrl.addEventListener(btn + 'buttonup', () => { this.held = false; });
     }
-    this.el.sceneEl.addEventListener('exit-vr', () => { this.held = false; this.k = 1; this.apply(); });
+    this.el.sceneEl.addEventListener('exit-vr', () => { this.held = false; this.k = 1; this.lensOff(); this.active = false; });
   },
   press () {
     if (!this.el.sceneEl.is('vr-mode')) return;
     this.held = true; this.active = true;
-    this.aim();
   },
-  /* Centre the squeeze on where the viewer is looking right now: where their gaze meets the panorama.
-     Called every frame while wide, so the middle of the view always shows what they face (turning stays 1:1)
-     and only the edges are squeezed in. In a headset the gaze comes from the headset's own pose. */
+  /* Gaze direction in the sky sphere's local space. In a headset it comes from the headset's own pose. */
   aim () {
-    const mesh = this.skyEl.getObject3D('mesh'), xr = this.el.sceneEl.renderer.xr;
+    const xr = this.el.sceneEl.renderer.xr, sky = this.skyEl.object3D;
     const cam = xr.isPresenting ? xr.getCamera() : this.camEl.getObject3D('camera');
-    if (!mesh || !cam) return;
-    this._o.setFromMatrixPosition(cam.matrixWorld);                    // the pose as last drawn
-    this._d.set(0, 0, -1).transformDirection(cam.matrixWorld);
-    this.raycaster.set(this._o, this._d);
-    const hit = this.raycaster.intersectObject(mesh)[0];
-    if (hit && hit.uv) this.center = { u: hit.uv.x, v: hit.uv.y };
+    if (!cam) return;
+    this._d.set(0, 0, -1).transformDirection(cam.matrixWorld);                  // world gaze, as last drawn
+    this._inv.copy(sky.matrixWorld).invert();
+    this.lens.uniforms.gaze.value.copy(this._d).transformDirection(this._inv);   // into the sphere's space (normalised)
   },
-  /* Squeeze the image k times around the centre: texture coordinate = centre + k × (coordinate − centre). */
-  apply () {
-    const mesh = this.skyEl.getObject3D('mesh'), map = mesh && mesh.material.map;
-    if (map) {
-      if (map.wrapS !== THREE.RepeatWrapping) { map.wrapS = THREE.RepeatWrapping; map.needsUpdate = true; }   // seamless left↔right
-      map.repeat.set(this.k, this.k);
-      map.offset.set(this.center.u * (1 - this.k), this.center.v * (1 - this.k));
-    }
-    const layer = this.k > 1.001 ? WIDE_LAYER : 0;   // no camera renders WIDE_LAYER, and no pointer hits it
-    document.querySelector('#hotspots').object3D.traverse(o => o.layers.set(layer));
+  lensOn () {
+    const mesh = this.skyEl.getObject3D('mesh');
+    if (!mesh) return;
+    if (mesh.material !== this.lens) { this.normal = mesh.material; mesh.material = this.lens; }
+    this.lens.uniforms.map.value = this.normal.map;                                // follows a new image after walking
+    document.querySelector('#hotspots').object3D.traverse(o => o.layers.set(WIDE_LAYER));   // hidden + not clickable
+  },
+  lensOff () {
+    const mesh = this.skyEl.getObject3D('mesh');
+    if (mesh && mesh.material === this.lens && this.normal) mesh.material = this.normal;
+    document.querySelector('#hotspots').object3D.traverse(o => o.layers.set(0));
   },
   tick (t, dt) {
     if (!this.active) return;
     const target = this.held ? WIDE_ZOOM : 1;
     this.k += (target - this.k) * (1 - Math.exp(-(dt || 16) / 70));   // eases in ~0.25 s
     if (Math.abs(target - this.k) < 0.003) this.k = target;
-    this.aim();                                                       // follow the gaze
-    this.apply();                                                     // also re-applies after walking to a new image
-    if (!this.held && this.k === 1) this.active = false;
+    if (!this.held && this.k === 1) { this.lensOff(); this.active = false; return; }   // back to the normal material
+    this.aim();
+    this.lens.uniforms.zoom.value = this.k;
+    this.lensOn();
   }
 });
 
