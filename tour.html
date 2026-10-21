@@ -326,19 +326,27 @@ const selectEl    = document.querySelector('#scene-select');
  * the floor point under the target camera, relative to the current eye,
  * converted to A-Frame axes. Far targets are pulled closer along the same
  * direction, so the circle still sits exactly over that spot in the image.
+ * In a headset the panorama is seen at the sky radius, so every circle is also
+ * pulled in to just inside that sphere (and shrunk by the same factor, `k`):
+ * both eyes then see it lying on the floor in the picture, not floating behind it.
  */
 function markerPosition (fromId, toId) {
   const eye = SCENES[fromId].eye, t = SCENES[toId];
   let x = t.eye.x - eye.x, y = t.floorZ - eye.z, z = -(t.eye.y - eye.y);
   const d = Math.hypot(x, y, z);
-  if (d > MAX_MARKER_M) { const k = MAX_MARKER_M / d; x *= k; y *= k; z *= k; }
-  return { x, y, z, d, above: y > -0.3 };   // above = target floor is at/above eye height (stairs up)
+  const above = y > -0.3;                     // target floor is at/above eye height (stairs up)
+  if (d > MAX_MARKER_M) { const s = MAX_MARKER_M / d; x *= s; y *= s; z *= s; }
+  const shown = Math.min(d, MAX_MARKER_M);
+  const onSky = skyRadius(fromId) * 0.92;     // just in front of the panorama surface
+  const k = shown > onSky ? onSky / shown : 1;
+  return { x: x * k, y: y * k, z: z * k, d, k, above };
 }
 
 /* ── Hotspot builder: a Street-View style circle lying on the floor ── */
 function buildHotspot (toId, p) {
   const root = document.createElement('a-entity');
   root.setAttribute('position', `${p.x.toFixed(3)} ${p.y.toFixed(3)} ${p.z.toFixed(3)}`);
+  root.setAttribute('scale', `${p.k} ${p.k} ${p.k}`);   // same size on screen after being pulled in
 
   // Flat on the floor when the target is below eye level; facing the viewer for stairs going up.
   const plate = document.createElement('a-entity');
