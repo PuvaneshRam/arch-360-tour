@@ -389,9 +389,10 @@ const TURN_ON_ARRIVAL = { gf_staircase_2: 180, ff_staircase_2: 180, sf_staircase
 
 /* Circles placed at a chosen spot in the image instead of under the target camera — for routes the camera
    can't see, e.g. the Turf on its raised deck is reached by the metal stairs. 'from>to': { u, v } = the spot in
-   that location's panorama (u 0–1 left→right, v 0–1 bottom→top, below the horizon so it lies on the floor). */
+   that location's panorama (u 0–1 left→right, v 0–1 bottom→top). Without dist the circle lies on this location's
+   floor (v below the horizon); with dist it stands upright that many metres away (e.g. on a staircase). */
 const CIRCLE_SPOTS = {
-  'out_pergola_walkway>out_turf': { u: 0.463, v: 0.452 },   // in front of the foot of the metal stairs
+  'out_pergola_walkway>out_turf': { u: 0.452, v: 0.532, dist: 12 },   // halfway up the metal stairs, upright
   'out_turf>out_pergola_walkway': { u: 0.443, v: 0.390 },   // top of the stairs, at the gap in the fence
   'out_turf>out_main_gate':       { u: 0.994, v: 0.356 },   // on the turf, towards the gate (down the stairs)
 };
@@ -620,11 +621,15 @@ function markerPosition (fromId, toId) {
   const eye = SCENES[fromId].eye, t = SCENES[toId];
   let x = t.eye.x - eye.x, y = t.floorZ - eye.z, z = -(t.eye.y - eye.y);
   const spot = CIRCLE_SPOTS[fromId + '>' + toId];
-  if (spot) {                                   // a point on this location's own floor, in the spot's direction
+  if (spot) {
     const lon = (spot.u - 0.5) * 2 * Math.PI, lat = (spot.v - 0.5) * Math.PI;
-    y = SCENES[fromId].floorZ - eye.z;            // floor height relative to the eye (negative)
-    const h = y / Math.tan(lat);                  // horizontal distance where that ray meets the floor
-    x = h * Math.sin(lon); z = -h * Math.cos(lon);
+    if (spot.dist) {                              // a point in the air (e.g. on a staircase), dist metres away
+      x = spot.dist * Math.cos(lat) * Math.sin(lon); y = spot.dist * Math.sin(lat); z = -spot.dist * Math.cos(lat) * Math.cos(lon);
+    } else {                                      // a point on this location's own floor, in the spot's direction
+      y = SCENES[fromId].floorZ - eye.z;          // floor height relative to the eye (negative)
+      const h = y / Math.tan(lat);                // horizontal distance where that ray meets the floor
+      x = h * Math.sin(lon); z = -h * Math.cos(lon);
+    }
   }
   y += CIRCLE_LIFT[fromId + '>' + toId] || 0;
   const d = Math.hypot(x, y, z);
@@ -642,14 +647,21 @@ function buildHotspot (toId, p) {
   root.setAttribute('position', `${p.x.toFixed(3)} ${p.y.toFixed(3)} ${p.z.toFixed(3)}`);
   root.setAttribute('scale', `${p.k} ${p.k} ${p.k}`);   // same size on screen after being pulled in
 
-  // Flat on the floor when the target is below eye level; facing the viewer for stairs going up.
-  const plate = document.createElement('a-entity');
-  if (p.above) plate.setAttribute('face-camera', '');
-  else plate.setAttribute('rotation', '-90 0 0');
-  root.appendChild(plate);
-
   // Grow circles with distance so far ones stay easy to see and click (near ones stay life-size).
   const shown = Math.min(p.d, MAX_MARKER_M);
+
+  // Flat on the floor when the target is below eye level; facing the viewer for stairs going up.
+  // Far floor circles are tilted up towards the viewer (more the further they are, up to 55°), because a circle
+  // lying flat 10+ m away is seen almost edge-on and nearly disappears.
+  const plate = document.createElement('a-entity');
+  if (p.above) plate.setAttribute('face-camera', '');
+  else {
+    const tilt = Math.max(0, Math.min(55, (shown - 4) * 6));
+    const yaw = THREE.MathUtils.radToDeg(Math.atan2(-p.x, -p.z));      // turn the tilt towards the viewer
+    plate.setAttribute('rotation', `${(-90 + tilt).toFixed(1)} ${yaw.toFixed(1)} 0`);
+  }
+  root.appendChild(plate);
+
   const scale = Math.max(1, Math.min(3.2, shown / 4));
   const r = CIRCLE_RADIUS * scale;
 
@@ -682,13 +694,16 @@ function buildHotspot (toId, p) {
   pulse.setAttribute('animation__o', 'property: material.opacity; from: 0.35; to: 0; loop: true; dur: 2200; easing: easeOutCubic');
   plate.appendChild(pulse);
 
-  // Invisible, slightly larger hit area for easy clicking / gazing
+  // Invisible, larger hit area that always faces the viewer: a far circle lying on the floor is seen almost
+  // edge-on (a thin sliver), but this upright target stays its full size, so it is easy to point at or gaze at.
+  const nav = `targetId: ${toId}; progressRing: #pr-${toId}; disc: #disc-${toId}`;
   const hit = document.createElement('a-circle');
   hit.setAttribute('class', 'hs-target');
   hit.setAttribute('radius', r * 1.6);
+  hit.setAttribute('face-camera', '');
   hit.setAttribute('material', 'opacity: 0.0; transparent: true; shader: flat; side: double; depthWrite: false');
-  hit.setAttribute('hotspot-nav', `targetId: ${toId}; progressRing: #pr-${toId}; disc: #disc-${toId}`);
-  plate.appendChild(hit);
+  hit.setAttribute('hotspot-nav', nav);
+  root.appendChild(hit);
 
   // Label floating above the circle, always readable. Show the floor when the circle leads to a different area.
   const t = SCENES[toId];
@@ -702,6 +717,8 @@ function buildHotspot (toId, p) {
   bg.setAttribute('width', Math.max(0.9, name.length * 0.085) * scale * 0.8);
   bg.setAttribute('height', 0.2 * scale * 0.8);
   bg.setAttribute('material', 'color: #000000; opacity: 0.7; transparent: true; shader: flat; side: double; depthTest: false');
+  bg.setAttribute('class', 'hs-target');      // the name label is clickable too
+  bg.setAttribute('hotspot-nav', nav);
   label.appendChild(bg);
   const txt = document.createElement('a-text');
   txt.setAttribute('value', name);
