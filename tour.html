@@ -413,6 +413,11 @@ const CIRCLE_SPOTS = {
   'out_turf>out_main_gate':       { u: 0.994, v: 0.356 },   // on the turf, towards the gate (down the stairs)
 };
 
+/* Raise a circle above its target's floor by this many metres ('from>to': metres). */
+const CIRCLE_LIFT = {
+  'out_main_gate>out_turf': 4.5,   // clear of the pergola roof, inside the turf cage
+};
+
 /* snap-turn — Quest thumbstick left/right turns the view in 30° steps (comfortable, no motion sickness). */
 const SNAP_DEG = 30;
 AFRAME.registerComponent('snap-turn', {
@@ -648,6 +653,7 @@ function markerPosition (fromId, toId) {
     const h = y / Math.tan(lat);                  // horizontal distance where that ray meets the floor
     x = h * Math.sin(lon); z = -h * Math.cos(lon);
   }
+  y += CIRCLE_LIFT[fromId + '>' + toId] || 0;
   const d = Math.hypot(x, y, z);
   const above = y > -0.3;                     // target floor is at/above eye height (stairs up)
   if (d > MAX_MARKER_M) { const s = MAX_MARKER_M / d; x *= s; y *= s; z *= s; }
