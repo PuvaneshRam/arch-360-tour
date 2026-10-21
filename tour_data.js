@@ -53,9 +53,7 @@ window.TOUR_SCENES = [
   "placeholder": false,
   "neighbours": [
    "out_pergola_walkway",
-   "out_main_gate",
-   "out_driveway",
-   "out_house_front"
+   "out_main_gate"
   ]
  },
  {
@@ -73,7 +71,6 @@ window.TOUR_SCENES = [
   "placeholder": false,
   "neighbours": [
    "out_house_front",
-   "out_turf",
    "out_pergola_walkway"
   ]
  },
@@ -92,9 +89,7 @@ window.TOUR_SCENES = [
   "placeholder": false,
   "neighbours": [
    "out_driveway",
-   "out_car_porch",
-   "gf_entrance_lobby",
-   "out_turf"
+   "out_car_porch"
   ]
  },
  {
@@ -112,8 +107,7 @@ window.TOUR_SCENES = [
   "placeholder": false,
   "neighbours": [
    "out_main_door",
-   "out_house_front",
-   "gf_lobby_passage"
+   "out_house_front"
   ]
  },
  {
@@ -132,7 +126,6 @@ window.TOUR_SCENES = [
   "neighbours": [
    "gf_foyer",
    "out_car_porch",
-   "gf_staircase_1",
    "out_house_front"
   ]
  },
@@ -173,8 +166,7 @@ window.TOUR_SCENES = [
    "gf_foyer",
    "gf_lobby_passage",
    "gf_staircase_1",
-   "gf_multipurpose_bedroom_entry",
-   "out_house_front"
+   "gf_multipurpose_bedroom_entry"
   ]
  },
  {
@@ -196,8 +188,7 @@ window.TOUR_SCENES = [
    "gf_staircase_1",
    "gf_entrance_lobby",
    "gf_staircase_2",
-   "gf_staircase_3",
-   "out_car_porch"
+   "gf_staircase_3"
   ]
  },
  {
@@ -293,11 +284,8 @@ window.TOUR_SCENES = [
    "gf_lobby_passage",
    "gf_staircase_2",
    "gf_entrance_lobby",
-   "ff_stair_lobby",
    "gf_multipurpose_bedroom_entry",
-   "ff_passage",
-   "gf_foyer",
-   "out_main_door"
+   "gf_foyer"
   ]
  },
  {
@@ -421,8 +409,7 @@ window.TOUR_SCENES = [
   "placeholder": false,
   "neighbours": [
    "ff_hall",
-   "ff_living_room",
-   "ff_passage"
+   "ff_living_room"
   ]
  },
  {
@@ -500,8 +487,7 @@ window.TOUR_SCENES = [
   "placeholder": false,
   "neighbours": [
    "ff_bedroom_01_entry",
-   "ff_bedroom_01",
-   "ff_staircase_1"
+   "ff_bedroom_01"
   ]
  },
  {
@@ -823,8 +809,6 @@ window.TOUR_SCENES = [
    "sf_entrance",
    "sf_staircase_2",
    "sf_lobby",
-   "tf_lobby",
-   "tf_entrance",
    "sf_bedroom_02_entry",
    "sf_passage"
   ]

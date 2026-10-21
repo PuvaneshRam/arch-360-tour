@@ -404,6 +404,15 @@ function turnView (deg) {
    so turning around puts the next flight in front of the viewer. */
 const TURN_ON_ARRIVAL = { gf_staircase_2: 180, ff_staircase_2: 180, sf_staircase_2: 180 };
 
+/* Circles placed at a chosen spot in the image instead of under the target camera — for routes the camera
+   can't see, e.g. the Turf on its raised deck is reached by the metal stairs. 'from>to': { u, v } = the spot in
+   that location's panorama (u 0–1 left→right, v 0–1 bottom→top, below the horizon so it lies on the floor). */
+const CIRCLE_SPOTS = {
+  'out_pergola_walkway>out_turf': { u: 0.463, v: 0.452 },   // in front of the foot of the metal stairs
+  'out_turf>out_pergola_walkway': { u: 0.443, v: 0.390 },   // top of the stairs, at the gap in the fence
+  'out_turf>out_main_gate':       { u: 0.994, v: 0.356 },   // on the turf, towards the gate (down the stairs)
+};
+
 /* snap-turn — Quest thumbstick left/right turns the view in 30° steps (comfortable, no motion sickness). */
 const SNAP_DEG = 30;
 AFRAME.registerComponent('snap-turn', {
@@ -632,6 +641,13 @@ const selectEl    = document.querySelector('#scene-select');
 function markerPosition (fromId, toId) {
   const eye = SCENES[fromId].eye, t = SCENES[toId];
   let x = t.eye.x - eye.x, y = t.floorZ - eye.z, z = -(t.eye.y - eye.y);
+  const spot = CIRCLE_SPOTS[fromId + '>' + toId];
+  if (spot) {                                   // a point on this location's own floor, in the spot's direction
+    const lon = (spot.u - 0.5) * 2 * Math.PI, lat = (spot.v - 0.5) * Math.PI;
+    y = SCENES[fromId].floorZ - eye.z;            // floor height relative to the eye (negative)
+    const h = y / Math.tan(lat);                  // horizontal distance where that ray meets the floor
+    x = h * Math.sin(lon); z = -h * Math.cos(lon);
+  }
   const d = Math.hypot(x, y, z);
   const above = y > -0.3;                     // target floor is at/above eye height (stairs up)
   if (d > MAX_MARKER_M) { const s = MAX_MARKER_M / d; x *= s; y *= s; z *= s; }
