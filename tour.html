@@ -481,15 +481,21 @@ AFRAME.registerComponent('wide-view', {
   },
   press () {
     if (!this.el.sceneEl.is('vr-mode')) return;
-    // centre the squeeze on what the viewer is looking at: where their gaze meets the panorama
-    const mesh = this.skyEl.getObject3D('mesh'), cam = this.camEl.getObject3D('camera');
-    if (mesh && cam) {
-      cam.getWorldPosition(this._o); cam.getWorldDirection(this._d);
-      this.raycaster.set(this._o, this._d);
-      const hit = this.raycaster.intersectObject(mesh)[0];
-      if (hit && hit.uv && this.k === 1) this.center = { u: hit.uv.x, v: hit.uv.y };
-    }
     this.held = true; this.active = true;
+    this.aim();
+  },
+  /* Centre the squeeze on where the viewer is looking right now: where their gaze meets the panorama.
+     Called every frame while wide, so the middle of the view always shows what they face (turning stays 1:1)
+     and only the edges are squeezed in. In a headset the gaze comes from the headset's own pose. */
+  aim () {
+    const mesh = this.skyEl.getObject3D('mesh'), xr = this.el.sceneEl.renderer.xr;
+    const cam = xr.isPresenting ? xr.getCamera() : this.camEl.getObject3D('camera');
+    if (!mesh || !cam) return;
+    this._o.setFromMatrixPosition(cam.matrixWorld);                    // the pose as last drawn
+    this._d.set(0, 0, -1).transformDirection(cam.matrixWorld);
+    this.raycaster.set(this._o, this._d);
+    const hit = this.raycaster.intersectObject(mesh)[0];
+    if (hit && hit.uv) this.center = { u: hit.uv.x, v: hit.uv.y };
   },
   /* Squeeze the image k times around the centre: texture coordinate = centre + k × (coordinate − centre). */
   apply () {
@@ -507,6 +513,7 @@ AFRAME.registerComponent('wide-view', {
     const target = this.held ? WIDE_ZOOM : 1;
     this.k += (target - this.k) * (1 - Math.exp(-(dt || 16) / 70));   // eases in ~0.25 s
     if (Math.abs(target - this.k) < 0.003) this.k = target;
+    this.aim();                                                       // follow the gaze
     this.apply();                                                     // also re-applies after walking to a new image
     if (!this.held && this.k === 1) this.active = false;
   }
