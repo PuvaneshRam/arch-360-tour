@@ -207,9 +207,11 @@
     <a-entity id="ctrl-right" laser-controls="hand: right" raycaster="objects: .hs-target, .wide-target; showLine: true; lineColor: #ffffff; lineOpacity: 0.5; far: 600"></a-entity>
   </a-entity>
 
-  <!-- Wide view: a 16:9 cinema screen showing a normal (PC-style) view of the panorama -->
+  <!-- Wide view: a 2:1 screen showing the whole 360 panorama flat, with the circles marked on it -->
   <a-entity id="wide-screen" visible="false"
-    geometry="primitive: plane; width: 4; height: 2.25"></a-entity>
+    geometry="primitive: plane; width: 6; height: 3">
+    <a-entity id="wide-markers"></a-entity>
+  </a-entity>
 
   <!-- Mouse / touch clicking on desktop & phone -->
   <a-entity id="mouse-cursor" cursor="rayOrigin: mouse; fuse: false" raycaster="objects: .hs-target; far: 600"></a-entity>
@@ -332,38 +334,39 @@ AFRAME.registerComponent('hold-to-exit', {
   }
 });
 
-/* wide-view — hold A (right controller) or X (left) for 1 s to switch to a cinema screen showing a normal,
-   PC-style view of the panorama; hold again to go back to 360. While Wide is on:
-   · a second camera at the viewer's eye renders the panorama + circles into the screen texture,
-   · the 360 sphere and the floating circles are moved to a hidden layer so only the screen shows them,
-   · thumbstick left/right pans and up/down tilts the picture (like dragging on a PC),
-   · pointing at a circle on the screen and pulling the trigger walks there. */
-const WIDE_HOLD_MS = 1000, WIDE_LAYER = 5, WIDE_PAN_DEG_S = 90, WIDE_TILT_DEG_S = 60;
+/* wide-view — hold A (right controller) or X (left) for 1 s to switch to a big flat screen showing the WHOLE
+   360° panorama at once (the full 2:1 image, nothing cropped), like the image seen on a PC.
+   Hold again to go back to 360. While Wide is on:
+   · the 360 sphere and the floating circles are moved to a hidden layer, so only the screen is seen,
+   · each circle is marked on the screen at the exact spot it sits in the image; point + trigger walks there. */
+const WIDE_HOLD_MS = 1000, WIDE_LAYER = 5, WIDE_W = 6, WIDE_H = 3, WIDE_DIST = 3.2;
 let wideView = null;   // the component, so navigation / snap-turn can ask whether Wide is on
+
+/* Where a direction (A-Frame axes, relative to the eye) lands on the equirectangular image: u 0..1 left→right, v 0..1 bottom→top.
+   The image centre is straight ahead (−Z); turning right moves right in the image. */
+function directionToUV (x, y, z) {
+  const lon = Math.atan2(x, -z), lat = Math.atan2(y, Math.hypot(x, z));
+  return { u: 0.5 + lon / (2 * Math.PI), v: 0.5 + lat / Math.PI };
+}
+
 AFRAME.registerComponent('wide-view', {
   init () {
     wideView = this;
     this.active = false; this.holdStart = null;
-    this.yaw = 0; this.pitch = 0; this.stick = { left: { x: 0, y: 0 }, right: { x: 0, y: 0 } };
     this.camEl = document.querySelector('#cam');
     this.screenEl = document.querySelector('#wide-screen');
+    this.markersEl = document.querySelector('#wide-markers');
     this.box = document.querySelector('#wide-progress');
     this.ring = document.querySelector('#wide-ring');
     this.text = document.querySelector('#wide-text');
-    this.rt = new THREE.WebGLRenderTarget(1920, 1080);
-    this.cam2 = new THREE.PerspectiveCamera(65, 16 / 9, 0.05, 600);   // ~100° wide, like the PC view
-    this.cam2.layers.set(WIDE_LAYER);
-    this.raycaster = new THREE.Raycaster(); this.raycaster.layers.set(WIDE_LAYER);
-    this.screenMat = new THREE.MeshBasicMaterial({ map: this.rt.texture, toneMapped: false });
-    this.screenEl.addEventListener('click', e => this.clickScreen(e));
+    this.screenMat = new THREE.MeshBasicMaterial({ color: 0xffffff, toneMapped: false });
     for (const [hand, btn] of [['right', 'a'], ['left', 'x']]) {
       const ctrl = document.querySelector('#ctrl-' + hand);
       ctrl.addEventListener(btn + 'buttondown', () => this.beginHold());
       ctrl.addEventListener(btn + 'buttonup', () => this.cancelHold());
-      ctrl.addEventListener('thumbstickmoved', e => { this.stick[hand] = { x: e.detail.x, y: e.detail.y }; });
     }
     this.el.sceneEl.addEventListener('exit-vr', () => { this.cancelHold(); if (this.active) this.setActive(false); });
-    this._v = new THREE.Vector3(); this._e = new THREE.Euler(0, 0, 0, 'YXZ');
+    this._v = new THREE.Vector3(); this._q = new THREE.Quaternion(); this._e = new THREE.Euler(0, 0, 0, 'YXZ');
   },
   beginHold () {
     if (!this.el.sceneEl.is('vr-mode')) return;
@@ -376,63 +379,76 @@ AFRAME.registerComponent('wide-view', {
     this.box.setAttribute('visible', false);
     this.ring.setAttribute('geometry', 'thetaLength', 0);
   },
-  headYaw () {   // the direction the viewer's head faces, in world degrees
-    this._e.setFromQuaternion(this.camEl.object3D.getWorldQuaternion(new THREE.Quaternion()), 'YXZ');
-    return THREE.MathUtils.radToDeg(this._e.y);
-  },
   setActive (on) {
     this.active = on;
-    const sky = document.querySelector('#sky').object3D, hs = document.querySelector('#hotspots').object3D;
     if (on) {
-      this.yaw = this.headYaw(); this.pitch = 0;
-      // put the screen 3 m in front of the viewer, at eye height, facing them
+      // put the screen in front of the viewer, at eye height, facing them
+      this._e.setFromQuaternion(this.camEl.object3D.getWorldQuaternion(this._q), 'YXZ');
+      const yaw = this._e.y;
       this.camEl.object3D.getWorldPosition(this._v);
-      const r = THREE.MathUtils.degToRad(this.yaw);
-      this.screenEl.object3D.position.set(this._v.x - Math.sin(r) * 3, this._v.y, this._v.z - Math.cos(r) * 3);
-      this.screenEl.object3D.rotation.set(0, r, 0);
+      this.screenEl.object3D.position.set(this._v.x - Math.sin(yaw) * WIDE_DIST, this._v.y, this._v.z - Math.cos(yaw) * WIDE_DIST);
+      this.screenEl.object3D.rotation.set(0, yaw, 0);
       this.screenEl.getObject3D('mesh').material = this.screenMat;
       this.screenEl.setAttribute('visible', true);
-      this.screenEl.classList.add('wide-target');
+      this.refreshMarkers();
     } else {
       this.screenEl.setAttribute('visible', false);
-      this.screenEl.classList.remove('wide-target');
-      sky.traverse(o => o.layers.set(0)); hs.traverse(o => o.layers.set(0));
-      turnView(this.yaw - this.headYaw());   // back in 360, facing where the screen was looking
+      while (this.markersEl.firstChild) this.markersEl.removeChild(this.markersEl.firstChild);
+      document.querySelector('#sky').object3D.traverse(o => o.layers.set(0));
+      document.querySelector('#hotspots').object3D.traverse(o => o.layers.set(0));
     }
   },
-  clickScreen (e) {
-    const uv = e.detail && e.detail.intersection && e.detail.intersection.uv;
-    if (!this.active || !uv) return;
-    this.raycaster.setFromCamera(new THREE.Vector2(uv.x * 2 - 1, uv.y * 2 - 1), this.cam2);
-    for (const hit of this.raycaster.intersectObject(document.querySelector('#hotspots').object3D, true)) {
-      let o = hit.object;
-      while (o && !(o.el && o.el.classList.contains('hs-target'))) o = o.parent;
-      if (o) { navigateTo(o.el.components['hotspot-nav'].data.targetId); return; }
+  /* One marker per circle of the current location, at its spot in the full image. */
+  refreshMarkers () {
+    while (this.markersEl.firstChild) this.markersEl.removeChild(this.markersEl.firstChild);
+    if (!this.active) return;
+    for (const id of SCENES[currentScene].neighbours) {
+      if (!SCENES[id]) continue;
+      const p = markerPosition(currentScene, id), { u, v } = directionToUV(p.x, p.y, p.z);
+      const m = document.createElement('a-entity');
+      m.setAttribute('position', `${((u - 0.5) * WIDE_W).toFixed(3)} ${((v - 0.5) * WIDE_H).toFixed(3)} 0.01`);
+      const ring = document.createElement('a-ring');
+      ring.setAttribute('radius-inner', 0.055); ring.setAttribute('radius-outer', 0.075);
+      ring.setAttribute('material', 'color: #ffffff; shader: flat; opacity: 0.95; transparent: true');
+      m.appendChild(ring);
+      const hit = document.createElement('a-circle');               // bigger invisible area, easy to point at
+      hit.setAttribute('radius', 0.14);
+      hit.setAttribute('class', 'wide-target');
+      hit.setAttribute('material', 'opacity: 0; transparent: true; shader: flat; depthWrite: false');
+      hit.addEventListener('mouseenter', () => ring.setAttribute('material', 'color', '#4fc3f7'));
+      hit.addEventListener('mouseleave', () => ring.setAttribute('material', 'color', '#ffffff'));
+      hit.addEventListener('click', () => navigateTo(id));
+      m.appendChild(hit);
+      const t = SCENES[id], here = SCENES[currentScene];
+      const name = (t.area !== here.area && !t.name.toLowerCase().startsWith(t.area.toLowerCase())) ? `${t.area} · ${t.name}` : t.name;
+      const label = document.createElement('a-entity');
+      label.setAttribute('position', '0 0.15 0.005');
+      const bg = document.createElement('a-plane');
+      bg.setAttribute('width', Math.max(0.45, name.length * 0.042)); bg.setAttribute('height', 0.1);
+      bg.setAttribute('material', 'color: #000000; opacity: 0.7; transparent: true; shader: flat');
+      label.appendChild(bg);
+      const txt = document.createElement('a-text');
+      txt.setAttribute('value', name); txt.setAttribute('align', 'center'); txt.setAttribute('color', '#ffffff');
+      txt.setAttribute('width', 0.8); txt.setAttribute('position', '0 0 0.005');
+      label.appendChild(txt);
+      m.appendChild(label);
+      this.markersEl.appendChild(m);
     }
   },
-  tick (t, dt) {
+  tick () {
     if (this.holdStart !== null) {
       const p = (performance.now() - this.holdStart) / WIDE_HOLD_MS;
       this.ring.setAttribute('geometry', 'thetaLength', Math.min(360, p * 360));
       if (p >= 1) { this.cancelHold(); this.setActive(!this.active); }
     }
     if (!this.active) return;
-    // pan / tilt with either thumbstick (stick forward = look up)
-    const s = dt / 1000, x = this.stick.left.x + this.stick.right.x, y = this.stick.left.y + this.stick.right.y;
-    if (Math.abs(x) > 0.15) this.yaw -= x * WIDE_PAN_DEG_S * s;
-    if (Math.abs(y) > 0.15) this.pitch = THREE.MathUtils.clamp(this.pitch - y * WIDE_TILT_DEG_S * s, -70, 70);
-    // the panorama and circles are only seen by the screen camera
+    // the screen shows the same panorama texture as the sphere (follows scene changes)
+    const skyMesh = document.querySelector('#sky').getObject3D('mesh');
+    const map = skyMesh && skyMesh.material.map;
+    if (map && this.screenMat.map !== map) { this.screenMat.map = map; this.screenMat.needsUpdate = true; }
+    // nobody sees the sphere or the floating circles while Wide is on
     document.querySelector('#sky').object3D.traverse(o => o.layers.set(WIDE_LAYER));
     document.querySelector('#hotspots').object3D.traverse(o => o.layers.set(WIDE_LAYER));
-    this.camEl.object3D.getWorldPosition(this.cam2.position);
-    this.cam2.rotation.set(THREE.MathUtils.degToRad(this.pitch), THREE.MathUtils.degToRad(this.yaw), 0, 'YXZ');
-    this.cam2.updateMatrixWorld();
-    const renderer = this.el.sceneEl.renderer, xrOn = renderer.xr.enabled, prev = renderer.getRenderTarget();
-    renderer.xr.enabled = false;              // plain (non-stereo) render into the screen texture
-    renderer.setRenderTarget(this.rt);
-    renderer.render(this.el.sceneEl.object3D, this.cam2);
-    renderer.setRenderTarget(prev);
-    renderer.xr.enabled = xrOn;
   }
 });
 
@@ -592,6 +608,7 @@ function refreshHotspots () {
     if (!SCENES[id]) continue;
     hotspotsEl.appendChild(buildHotspot(id, markerPosition(currentScene, id)));
   }
+  if (wideView && wideView.active) wideView.refreshMarkers();
 }
 
 /* ══════════════════════════════════════════════════════════════════════
@@ -645,10 +662,7 @@ async function navigateTo (targetId) {
   await animateFade(1, 420);
   await preloadImg(SCENES[targetId].image);
   currentScene = targetId;
-  if (TURN_ON_ARRIVAL[currentScene]) {                                            // while the screen is black
-    if (wideView && wideView.active) wideView.yaw += TURN_ON_ARRIVAL[currentScene];
-    else turnView(TURN_ON_ARRIVAL[currentScene]);
-  }
+  if (TURN_ON_ARRIVAL[currentScene]) turnView(TURN_ON_ARRIVAL[currentScene]);   // while the screen is black
   applySky(currentScene);
   refreshHotspots();
   updateHud();
