@@ -132,12 +132,14 @@
     .wide-pin:hover .ring { border-color: #4fc3f7; background: rgba(79,195,247,0.35); }
     /* Enter-VR button + controller guide shown before VR starts */
     #vr-btn {
-      position: fixed; right: 76px; bottom: 22px; z-index: 11; display: none;
+      position: fixed; right: 20px; bottom: 22px; z-index: 11; display: none;
       background: rgba(8,12,18,0.75); border: 1px solid rgba(255,255,255,0.3); border-radius: 6px;
       color: #e8edf2; font: 600 0.85em 'Segoe UI', system-ui, sans-serif; letter-spacing: 1.5px; text-transform: uppercase;
       padding: 10px 16px; cursor: pointer; align-items: center; gap: 8px; backdrop-filter: blur(12px);
     }
     #vr-btn.show { display: flex; }
+    /* A-Frame's own VR / fullscreen button: replaced by #vr-btn (which shows the controller guide first) */
+    .a-enter-vr, .a-enter-ar { display: none !important; }
     #vr-btn:hover { border-color: #4fc3f7; }
     #guide {
       position: fixed; inset: 0; z-index: 10001; background: rgba(4,7,11,0.94);
