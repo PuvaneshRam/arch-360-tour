@@ -316,9 +316,7 @@ window.TOUR_SCENES = [
   "neighbours": [
    "gf_staircase_1",
    "gf_staircase_3",
-   "gf_lobby_passage",
-   "ff_entrance",
-   "ff_passage"
+   "ff_entrance"
   ]
  },
  {
@@ -336,13 +334,10 @@ window.TOUR_SCENES = [
   "placeholder": false,
   "neighbours": [
    "ff_stair_lobby",
-   "ff_staircase_1",
    "gf_staircase_1",
    "gf_staircase_2",
    "ff_entrance",
-   "gf_lobby_passage",
-   "ff_bedroom_01_entry",
-   "ff_passage"
+   "gf_lobby_passage"
   ]
  },
  {
@@ -363,7 +358,6 @@ window.TOUR_SCENES = [
    "gf_staircase_3",
    "ff_staircase_1",
    "ff_hall",
-   "gf_staircase_1",
    "ff_passage",
    "ff_bedroom_01_entry"
   ]
@@ -385,10 +379,8 @@ window.TOUR_SCENES = [
    "ff_stair_lobby",
    "ff_staircase_1",
    "ff_hall",
-   "gf_staircase_3",
    "ff_passage",
    "ff_bedroom_01_entry",
-   "gf_staircase_2",
    "ff_staircase_2",
    "ff_bedroom_01"
   ]
@@ -469,10 +461,7 @@ window.TOUR_SCENES = [
    "ff_entrance",
    "ff_staircase_1",
    "ff_stair_lobby",
-   "gf_staircase_1",
-   "gf_staircase_3",
    "ff_staircase_3",
-   "gf_staircase_2",
    "ff_staircase_2"
   ]
  },
@@ -492,10 +481,8 @@ window.TOUR_SCENES = [
   "neighbours": [
    "ff_bedroom_01_bath",
    "ff_bedroom_01",
-   "ff_staircase_1",
    "ff_entrance",
-   "ff_stair_lobby",
-   "gf_staircase_3"
+   "ff_stair_lobby"
   ]
  },
  {
@@ -760,7 +747,6 @@ window.TOUR_SCENES = [
    "sf_lobby",
    "sf_entrance",
    "sf_staircase_1",
-   "ff_staircase_3",
    "sf_staircase_3"
   ]
  },
