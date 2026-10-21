@@ -153,7 +153,7 @@ window.TOUR_SCENES = [
    "gf_entrance_lobby",
    "out_main_door",
    "gf_staircase_1",
-   "gf_multipurpose_bedroom"
+   "gf_multipurpose_bedroom_entry"
   ]
  },
  {
@@ -173,7 +173,7 @@ window.TOUR_SCENES = [
    "gf_foyer",
    "gf_lobby_passage",
    "gf_staircase_1",
-   "gf_multipurpose_bedroom",
+   "gf_multipurpose_bedroom_entry",
    "out_house_front"
   ]
  },
@@ -191,7 +191,7 @@ window.TOUR_SCENES = [
   "floorZ": 0.656,
   "placeholder": false,
   "neighbours": [
-   "gf_multipurpose_bedroom",
+   "gf_multipurpose_bedroom_entry",
    "gf_lift",
    "gf_staircase_1",
    "gf_entrance_lobby",
@@ -201,11 +201,11 @@ window.TOUR_SCENES = [
   ]
  },
  {
-  "id": "gf_multipurpose_bedroom",
-  "name": "Multipurpose / Bedroom",
+  "id": "gf_multipurpose_bedroom_entry",
+  "name": "Multipurpose / Bedroom Entry",
   "camera": "Camera 011",
   "area": "Ground Floor",
-  "image": "gf_multipurpose_bedroom.jpg",
+  "image": "gf_multipurpose_bedroom_entry.jpg",
   "pos": [
    4.251,
    2.922,
@@ -215,18 +215,18 @@ window.TOUR_SCENES = [
   "placeholder": false,
   "neighbours": [
    "gf_lobby_passage",
-   "gf_study",
+   "gf_multipurpose_bedroom",
    "gf_lift",
    "gf_entrance_lobby",
    "gf_staircase_1"
   ]
  },
  {
-  "id": "gf_study",
-  "name": "Study / Office",
+  "id": "gf_multipurpose_bedroom",
+  "name": "Multipurpose / Bedroom",
   "camera": "Camera 012",
   "area": "Ground Floor",
-  "image": "gf_study.jpg",
+  "image": "gf_multipurpose_bedroom.jpg",
   "pos": [
    5.181,
    4.283,
@@ -235,7 +235,7 @@ window.TOUR_SCENES = [
   "floorZ": 0.656,
   "placeholder": false,
   "neighbours": [
-   "gf_multipurpose_bedroom",
+   "gf_multipurpose_bedroom_entry",
    "gf_washroom"
   ]
  },
@@ -254,7 +254,7 @@ window.TOUR_SCENES = [
   "placeholder": false,
   "neighbours": [
    "gf_lobby_passage",
-   "gf_multipurpose_bedroom",
+   "gf_multipurpose_bedroom_entry",
    "gf_entrance_lobby"
   ]
  },
@@ -272,7 +272,7 @@ window.TOUR_SCENES = [
   "floorZ": 0.656,
   "placeholder": false,
   "neighbours": [
-   "gf_study"
+   "gf_multipurpose_bedroom"
   ]
  },
  {
@@ -294,7 +294,7 @@ window.TOUR_SCENES = [
    "gf_staircase_2",
    "gf_entrance_lobby",
    "ff_stair_lobby",
-   "gf_multipurpose_bedroom",
+   "gf_multipurpose_bedroom_entry",
    "ff_passage",
    "gf_foyer",
    "out_main_door"
