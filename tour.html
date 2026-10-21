@@ -451,7 +451,7 @@ const SKY_R_OVERRIDE = parseFloat(new URLSearchParams(location.search).get('r'))
 const OPEN_AIR = /^(out_|tf_terrace|tf_roof|tf_covered)/;
 function skyRadius (sceneId) {
   if (SKY_R_OVERRIDE >= 1 && SKY_R_OVERRIDE <= 490) return SKY_R_OVERRIDE;
-  return OPEN_AIR.test(sceneId) ? 15 : 3.5;
+  return OPEN_AIR.test(sceneId) ? 15 : 2.5;
 }
 
 function applySky (sceneId) {
