@@ -3,3 +3,6 @@ tools/
 
 # Quest + Android app projects, signing key and APKs — kept with the project folder, not published on the website
 apps/
+
+# Handover guide for the next developer — travels with the project folder, not published
+handover/
