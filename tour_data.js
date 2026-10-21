@@ -2,11 +2,11 @@
 // neighbours = circles shown at that camera (walk graph from line-of-sight + same-floor rooms).
 window.TOUR_SCENES = [
  {
-  "id": "cam_001",
-  "name": "Outdoor 01",
+  "id": "out_main_gate",
+  "name": "Main Gate",
   "camera": "Camera 001",
   "area": "Outdoor",
-  "image": "cam_001.jpg",
+  "image": "out_main_gate.jpg",
   "pos": [
    2.792,
    -66.566,
@@ -15,16 +15,16 @@ window.TOUR_SCENES = [
   "floorZ": 0.0,
   "placeholder": false,
   "neighbours": [
-   "cam_002",
-   "cam_003"
+   "out_pergola_walkway",
+   "out_turf"
   ]
  },
  {
-  "id": "cam_002",
-  "name": "Outdoor 02",
+  "id": "out_pergola_walkway",
+  "name": "Pergola Walkway",
   "camera": "Camera 002",
   "area": "Outdoor",
-  "image": "cam_002.jpg",
+  "image": "out_pergola_walkway.jpg",
   "pos": [
    2.792,
    -46.899,
@@ -33,17 +33,17 @@ window.TOUR_SCENES = [
   "floorZ": -0.0,
   "placeholder": false,
   "neighbours": [
-   "cam_003",
-   "cam_001",
-   "cam_004"
+   "out_turf",
+   "out_main_gate",
+   "out_driveway"
   ]
  },
  {
-  "id": "cam_003",
+  "id": "out_turf",
   "name": "Turf",
   "camera": "Camera 003",
   "area": "Outdoor",
-  "image": "cam_003.jpg",
+  "image": "out_turf.jpg",
   "pos": [
    1.855,
    -43.501,
@@ -52,18 +52,18 @@ window.TOUR_SCENES = [
   "floorZ": 4.864,
   "placeholder": false,
   "neighbours": [
-   "cam_002",
-   "cam_001",
-   "cam_004",
-   "cam_005"
+   "out_pergola_walkway",
+   "out_main_gate",
+   "out_driveway",
+   "out_house_front"
   ]
  },
  {
-  "id": "cam_004",
-  "name": "Outdoor 03",
+  "id": "out_driveway",
+  "name": "Driveway",
   "camera": "Camera 004",
   "area": "Outdoor",
-  "image": "cam_004.jpg",
+  "image": "out_driveway.jpg",
   "pos": [
    2.792,
    -14.441,
@@ -72,17 +72,17 @@ window.TOUR_SCENES = [
   "floorZ": -0.0,
   "placeholder": false,
   "neighbours": [
-   "cam_005",
-   "cam_003",
-   "cam_002"
+   "out_house_front",
+   "out_turf",
+   "out_pergola_walkway"
   ]
  },
  {
-  "id": "cam_005",
-  "name": "Outdoor 04",
+  "id": "out_house_front",
+  "name": "House Front",
   "camera": "Camera 005",
   "area": "Outdoor",
-  "image": "cam_005.jpg",
+  "image": "out_house_front.jpg",
   "pos": [
    2.792,
    -9.529,
@@ -91,18 +91,18 @@ window.TOUR_SCENES = [
   "floorZ": 0.0,
   "placeholder": false,
   "neighbours": [
-   "cam_004",
-   "cam_006",
-   "cam_009",
-   "cam_003"
+   "out_driveway",
+   "out_car_porch",
+   "gf_entrance_lobby",
+   "out_turf"
   ]
  },
  {
-  "id": "cam_006",
-  "name": "Outdoor 05",
+  "id": "out_car_porch",
+  "name": "Car Porch",
   "camera": "Camera 006",
   "area": "Outdoor",
-  "image": "cam_006.jpg",
+  "image": "out_car_porch.jpg",
   "pos": [
    1.567,
    -3.917,
@@ -111,17 +111,17 @@ window.TOUR_SCENES = [
   "floorZ": 0.129,
   "placeholder": false,
   "neighbours": [
-   "cam_007",
-   "cam_005",
-   "cam_010"
+   "out_main_door",
+   "out_house_front",
+   "gf_lobby_passage"
   ]
  },
  {
-  "id": "cam_007",
-  "name": "Outdoor 06",
+  "id": "out_main_door",
+  "name": "Main Door",
   "camera": "Camera 007",
   "area": "Outdoor",
-  "image": "cam_007.jpg",
+  "image": "out_main_door.jpg",
   "pos": [
    1.567,
    -2.199,
@@ -130,18 +130,18 @@ window.TOUR_SCENES = [
   "floorZ": 0.574,
   "placeholder": false,
   "neighbours": [
-   "cam_008",
-   "cam_006",
-   "cam_016",
-   "cam_005"
+   "gf_foyer",
+   "out_car_porch",
+   "gf_staircase_1",
+   "out_house_front"
   ]
  },
  {
-  "id": "cam_008",
-  "name": "Ground Floor 01",
+  "id": "gf_foyer",
+  "name": "Foyer",
   "camera": "Camera 008",
   "area": "Ground Floor",
-  "image": "cam_008.jpg",
+  "image": "gf_foyer.jpg",
   "pos": [
    1.43,
    -0.511,
@@ -150,18 +150,18 @@ window.TOUR_SCENES = [
   "floorZ": 0.686,
   "placeholder": false,
   "neighbours": [
-   "cam_009",
-   "cam_007",
-   "cam_016",
-   "cam_011"
+   "gf_entrance_lobby",
+   "out_main_door",
+   "gf_staircase_1",
+   "gf_multipurpose_bedroom"
   ]
  },
  {
-  "id": "cam_009",
-  "name": "Ground Floor 02",
+  "id": "gf_entrance_lobby",
+  "name": "Entrance Lobby",
   "camera": "Camera 009",
   "area": "Ground Floor",
-  "image": "cam_009.jpg",
+  "image": "gf_entrance_lobby.jpg",
   "pos": [
    2.815,
    0.369,
@@ -170,19 +170,19 @@ window.TOUR_SCENES = [
   "floorZ": 0.656,
   "placeholder": false,
   "neighbours": [
-   "cam_008",
-   "cam_010",
-   "cam_016",
-   "cam_011",
-   "cam_005"
+   "gf_foyer",
+   "gf_lobby_passage",
+   "gf_staircase_1",
+   "gf_multipurpose_bedroom",
+   "out_house_front"
   ]
  },
  {
-  "id": "cam_010",
-  "name": "Ground Floor 03",
+  "id": "gf_lobby_passage",
+  "name": "Lobby Passage",
   "camera": "Camera 010",
   "area": "Ground Floor",
-  "image": "cam_010.jpg",
+  "image": "gf_lobby_passage.jpg",
   "pos": [
    4.926,
    1.862,
@@ -191,21 +191,21 @@ window.TOUR_SCENES = [
   "floorZ": 0.656,
   "placeholder": false,
   "neighbours": [
-   "cam_011",
-   "cam_013",
-   "cam_016",
-   "cam_009",
-   "cam_017",
-   "cam_018",
-   "cam_006"
+   "gf_multipurpose_bedroom",
+   "gf_lift",
+   "gf_staircase_1",
+   "gf_entrance_lobby",
+   "gf_staircase_2",
+   "gf_staircase_3",
+   "out_car_porch"
   ]
  },
  {
-  "id": "cam_011",
-  "name": "Ground Floor 04",
+  "id": "gf_multipurpose_bedroom",
+  "name": "Multipurpose / Bedroom",
   "camera": "Camera 011",
   "area": "Ground Floor",
-  "image": "cam_011.jpg",
+  "image": "gf_multipurpose_bedroom.jpg",
   "pos": [
    4.251,
    2.922,
@@ -214,19 +214,19 @@ window.TOUR_SCENES = [
   "floorZ": 0.656,
   "placeholder": false,
   "neighbours": [
-   "cam_010",
-   "cam_012",
-   "cam_013",
-   "cam_009",
-   "cam_016"
+   "gf_lobby_passage",
+   "gf_study",
+   "gf_lift",
+   "gf_entrance_lobby",
+   "gf_staircase_1"
   ]
  },
  {
-  "id": "cam_012",
-  "name": "Ground Floor 05",
+  "id": "gf_study",
+  "name": "Study / Office",
   "camera": "Camera 012",
   "area": "Ground Floor",
-  "image": "cam_012.jpg",
+  "image": "gf_study.jpg",
   "pos": [
    5.181,
    4.283,
@@ -235,16 +235,16 @@ window.TOUR_SCENES = [
   "floorZ": 0.656,
   "placeholder": false,
   "neighbours": [
-   "cam_011",
-   "cam_014"
+   "gf_multipurpose_bedroom",
+   "gf_washroom"
   ]
  },
  {
-  "id": "cam_013",
-  "name": "Ground Floor 06",
+  "id": "gf_lift",
+  "name": "Lift",
   "camera": "Camera 013",
   "area": "Ground Floor",
-  "image": "cam_013.jpg",
+  "image": "gf_lift.jpg",
   "pos": [
    6.395,
    2.021,
@@ -253,17 +253,17 @@ window.TOUR_SCENES = [
   "floorZ": 0.656,
   "placeholder": false,
   "neighbours": [
-   "cam_010",
-   "cam_011",
-   "cam_009"
+   "gf_lobby_passage",
+   "gf_multipurpose_bedroom",
+   "gf_entrance_lobby"
   ]
  },
  {
-  "id": "cam_014",
-  "name": "Ground Floor 07",
+  "id": "gf_washroom",
+  "name": "Washroom",
   "camera": "Camera 014",
   "area": "Ground Floor",
-  "image": "cam_014.jpg",
+  "image": "gf_washroom.jpg",
   "pos": [
    2.557,
    3.123,
@@ -272,15 +272,15 @@ window.TOUR_SCENES = [
   "floorZ": 0.656,
   "placeholder": false,
   "neighbours": [
-   "cam_012"
+   "gf_study"
   ]
  },
  {
-  "id": "cam_016",
-  "name": "Ground Floor 08",
+  "id": "gf_staircase_1",
+  "name": "Staircase 1",
   "camera": "Camera 016",
   "area": "Ground Floor",
-  "image": "cam_016.jpg",
+  "image": "gf_staircase_1.jpg",
   "pos": [
    5.296,
    0.369,
@@ -289,23 +289,23 @@ window.TOUR_SCENES = [
   "floorZ": 1.648,
   "placeholder": false,
   "neighbours": [
-   "cam_018",
-   "cam_010",
-   "cam_017",
-   "cam_009",
-   "cam_019",
-   "cam_011",
-   "cam_024",
-   "cam_008",
-   "cam_007"
+   "gf_staircase_3",
+   "gf_lobby_passage",
+   "gf_staircase_2",
+   "gf_entrance_lobby",
+   "ff_stair_lobby",
+   "gf_multipurpose_bedroom",
+   "ff_passage",
+   "gf_foyer",
+   "out_main_door"
   ]
  },
  {
-  "id": "cam_017",
-  "name": "Ground Floor 09",
+  "id": "gf_staircase_2",
+  "name": "Staircase 2",
   "camera": "Camera 017",
   "area": "Ground Floor",
-  "image": "cam_017.jpg",
+  "image": "gf_staircase_2.jpg",
   "pos": [
    7.076,
    0.071,
@@ -314,19 +314,19 @@ window.TOUR_SCENES = [
   "floorZ": 2.262,
   "placeholder": false,
   "neighbours": [
-   "cam_016",
-   "cam_018",
-   "cam_010",
-   "cam_020",
-   "cam_024"
+   "gf_staircase_1",
+   "gf_staircase_3",
+   "gf_lobby_passage",
+   "ff_entrance",
+   "ff_passage"
   ]
  },
  {
-  "id": "cam_018",
-  "name": "Ground Floor 10",
+  "id": "gf_staircase_3",
+  "name": "Staircase 3",
   "camera": "Camera 018",
   "area": "Ground Floor",
-  "image": "cam_018.jpg",
+  "image": "gf_staircase_3.jpg",
   "pos": [
    5.16,
    -0.579,
@@ -335,22 +335,22 @@ window.TOUR_SCENES = [
   "floorZ": 3.044,
   "placeholder": false,
   "neighbours": [
-   "cam_019",
-   "cam_029",
-   "cam_016",
-   "cam_017",
-   "cam_020",
-   "cam_010",
-   "cam_025",
-   "cam_024"
+   "ff_stair_lobby",
+   "ff_staircase_1",
+   "gf_staircase_1",
+   "gf_staircase_2",
+   "ff_entrance",
+   "gf_lobby_passage",
+   "ff_bedroom_01_entry",
+   "ff_passage"
   ]
  },
  {
-  "id": "cam_019",
-  "name": "First Floor 01",
+  "id": "ff_stair_lobby",
+  "name": "Stair Lobby",
   "camera": "Camera 019",
   "area": "First Floor",
-  "image": "cam_019.jpg",
+  "image": "ff_stair_lobby.jpg",
   "pos": [
    3.895,
    -0.639,
@@ -359,21 +359,21 @@ window.TOUR_SCENES = [
   "floorZ": 3.656,
   "placeholder": false,
   "neighbours": [
-   "cam_020",
-   "cam_018",
-   "cam_029",
-   "cam_021",
-   "cam_016",
-   "cam_024",
-   "cam_025"
+   "ff_entrance",
+   "gf_staircase_3",
+   "ff_staircase_1",
+   "ff_hall",
+   "gf_staircase_1",
+   "ff_passage",
+   "ff_bedroom_01_entry"
   ]
  },
  {
-  "id": "cam_020",
-  "name": "First Floor 02",
+  "id": "ff_entrance",
+  "name": "First Floor Entrance",
   "camera": "Camera 020",
   "area": "First Floor",
-  "image": "cam_020.jpg",
+  "image": "ff_entrance.jpg",
   "pos": [
    2.872,
    -0.005,
@@ -382,23 +382,23 @@ window.TOUR_SCENES = [
   "floorZ": 3.656,
   "placeholder": false,
   "neighbours": [
-   "cam_019",
-   "cam_029",
-   "cam_021",
-   "cam_018",
-   "cam_024",
-   "cam_025",
-   "cam_017",
-   "cam_030",
-   "cam_027"
+   "ff_stair_lobby",
+   "ff_staircase_1",
+   "ff_hall",
+   "gf_staircase_3",
+   "ff_passage",
+   "ff_bedroom_01_entry",
+   "gf_staircase_2",
+   "ff_staircase_2",
+   "ff_bedroom_01"
   ]
  },
  {
-  "id": "cam_021",
-  "name": "First Floor 03",
+  "id": "ff_hall",
+  "name": "Hall (Dining)",
   "camera": "Camera 021",
   "area": "First Floor",
-  "image": "cam_021.jpg",
+  "image": "ff_hall.jpg",
   "pos": [
    2.847,
    -2.227,
@@ -407,19 +407,19 @@ window.TOUR_SCENES = [
   "floorZ": 3.656,
   "placeholder": false,
   "neighbours": [
-   "cam_019",
-   "cam_022",
-   "cam_020",
-   "cam_023",
-   "cam_025"
+   "ff_stair_lobby",
+   "ff_lounge",
+   "ff_entrance",
+   "ff_living_room",
+   "ff_bedroom_01_entry"
   ]
  },
  {
-  "id": "cam_022",
-  "name": "First Floor 04",
+  "id": "ff_lounge",
+  "name": "Lounge",
   "camera": "Camera 022",
   "area": "First Floor",
-  "image": "cam_022.jpg",
+  "image": "ff_lounge.jpg",
   "pos": [
    2.228,
    -4.202,
@@ -428,17 +428,17 @@ window.TOUR_SCENES = [
   "floorZ": 3.271,
   "placeholder": false,
   "neighbours": [
-   "cam_021",
-   "cam_023",
-   "cam_024"
+   "ff_hall",
+   "ff_living_room",
+   "ff_passage"
   ]
  },
  {
-  "id": "cam_023",
-  "name": "First Floor 05",
+  "id": "ff_living_room",
+  "name": "Living Room",
   "camera": "Camera 023",
   "area": "First Floor",
-  "image": "cam_023.jpg",
+  "image": "ff_living_room.jpg",
   "pos": [
    5.376,
    -3.243,
@@ -447,16 +447,16 @@ window.TOUR_SCENES = [
   "floorZ": 3.271,
   "placeholder": false,
   "neighbours": [
-   "cam_021",
-   "cam_022"
+   "ff_hall",
+   "ff_lounge"
   ]
  },
  {
-  "id": "cam_024",
-  "name": "First Floor 06",
+  "id": "ff_passage",
+  "name": "Passage",
   "camera": "Camera 024",
   "area": "First Floor",
-  "image": "cam_024.jpg",
+  "image": "ff_passage.jpg",
   "pos": [
    3.142,
    2.5,
@@ -465,23 +465,23 @@ window.TOUR_SCENES = [
   "floorZ": 3.656,
   "placeholder": false,
   "neighbours": [
-   "cam_028",
-   "cam_020",
-   "cam_029",
-   "cam_019",
-   "cam_016",
-   "cam_018",
-   "cam_031",
-   "cam_017",
-   "cam_030"
+   "ff_kitchen",
+   "ff_entrance",
+   "ff_staircase_1",
+   "ff_stair_lobby",
+   "gf_staircase_1",
+   "gf_staircase_3",
+   "ff_staircase_3",
+   "gf_staircase_2",
+   "ff_staircase_2"
   ]
  },
  {
-  "id": "cam_025",
-  "name": "First Floor 07",
+  "id": "ff_bedroom_01_entry",
+  "name": "Bedroom 01 Entry",
   "camera": "Camera 025",
   "area": "First Floor",
-  "image": "cam_025.jpg",
+  "image": "ff_bedroom_01_entry.jpg",
   "pos": [
    4.181,
    2.953,
@@ -490,20 +490,20 @@ window.TOUR_SCENES = [
   "floorZ": 3.656,
   "placeholder": false,
   "neighbours": [
-   "cam_026",
-   "cam_027",
-   "cam_029",
-   "cam_020",
-   "cam_019",
-   "cam_018"
+   "ff_bedroom_01_bath",
+   "ff_bedroom_01",
+   "ff_staircase_1",
+   "ff_entrance",
+   "ff_stair_lobby",
+   "gf_staircase_3"
   ]
  },
  {
-  "id": "cam_026",
-  "name": "First Floor 08",
+  "id": "ff_bedroom_01_bath",
+  "name": "Bedroom 01 Bathroom",
   "camera": "Camera 026",
   "area": "First Floor",
-  "image": "cam_026.jpg",
+  "image": "ff_bedroom_01_bath.jpg",
   "pos": [
    3.544,
    4.421,
@@ -512,17 +512,17 @@ window.TOUR_SCENES = [
   "floorZ": 3.673,
   "placeholder": false,
   "neighbours": [
-   "cam_025",
-   "cam_027",
-   "cam_029"
+   "ff_bedroom_01_entry",
+   "ff_bedroom_01",
+   "ff_staircase_1"
   ]
  },
  {
-  "id": "cam_027",
-  "name": "First Floor 09",
+  "id": "ff_bedroom_01",
+  "name": "Bedroom 01",
   "camera": "Camera 027",
   "area": "First Floor",
-  "image": "cam_027.jpg",
+  "image": "ff_bedroom_01.jpg",
   "pos": [
    5.439,
    4.911,
@@ -531,17 +531,17 @@ window.TOUR_SCENES = [
   "floorZ": 3.656,
   "placeholder": false,
   "neighbours": [
-   "cam_026",
-   "cam_025",
-   "cam_020"
+   "ff_bedroom_01_bath",
+   "ff_bedroom_01_entry",
+   "ff_entrance"
   ]
  },
  {
-  "id": "cam_028",
-  "name": "First Floor 10",
+  "id": "ff_kitchen",
+  "name": "Kitchen",
   "camera": "Camera 028",
   "area": "First Floor",
-  "image": "cam_028.jpg",
+  "image": "ff_kitchen.jpg",
   "pos": [
    1.555,
    3.323,
@@ -550,15 +550,15 @@ window.TOUR_SCENES = [
   "floorZ": 3.656,
   "placeholder": false,
   "neighbours": [
-   "cam_024"
+   "ff_passage"
   ]
  },
  {
-  "id": "cam_029",
-  "name": "First Floor 11",
+  "id": "ff_staircase_1",
+  "name": "Staircase 1",
   "camera": "Camera 029",
   "area": "First Floor",
-  "image": "cam_029.jpg",
+  "image": "ff_staircase_1.jpg",
   "pos": [
    4.807,
    0.487,
@@ -567,22 +567,22 @@ window.TOUR_SCENES = [
   "floorZ": 4.239,
   "placeholder": false,
   "neighbours": [
-   "cam_019",
-   "cam_018",
-   "cam_031",
-   "cam_020",
-   "cam_030",
-   "cam_025",
-   "cam_024",
-   "cam_021"
+   "ff_stair_lobby",
+   "gf_staircase_3",
+   "ff_staircase_3",
+   "ff_entrance",
+   "ff_staircase_2",
+   "ff_bedroom_01_entry",
+   "ff_passage",
+   "ff_hall"
   ]
  },
  {
-  "id": "cam_030",
-  "name": "First Floor 12",
+  "id": "ff_staircase_2",
+  "name": "Staircase 2",
   "camera": "Camera 030",
   "area": "First Floor",
-  "image": "cam_030.jpg",
+  "image": "ff_staircase_2.jpg",
   "pos": [
    7.161,
    0.046,
@@ -591,18 +591,18 @@ window.TOUR_SCENES = [
   "floorZ": 5.29,
   "placeholder": false,
   "neighbours": [
-   "cam_031",
-   "cam_029",
-   "cam_036",
-   "cam_024"
+   "ff_staircase_3",
+   "ff_staircase_1",
+   "sf_entrance",
+   "ff_passage"
   ]
  },
  {
-  "id": "cam_031",
-  "name": "First Floor 13",
+  "id": "ff_staircase_3",
+  "name": "Staircase 3",
   "camera": "Camera 031",
   "area": "First Floor",
-  "image": "cam_031.jpg",
+  "image": "ff_staircase_3.jpg",
   "pos": [
    5.346,
    -0.567,
@@ -611,21 +611,21 @@ window.TOUR_SCENES = [
   "floorZ": 5.998,
   "placeholder": false,
   "neighbours": [
-   "cam_036",
-   "cam_042",
-   "cam_030",
-   "cam_029",
-   "cam_035",
-   "cam_038",
-   "cam_024"
+   "sf_entrance",
+   "sf_staircase_1",
+   "ff_staircase_2",
+   "ff_staircase_1",
+   "sf_bedroom_02_entry",
+   "sf_passage",
+   "ff_passage"
   ]
  },
  {
-  "id": "cam_032",
-  "name": "Second Floor 01",
+  "id": "sf_bedroom_02_bath_entry",
+  "name": "Bedroom 02 Bath Entry",
   "camera": "Camera 032",
   "area": "Second Floor",
-  "image": "cam_032.jpg",
+  "image": "sf_bedroom_02_bath_entry.jpg",
   "pos": [
    6.076,
    -1.851,
@@ -634,17 +634,17 @@ window.TOUR_SCENES = [
   "floorZ": 6.656,
   "placeholder": false,
   "neighbours": [
-   "cam_033",
-   "cam_035",
-   "cam_034"
+   "sf_bedroom_02_bath",
+   "sf_bedroom_02_entry",
+   "sf_bedroom_02"
   ]
  },
  {
-  "id": "cam_033",
-  "name": "Second Floor 02",
+  "id": "sf_bedroom_02_bath",
+  "name": "Bedroom 02 Bathroom",
   "camera": "Camera 033",
   "area": "Second Floor",
-  "image": "cam_033.jpg",
+  "image": "sf_bedroom_02_bath.jpg",
   "pos": [
    6.762,
    -3.068,
@@ -653,15 +653,15 @@ window.TOUR_SCENES = [
   "floorZ": 6.667,
   "placeholder": false,
   "neighbours": [
-   "cam_032"
+   "sf_bedroom_02_bath_entry"
   ]
  },
  {
-  "id": "cam_034",
-  "name": "Second Floor 03",
+  "id": "sf_bedroom_02",
+  "name": "Bedroom 02",
   "camera": "Camera 034",
   "area": "Second Floor",
-  "image": "cam_034.jpg",
+  "image": "sf_bedroom_02.jpg",
   "pos": [
    2.966,
    -3.534,
@@ -670,16 +670,16 @@ window.TOUR_SCENES = [
   "floorZ": 6.656,
   "placeholder": false,
   "neighbours": [
-   "cam_035",
-   "cam_032"
+   "sf_bedroom_02_entry",
+   "sf_bedroom_02_bath_entry"
   ]
  },
  {
-  "id": "cam_035",
-  "name": "Second Floor 04",
+  "id": "sf_bedroom_02_entry",
+  "name": "Bedroom 02 Entry",
   "camera": "Camera 035",
   "area": "Second Floor",
-  "image": "cam_035.jpg",
+  "image": "sf_bedroom_02_entry.jpg",
   "pos": [
    3.04,
    -1.184,
@@ -688,20 +688,20 @@ window.TOUR_SCENES = [
   "floorZ": 6.656,
   "placeholder": false,
   "neighbours": [
-   "cam_036",
-   "cam_037",
-   "cam_034",
-   "cam_031",
-   "cam_042",
-   "cam_032"
+   "sf_entrance",
+   "sf_lobby",
+   "sf_bedroom_02",
+   "ff_staircase_3",
+   "sf_staircase_1",
+   "sf_bedroom_02_bath_entry"
   ]
  },
  {
-  "id": "cam_036",
-  "name": "Second Floor 05",
+  "id": "sf_entrance",
+  "name": "Second Floor Entrance",
   "camera": "Camera 036",
   "area": "Second Floor",
-  "image": "cam_036.jpg",
+  "image": "sf_entrance.jpg",
   "pos": [
    3.698,
    -0.272,
@@ -710,22 +710,22 @@ window.TOUR_SCENES = [
   "floorZ": 6.656,
   "placeholder": false,
   "neighbours": [
-   "cam_037",
-   "cam_035",
-   "cam_031",
-   "cam_042",
-   "cam_038",
-   "cam_034",
-   "cam_030",
-   "cam_041"
+   "sf_lobby",
+   "sf_bedroom_02_entry",
+   "ff_staircase_3",
+   "sf_staircase_1",
+   "sf_passage",
+   "sf_bedroom_02",
+   "ff_staircase_2",
+   "sf_bedroom_03"
   ]
  },
  {
-  "id": "cam_037",
-  "name": "Second Floor 06",
+  "id": "sf_lobby",
+  "name": "Lobby",
   "camera": "Camera 037",
   "area": "Second Floor",
-  "image": "cam_037.jpg",
+  "image": "sf_lobby.jpg",
   "pos": [
    2.719,
    0.206,
@@ -734,20 +734,20 @@ window.TOUR_SCENES = [
   "floorZ": 6.656,
   "placeholder": false,
   "neighbours": [
-   "cam_036",
-   "cam_035",
-   "cam_038",
-   "cam_042",
-   "cam_031",
-   "cam_043"
+   "sf_entrance",
+   "sf_bedroom_02_entry",
+   "sf_passage",
+   "sf_staircase_1",
+   "ff_staircase_3",
+   "sf_staircase_2"
   ]
  },
  {
-  "id": "cam_038",
-  "name": "Second Floor 07",
+  "id": "sf_passage",
+  "name": "Passage",
   "camera": "Camera 038",
   "area": "Second Floor",
-  "image": "cam_038.jpg",
+  "image": "sf_passage.jpg",
   "pos": [
    2.752,
    2.501,
@@ -756,20 +756,20 @@ window.TOUR_SCENES = [
   "floorZ": 6.656,
   "placeholder": false,
   "neighbours": [
-   "cam_041",
-   "cam_037",
-   "cam_036",
-   "cam_042",
-   "cam_031",
-   "cam_044"
+   "sf_bedroom_03",
+   "sf_lobby",
+   "sf_entrance",
+   "sf_staircase_1",
+   "ff_staircase_3",
+   "sf_staircase_3"
   ]
  },
  {
-  "id": "cam_039",
-  "name": "Second Floor 08",
+  "id": "sf_bathroom",
+  "name": "Bathroom",
   "camera": "Camera 039",
   "area": "Second Floor",
-  "image": "cam_039.jpg",
+  "image": "sf_bathroom.jpg",
   "pos": [
    1.28,
    2.235,
@@ -778,15 +778,15 @@ window.TOUR_SCENES = [
   "floorZ": 6.673,
   "placeholder": false,
   "neighbours": [
-   "cam_040"
+   "sf_bedroom_03_wardrobe"
   ]
  },
  {
-  "id": "cam_040",
-  "name": "Second Floor 09",
+  "id": "sf_bedroom_03_wardrobe",
+  "name": "Bedroom 03 Wardrobe",
   "camera": "Camera 040",
   "area": "Second Floor",
-  "image": "cam_040.jpg",
+  "image": "sf_bedroom_03_wardrobe.jpg",
   "pos": [
    1.781,
    4.024,
@@ -795,16 +795,16 @@ window.TOUR_SCENES = [
   "floorZ": 6.656,
   "placeholder": false,
   "neighbours": [
-   "cam_039",
-   "cam_041"
+   "sf_bathroom",
+   "sf_bedroom_03"
   ]
  },
  {
-  "id": "cam_041",
-  "name": "Second Floor 10",
+  "id": "sf_bedroom_03",
+  "name": "Bedroom 03",
   "camera": "Camera 041",
   "area": "Second Floor",
-  "image": "cam_041.jpg",
+  "image": "sf_bedroom_03.jpg",
   "pos": [
    3.931,
    4.382,
@@ -813,17 +813,17 @@ window.TOUR_SCENES = [
   "floorZ": 6.656,
   "placeholder": false,
   "neighbours": [
-   "cam_040",
-   "cam_038",
-   "cam_036"
+   "sf_bedroom_03_wardrobe",
+   "sf_passage",
+   "sf_entrance"
   ]
  },
  {
-  "id": "cam_042",
-  "name": "Second Floor 11",
+  "id": "sf_staircase_1",
+  "name": "Staircase 1",
   "camera": "Camera 042",
   "area": "Second Floor",
-  "image": "cam_042.jpg",
+  "image": "sf_staircase_1.jpg",
   "pos": [
    5.358,
    0.595,
@@ -832,23 +832,23 @@ window.TOUR_SCENES = [
   "floorZ": 7.483,
   "placeholder": false,
   "neighbours": [
-   "cam_031",
-   "cam_044",
-   "cam_036",
-   "cam_043",
-   "cam_037",
-   "cam_046",
-   "cam_045",
-   "cam_035",
-   "cam_038"
+   "ff_staircase_3",
+   "sf_staircase_3",
+   "sf_entrance",
+   "sf_staircase_2",
+   "sf_lobby",
+   "tf_lobby",
+   "tf_entrance",
+   "sf_bedroom_02_entry",
+   "sf_passage"
   ]
  },
  {
-  "id": "cam_043",
-  "name": "Second Floor 12",
+  "id": "sf_staircase_2",
+  "name": "Staircase 2",
   "camera": "Camera 043",
   "area": "Second Floor",
-  "image": "cam_043.jpg",
+  "image": "sf_staircase_2.jpg",
   "pos": [
    7.175,
    -0.141,
@@ -857,18 +857,18 @@ window.TOUR_SCENES = [
   "floorZ": 8.272,
   "placeholder": false,
   "neighbours": [
-   "cam_044",
-   "cam_042",
-   "cam_046",
-   "cam_037"
+   "sf_staircase_3",
+   "sf_staircase_1",
+   "tf_lobby",
+   "sf_lobby"
   ]
  },
  {
-  "id": "cam_044",
-  "name": "Second Floor 13",
+  "id": "sf_staircase_3",
+  "name": "Staircase 3",
   "camera": "Camera 044",
   "area": "Second Floor",
-  "image": "cam_044.jpg",
+  "image": "sf_staircase_3.jpg",
   "pos": [
    5.303,
    -0.57,
@@ -877,19 +877,19 @@ window.TOUR_SCENES = [
   "floorZ": 8.979,
   "placeholder": false,
   "neighbours": [
-   "cam_045",
-   "cam_042",
-   "cam_043",
-   "cam_046",
-   "cam_038"
+   "tf_entrance",
+   "sf_staircase_1",
+   "sf_staircase_2",
+   "tf_lobby",
+   "sf_passage"
   ]
  },
  {
-  "id": "cam_045",
-  "name": "Third Floor 01",
+  "id": "tf_entrance",
+  "name": "Third Floor Entrance",
   "camera": "Camera 045",
   "area": "Third Floor",
-  "image": "cam_045.jpg",
+  "image": "tf_entrance.jpg",
   "pos": [
    3.606,
    -0.495,
@@ -898,18 +898,18 @@ window.TOUR_SCENES = [
   "floorZ": 9.656,
   "placeholder": false,
   "neighbours": [
-   "cam_046",
-   "cam_044",
-   "cam_050",
-   "cam_042"
+   "tf_lobby",
+   "sf_staircase_3",
+   "tf_covered_terrace",
+   "sf_staircase_1"
   ]
  },
  {
-  "id": "cam_046",
-  "name": "Third Floor 02",
+  "id": "tf_lobby",
+  "name": "Lobby",
   "camera": "Camera 046",
   "area": "Third Floor",
-  "image": "cam_046.jpg",
+  "image": "tf_lobby.jpg",
   "pos": [
    3.403,
    0.857,
@@ -918,20 +918,20 @@ window.TOUR_SCENES = [
   "floorZ": 9.656,
   "placeholder": false,
   "neighbours": [
-   "cam_047",
-   "cam_045",
-   "cam_044",
-   "cam_042",
-   "cam_050",
-   "cam_043"
+   "tf_terrace_door",
+   "tf_entrance",
+   "sf_staircase_3",
+   "sf_staircase_1",
+   "tf_covered_terrace",
+   "sf_staircase_2"
   ]
  },
  {
-  "id": "cam_047",
-  "name": "Third Floor 03",
+  "id": "tf_terrace_door",
+  "name": "Terrace Door",
   "camera": "Camera 047",
   "area": "Third Floor",
-  "image": "cam_047.jpg",
+  "image": "tf_terrace_door.jpg",
   "pos": [
    3.426,
    2.117,
@@ -940,16 +940,16 @@ window.TOUR_SCENES = [
   "floorZ": 9.656,
   "placeholder": false,
   "neighbours": [
-   "cam_046",
-   "cam_048"
+   "tf_lobby",
+   "tf_terrace_entry"
   ]
  },
  {
-  "id": "cam_048",
-  "name": "Third Floor 04",
+  "id": "tf_terrace_entry",
+  "name": "Terrace Entry",
   "camera": "Camera 048",
   "area": "Third Floor",
-  "image": "cam_048.jpg",
+  "image": "tf_terrace_entry.jpg",
   "pos": [
    1.134,
    2.537,
@@ -958,16 +958,16 @@ window.TOUR_SCENES = [
   "floorZ": 9.656,
   "placeholder": false,
   "neighbours": [
-   "cam_047",
-   "cam_049"
+   "tf_terrace_door",
+   "tf_terrace_02"
   ]
  },
  {
-  "id": "cam_049",
-  "name": "Third Floor 05",
+  "id": "tf_terrace_02",
+  "name": "Terrace 02",
   "camera": "Camera 049",
   "area": "Third Floor",
-  "image": "cam_049.jpg",
+  "image": "tf_terrace_02.jpg",
   "pos": [
    3.144,
    4.542,
@@ -976,17 +976,17 @@ window.TOUR_SCENES = [
   "floorZ": 9.656,
   "placeholder": false,
   "neighbours": [
-   "cam_048",
-   "cam_055",
-   "cam_056"
+   "tf_terrace_entry",
+   "tf_roof_deck",
+   "tf_terrace_03"
   ]
  },
  {
-  "id": "cam_050",
-  "name": "Third Floor 06",
+  "id": "tf_covered_terrace",
+  "name": "Covered Terrace",
   "camera": "Camera 050",
   "area": "Third Floor",
-  "image": "cam_050.jpg",
+  "image": "tf_covered_terrace.jpg",
   "pos": [
    3.166,
    -2.474,
@@ -995,17 +995,17 @@ window.TOUR_SCENES = [
   "floorZ": 9.656,
   "placeholder": false,
   "neighbours": [
-   "cam_045",
-   "cam_051",
-   "cam_054"
+   "tf_entrance",
+   "tf_terrace_walkway",
+   "tf_terrace_01"
   ]
  },
  {
-  "id": "cam_051",
-  "name": "Third Floor 07",
+  "id": "tf_terrace_walkway",
+  "name": "Terrace Walkway",
   "camera": "Camera 051",
   "area": "Third Floor",
-  "image": "cam_051.jpg",
+  "image": "tf_terrace_walkway.jpg",
   "pos": [
    0.904,
    -2.474,
@@ -1014,16 +1014,16 @@ window.TOUR_SCENES = [
   "floorZ": 9.656,
   "placeholder": false,
   "neighbours": [
-   "cam_052",
-   "cam_050"
+   "tf_terrace_view",
+   "tf_covered_terrace"
   ]
  },
  {
-  "id": "cam_052",
-  "name": "Third Floor 08",
+  "id": "tf_terrace_view",
+  "name": "Terrace View",
   "camera": "Camera 052",
   "area": "Third Floor",
-  "image": "cam_052.jpg",
+  "image": "tf_terrace_view.jpg",
   "pos": [
    1.229,
    -4.565,
@@ -1032,17 +1032,17 @@ window.TOUR_SCENES = [
   "floorZ": 9.656,
   "placeholder": false,
   "neighbours": [
-   "cam_051",
-   "cam_053",
-   "cam_054"
+   "tf_terrace_walkway",
+   "tf_terrace_lounge",
+   "tf_terrace_01"
   ]
  },
  {
-  "id": "cam_053",
-  "name": "Third Floor 09",
+  "id": "tf_terrace_lounge",
+  "name": "Terrace Lounge",
   "camera": "Camera 053",
   "area": "Third Floor",
-  "image": "cam_053.jpg",
+  "image": "tf_terrace_lounge.jpg",
   "pos": [
    4.711,
    -4.575,
@@ -1051,16 +1051,16 @@ window.TOUR_SCENES = [
   "floorZ": 9.656,
   "placeholder": false,
   "neighbours": [
-   "cam_054",
-   "cam_052"
+   "tf_terrace_01",
+   "tf_terrace_view"
   ]
  },
  {
-  "id": "cam_054",
-  "name": "Third Floor 10",
+  "id": "tf_terrace_01",
+  "name": "Terrace 01 (Seating)",
   "camera": "Camera 054",
   "area": "Third Floor",
-  "image": "cam_054.jpg",
+  "image": "tf_terrace_01.jpg",
   "pos": [
    5.933,
    -3.441,
@@ -1069,18 +1069,18 @@ window.TOUR_SCENES = [
   "floorZ": 9.656,
   "placeholder": false,
   "neighbours": [
-   "cam_053",
-   "cam_050",
-   "cam_052",
-   "cam_056"
+   "tf_terrace_lounge",
+   "tf_covered_terrace",
+   "tf_terrace_view",
+   "tf_terrace_03"
   ]
  },
  {
-  "id": "cam_055",
-  "name": "Third Floor 11",
+  "id": "tf_roof_deck",
+  "name": "Roof Deck",
   "camera": "Camera 055",
   "area": "Third Floor",
-  "image": "cam_055.jpg",
+  "image": "tf_roof_deck.jpg",
   "pos": [
    6.224,
    2.872,
@@ -1089,16 +1089,16 @@ window.TOUR_SCENES = [
   "floorZ": 12.487,
   "placeholder": false,
   "neighbours": [
-   "cam_056",
-   "cam_049"
+   "tf_terrace_03",
+   "tf_terrace_02"
   ]
  },
  {
-  "id": "cam_056",
-  "name": "Third Floor 12",
+  "id": "tf_terrace_03",
+  "name": "Terrace 03",
   "camera": "Camera 056",
   "area": "Third Floor",
-  "image": "cam_056.jpg",
+  "image": "tf_terrace_03.jpg",
   "pos": [
    3.863,
    0.56,
@@ -1107,9 +1107,9 @@ window.TOUR_SCENES = [
   "floorZ": 12.356,
   "placeholder": false,
   "neighbours": [
-   "cam_055",
-   "cam_049",
-   "cam_054"
+   "tf_roof_deck",
+   "tf_terrace_02",
+   "tf_terrace_01"
   ]
  }
 ];
