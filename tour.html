@@ -130,6 +130,55 @@
     .wide-pin .ring { width: 22px; height: 22px; border: 3px solid #fff; border-radius: 50%; background: rgba(255,255,255,0.25); }
     .wide-pin .name { order: -1; font-size: 11px; background: rgba(0,0,0,0.7); padding: 2px 7px; border-radius: 3px; white-space: nowrap; }
     .wide-pin:hover .ring { border-color: #4fc3f7; background: rgba(79,195,247,0.35); }
+    /* Enter-VR button + controller guide shown before VR starts */
+    #vr-btn {
+      position: fixed; right: 76px; bottom: 22px; z-index: 11; display: none;
+      background: rgba(8,12,18,0.75); border: 1px solid rgba(255,255,255,0.3); border-radius: 6px;
+      color: #e8edf2; font: 600 0.85em 'Segoe UI', system-ui, sans-serif; letter-spacing: 1.5px; text-transform: uppercase;
+      padding: 10px 16px; cursor: pointer; align-items: center; gap: 8px; backdrop-filter: blur(12px);
+    }
+    #vr-btn.show { display: flex; }
+    #vr-btn:hover { border-color: #4fc3f7; }
+    #guide {
+      position: fixed; inset: 0; z-index: 10001; background: rgba(4,7,11,0.94);
+      display: none; align-items: center; justify-content: center; padding: 16px;
+      font-family: 'Segoe UI', system-ui, sans-serif; color: #e8edf2;
+    }
+    #guide.open { display: flex; }
+    .guide-card {
+      width: min(560px, 100%); background: #0e141c; border: 1px solid rgba(255,255,255,0.1); border-radius: 12px;
+      padding: 22px 22px 18px; text-align: center;
+    }
+    .guide-step-no { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: rgba(232,237,242,0.45); }
+    .guide-title { font-size: 20px; font-weight: 600; margin: 6px 0 4px; }
+    .guide-text { font-size: 14px; line-height: 1.5; color: rgba(232,237,242,0.8); min-height: 42px; }
+    .guide-pics { display: flex; justify-content: center; gap: 18px; margin: 14px 0 8px; }
+    .guide-pics svg { width: min(170px, 40vw); height: auto; }
+    .guide-pics .cap { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(232,237,242,0.5); margin-top: 2px; }
+    .ctl-body { fill: #1d2632; stroke: rgba(255,255,255,0.35); stroke-width: 2; }
+    .ctl-part { fill: #2c3746; stroke: rgba(255,255,255,0.45); stroke-width: 1.5; }
+    .ctl-label { fill: rgba(232,237,242,0.75); font: 600 12px 'Segoe UI', system-ui, sans-serif; text-anchor: middle; dominant-baseline: central; }
+    .ctl-hl { fill: #4fc3f7; stroke: #b9ecff; animation: ctl-pulse 1.2s ease-in-out infinite; }
+    .ctl-hl-stroke { stroke: #4fc3f7; animation: ctl-pulse 1.2s ease-in-out infinite; }
+    .ctl-hl + .ctl-label, .ctl-label.on { fill: #04121c; }
+    .ctl-arrow { fill: #4fc3f7; font: 700 15px 'Segoe UI', system-ui, sans-serif; text-anchor: middle; dominant-baseline: central; }
+    @keyframes ctl-pulse { 50% { opacity: 0.55; } }
+    @media (prefers-reduced-motion: reduce) { .ctl-hl, .ctl-hl-stroke { animation: none; } }
+    .guide-dots { display: flex; justify-content: center; gap: 7px; margin: 10px 0 16px; }
+    .guide-dots span { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.2); }
+    .guide-dots span.on { background: #4fc3f7; }
+    .guide-nav { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+    .guide-nav button {
+      font: 600 13px 'Segoe UI', system-ui, sans-serif; letter-spacing: 1px; text-transform: uppercase;
+      border-radius: 6px; padding: 10px 18px; cursor: pointer;
+    }
+    #guide-back, #guide-skip { background: none; border: 1px solid rgba(255,255,255,0.2); color: rgba(232,237,242,0.75); }
+    #guide-next { background: #4fc3f7; border: 1px solid #4fc3f7; color: #04121c; min-width: 130px; }
+    #guide-back[disabled] { visibility: hidden; }
+    .guide-foot { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; font-size: 12px; color: rgba(232,237,242,0.5); }
+    .guide-foot label { display: flex; align-items: center; gap: 6px; cursor: pointer; }
+    #guide-skip { padding: 6px 12px; font-size: 11px; }
+
     #wide-close {
       background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.25); border-radius: 4px;
       color: #e8edf2; padding: 9px 18px; letter-spacing: 1.5px; text-transform: uppercase; font: 0.8em inherit; cursor: pointer;
@@ -156,6 +205,29 @@
   <div id="wide-frame"><img id="wide-img" alt="Full panorama"><div id="wide-pins"></div></div>
   <button id="wide-close">Back to 360 view</button>
 </div>
+
+<!-- Enter VR: first a short guide to the Quest controllers, then VR starts -->
+<button id="vr-btn" title="View in a VR headset">
+  <svg width="22" height="14" viewBox="0 0 44 28" fill="currentColor" aria-hidden="true"><path d="M6 2h32a4 4 0 0 1 4 4v14a4 4 0 0 1-4 4h-9l-4-6a3.6 3.6 0 0 0-6 0l-4 6H6a4 4 0 0 1-4-4V6a4 4 0 0 1 4-4zm7 6.5a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9zm18 0a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9z"/></svg>
+  Enter VR
+</button>
+<div id="guide" role="dialog" aria-modal="true" aria-labelledby="guide-title">
+  <div class="guide-card">
+    <div class="guide-step-no" id="guide-step-no"></div>
+    <div class="guide-title" id="guide-title"></div>
+    <div class="guide-text" id="guide-text"></div>
+    <div class="guide-pics" id="guide-pics"></div>
+    <div class="guide-dots" id="guide-dots"></div>
+    <div class="guide-nav">
+      <button id="guide-back">Back</button>
+      <button id="guide-next">Next</button>
+    </div>
+    <div class="guide-foot">
+      <label><input type="checkbox" id="guide-hide"> Don't show this again</label>
+      <button id="guide-skip">Skip &amp; enter VR</button>
+    </div>
+  </div>
+</div>
 <div id="hud">
   <div id="scene-name">Loading…</div>
   <div id="nav-hint">Click a circle on the floor to walk there</div>
@@ -165,7 +237,7 @@
 <a-scene
   id="a-scene"
   renderer="colorManagement: true; antialias: true; physicallyCorrectLights: false; renderScale: 1"
-  vr-mode-ui="enabled: true"
+  vr-mode-ui="enabled: false"
   loading-screen="enabled: false"
   background="color: #000000">
 
@@ -742,7 +814,8 @@ async function init () {
   else                                 hint.textContent = 'Click a circle on the floor to walk there · drag to look around · VR button for headsets';
 
   setTimeout(() => SCENES[START_SCENE].neighbours.forEach(id => preloadImg(SCENES[id].image)), 1500);
-  if (new URLSearchParams(location.search).get('vr') === '1') aScene.enterVR();
+  if (new URLSearchParams(location.search).get('vr') === '1' && navigator.xr)   // "View in VR" link on the home page
+    navigator.xr.isSessionSupported('immersive-vr').then(ok => { if (ok) openGuide(); }).catch(() => {});
 }
 
 /* ?r=<metres> — panorama sphere radius. In a headset this sets the depth the eyes perceive
@@ -752,6 +825,7 @@ aScene.addEventListener('enter-vr', () => {
   document.querySelector('#hud').style.opacity = '0';
   document.querySelector('#back-btn').style.opacity = '0';
   document.querySelector('#wide-btn').style.opacity = '0';
+  document.querySelector('#vr-btn').style.opacity = '0';
   selectEl.style.opacity = '0';
   closeWide();
 });
@@ -759,6 +833,7 @@ aScene.addEventListener('exit-vr', () => {
   document.querySelector('#hud').style.opacity = '1';
   document.querySelector('#back-btn').style.opacity = '1';
   document.querySelector('#wide-btn').style.opacity = '1';
+  document.querySelector('#vr-btn').style.opacity = '1';
   selectEl.style.opacity = '1';
 });
 
@@ -786,7 +861,76 @@ function openWide () { renderWide(); wideOverlay.classList.add('open'); }
 function closeWide () { wideOverlay.classList.remove('open'); }
 document.querySelector('#wide-btn').addEventListener('click', openWide);
 document.querySelector('#wide-close').addEventListener('click', closeWide);
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeWide(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeWide(); closeGuide(); } });
+
+/* ── Enter VR: controller guide (one control per step), then VR starts ── */
+/* A Quest Touch controller seen from above. `on` lists the parts to highlight:
+   'stick', 'trigger', 'top' (Y / B), 'bottom' (X / A); `arrows` adds ◀ ▶ around the thumbstick. */
+function controllerSVG (hand, on, arrows) {
+  const L = hand === 'left';
+  const stick = { x: L ? 64 : 96, y: 56 };
+  const top = { x: L ? 104 : 56, y: 76, t: L ? 'Y' : 'B' }, bottom = { x: L ? 94 : 66, y: 106, t: L ? 'X' : 'A' };
+  const cls = part => on.includes(part) ? 'ctl-hl' : 'ctl-part';
+  return `<svg viewBox="0 -26 160 236" role="img" aria-label="${hand} controller">
+    <text class="ctl-label" x="80" y="-16" style="${on.includes('trigger') ? 'fill:#4fc3f7' : ''}">Trigger</text>
+    <path class="${cls('trigger')}" d="M58 12 Q80 0 102 12 L98 21 Q80 11 62 21 Z"/>
+    <path class="ctl-body" d="M40 42 Q40 16 80 16 Q120 16 120 42 L120 100 Q120 128 104 140 L96 196 Q80 206 64 196 L56 140 Q40 128 40 100 Z"/>
+    <circle class="${cls('stick')}" cx="${stick.x}" cy="${stick.y}" r="17"/>
+    <circle cx="${stick.x}" cy="${stick.y}" r="7" fill="rgba(0,0,0,0.25)"/>
+    ${arrows ? `<text class="ctl-arrow" x="${stick.x - 27}" y="${stick.y}">◀</text><text class="ctl-arrow" x="${stick.x + 27}" y="${stick.y}">▶</text>` : ''}
+    <circle class="${cls('top')}" cx="${top.x}" cy="${top.y}" r="11"/><text class="ctl-label${on.includes('top') ? ' on' : ''}" x="${top.x}" y="${top.y}">${top.t}</text>
+    <circle class="${cls('bottom')}" cx="${bottom.x}" cy="${bottom.y}" r="11"/><text class="ctl-label${on.includes('bottom') ? ' on' : ''}" x="${bottom.x}" y="${bottom.y}">${bottom.t}</text>
+    <circle class="ctl-part" cx="80" cy="130" r="5"/>
+  </svg>`;
+}
+const GUIDE_STEPS = [
+  { title: 'Turn around', on: ['stick'], arrows: true,
+    text: 'Push either thumbstick left or right to turn 30°. You can also simply turn your head.' },
+  { title: 'Walk to the next view', on: ['trigger'],
+    text: 'Point the controller at a circle on the floor and pull the trigger. Or look at a circle for 2 seconds.' },
+  { title: 'Wide view', on: ['bottom'],
+    text: 'Hold A or X for 1 second to see the whole image on a big screen. Hold it again to go back to 360.' },
+  { title: 'Exit VR', on: ['top'],
+    text: 'Hold B or Y for 2 seconds to leave VR and come back to this page.' },
+];
+const guideEl = document.querySelector('#guide');
+let guideStep = 0;
+const GUIDE_KEY = 'arch360.hideVrGuide';
+function guideHidden () { try { return localStorage.getItem(GUIDE_KEY) === '1'; } catch (e) { return false; } }
+function renderGuide () {
+  const s = GUIDE_STEPS[guideStep], last = guideStep === GUIDE_STEPS.length - 1;
+  document.querySelector('#guide-step-no').textContent = `Quest controls · ${guideStep + 1} of ${GUIDE_STEPS.length}`;
+  document.querySelector('#guide-title').textContent = s.title;
+  document.querySelector('#guide-text').textContent = s.text;
+  document.querySelector('#guide-pics').innerHTML =
+    `<div>${controllerSVG('left', s.on, s.arrows)}<div class="cap">Left</div></div>` +
+    `<div>${controllerSVG('right', s.on, s.arrows)}<div class="cap">Right</div></div>`;
+  document.querySelector('#guide-dots').innerHTML = GUIDE_STEPS.map((_, i) => `<span class="${i === guideStep ? 'on' : ''}"></span>`).join('');
+  document.querySelector('#guide-back').disabled = guideStep === 0;
+  document.querySelector('#guide-next').textContent = last ? 'Enter VR' : 'Next';
+}
+function openGuide () {
+  if (guideHidden()) { startVR(); return; }
+  guideStep = 0; renderGuide(); guideEl.classList.add('open');
+  document.querySelector('#guide-next').focus();
+}
+function closeGuide () { guideEl.classList.remove('open'); }
+function startVR () {
+  try { if (document.querySelector('#guide-hide').checked) localStorage.setItem(GUIDE_KEY, '1'); } catch (e) {}
+  closeGuide(); closeWide();
+  Promise.resolve(aScene.enterVR()).catch(() => {});
+}
+document.querySelector('#vr-btn').addEventListener('click', openGuide);
+document.querySelector('#guide-back').addEventListener('click', () => { if (guideStep > 0) { guideStep--; renderGuide(); } });
+document.querySelector('#guide-next').addEventListener('click', () => {
+  if (guideStep < GUIDE_STEPS.length - 1) { guideStep++; renderGuide(); } else startVR();
+});
+document.querySelector('#guide-skip').addEventListener('click', startVR);
+guideEl.addEventListener('click', e => { if (e.target === guideEl) closeGuide(); });
+// Only offer VR where a headset can actually be used (Quest browser, PC VR)
+if (navigator.xr && navigator.xr.isSessionSupported) {
+  navigator.xr.isSessionSupported('immersive-vr').then(ok => { if (ok) document.querySelector('#vr-btn').classList.add('show'); }).catch(() => {});
+}
 aScene.addEventListener('loaded', init);
 </script>
 </body>
