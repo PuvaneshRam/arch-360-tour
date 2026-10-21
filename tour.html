@@ -130,56 +130,66 @@
     .wide-pin .ring { width: 22px; height: 22px; border: 3px solid #fff; border-radius: 50%; background: rgba(255,255,255,0.25); }
     .wide-pin .name { order: -1; font-size: 11px; background: rgba(0,0,0,0.7); padding: 2px 7px; border-radius: 3px; white-space: nowrap; }
     .wide-pin:hover .ring { border-color: #4fc3f7; background: rgba(79,195,247,0.35); }
-    /* Enter-VR button + controller guide shown before VR starts */
+    /* Enter-VR button + controller guide shown before VR starts — same look as the home page */
     #vr-btn {
       position: fixed; right: 20px; bottom: 22px; z-index: 11; display: none;
-      background: rgba(8,12,18,0.75); border: 1px solid rgba(255,255,255,0.3); border-radius: 6px;
-      color: #e8edf2; font: 600 0.85em 'Segoe UI', system-ui, sans-serif; letter-spacing: 1.5px; text-transform: uppercase;
-      padding: 10px 16px; cursor: pointer; align-items: center; gap: 8px; backdrop-filter: blur(12px);
+      background: #000; border: 1px solid rgba(255,255,255,0.14); border-radius: 0;
+      color: #fff; font: 600 0.8em 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', sans-serif;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      padding: 12px 20px; cursor: pointer; align-items: center; gap: 10px;
+      transition: background 0.2s, color 0.2s, transform 0.15s;
     }
     #vr-btn.show { display: flex; }
+    #vr-btn:hover { background: #fff; color: #000; transform: translateY(-2px); }
     /* A-Frame's own VR / fullscreen button: replaced by #vr-btn (which shows the controller guide first) */
     .a-enter-vr, .a-enter-ar { display: none !important; }
-    #vr-btn:hover { border-color: #4fc3f7; }
     #guide {
-      position: fixed; inset: 0; z-index: 10001; background: rgba(4,7,11,0.94);
-      display: none; align-items: center; justify-content: center; padding: 16px;
-      font-family: 'Segoe UI', system-ui, sans-serif; color: #e8edf2;
+      position: fixed; inset: 0; z-index: 10001; background: #000;
+      display: none; align-items: center; justify-content: center; padding: 24px 16px; overflow-y: auto;
+      font-family: 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', sans-serif; color: #e8edf2;
     }
     #guide.open { display: flex; }
-    .guide-card {
-      width: min(560px, 100%); background: #0e141c; border: 1px solid rgba(255,255,255,0.1); border-radius: 12px;
-      padding: 22px 22px 18px; text-align: center;
+    .guide-card { width: min(620px, 100%); text-align: center; margin: auto; }
+    .guide-logo { width: 84px; max-width: 30vw; height: auto; display: block; margin: 0 auto 12px; }
+    .guide-step-no { font-size: 0.72em; letter-spacing: 4px; text-transform: uppercase; color: rgba(232,237,242,0.45); }
+    .guide-title { font-size: clamp(1.7rem, 5vw, 2.6rem); font-weight: 200; letter-spacing: -0.5px; line-height: 1.15; margin: 8px 0 8px; }
+    .guide-text { font-size: clamp(0.92rem, 2vw, 1.05rem); line-height: 1.7; color: rgba(232,237,242,0.6); max-width: 480px; margin: 0 auto; min-height: 3.4em; }
+    .guide-pics { display: flex; justify-content: center; gap: 22px; margin: 16px 0 4px; }
+    .guide-pics > div {
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px;
+      padding: 16px 14px 12px;
     }
-    .guide-step-no { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: rgba(232,237,242,0.45); }
-    .guide-title { font-size: 20px; font-weight: 600; margin: 6px 0 4px; }
-    .guide-text { font-size: 14px; line-height: 1.5; color: rgba(232,237,242,0.8); min-height: 42px; }
-    .guide-pics { display: flex; justify-content: center; gap: 18px; margin: 14px 0 8px; }
-    .guide-pics svg { width: min(170px, 40vw); height: auto; }
-    .guide-pics .cap { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(232,237,242,0.5); margin-top: 2px; }
-    .ctl-body { fill: #1d2632; stroke: rgba(255,255,255,0.35); stroke-width: 2; }
-    .ctl-part { fill: #2c3746; stroke: rgba(255,255,255,0.45); stroke-width: 1.5; }
-    .ctl-label { fill: rgba(232,237,242,0.75); font: 600 12px 'Segoe UI', system-ui, sans-serif; text-anchor: middle; dominant-baseline: central; }
-    .ctl-hl { fill: #4fc3f7; stroke: #b9ecff; animation: ctl-pulse 1.2s ease-in-out infinite; }
-    .ctl-hl-stroke { stroke: #4fc3f7; animation: ctl-pulse 1.2s ease-in-out infinite; }
-    .ctl-hl + .ctl-label, .ctl-label.on { fill: #04121c; }
-    .ctl-arrow { fill: #4fc3f7; font: 700 15px 'Segoe UI', system-ui, sans-serif; text-anchor: middle; dominant-baseline: central; }
+    .guide-pics svg { width: min(130px, 34vw); height: auto; display: block; }
+    .guide-pics .cap { font-size: 0.68em; letter-spacing: 3px; text-transform: uppercase; color: rgba(232,237,242,0.45); margin-top: 8px; }
+    .ctl-body { fill: #0b1017; stroke: rgba(255,255,255,0.3); stroke-width: 2; }
+    .ctl-part { fill: #161d27; stroke: rgba(255,255,255,0.4); stroke-width: 1.5; }
+    .ctl-label { fill: rgba(232,237,242,0.7); font: 600 12px 'Segoe UI', system-ui, sans-serif; text-anchor: middle; dominant-baseline: central; letter-spacing: 1px; }
+    .ctl-hl { fill: #00c8ff; stroke: #9ae9ff; animation: ctl-pulse 1.2s ease-in-out infinite; }
+    .ctl-label.on { fill: #001018; }
+    .ctl-arrow { fill: #00c8ff; font: 700 15px 'Segoe UI', system-ui, sans-serif; text-anchor: middle; dominant-baseline: central; }
     @keyframes ctl-pulse { 50% { opacity: 0.55; } }
-    @media (prefers-reduced-motion: reduce) { .ctl-hl, .ctl-hl-stroke { animation: none; } }
-    .guide-dots { display: flex; justify-content: center; gap: 7px; margin: 10px 0 16px; }
-    .guide-dots span { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.2); }
-    .guide-dots span.on { background: #4fc3f7; }
-    .guide-nav { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
-    .guide-nav button {
-      font: 600 13px 'Segoe UI', system-ui, sans-serif; letter-spacing: 1px; text-transform: uppercase;
-      border-radius: 6px; padding: 10px 18px; cursor: pointer;
+    @media (prefers-reduced-motion: reduce) { .ctl-hl { animation: none; } }
+    .guide-dots { display: flex; justify-content: center; gap: 8px; margin: 14px 0 18px; }
+    .guide-dots span { width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,0.18); }
+    .guide-dots span.on { background: #00c8ff; }
+    .guide-nav { display: flex; align-items: center; justify-content: center; gap: 14px; flex-wrap: wrap; }
+    .guide-nav button, #guide-skip {
+      background: #000; color: #fff; border: 1px solid rgba(255,255,255,0.14); border-radius: 0;
+      font: 600 0.85em 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', sans-serif;
+      letter-spacing: 1.5px; text-transform: uppercase; padding: 14px 32px; cursor: pointer;
+      transition: background 0.2s, color 0.2s, transform 0.15s;
     }
-    #guide-back, #guide-skip { background: none; border: 1px solid rgba(255,255,255,0.2); color: rgba(232,237,242,0.75); }
-    #guide-next { background: #4fc3f7; border: 1px solid #4fc3f7; color: #04121c; min-width: 130px; }
-    #guide-back[disabled] { visibility: hidden; }
-    .guide-foot { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; font-size: 12px; color: rgba(232,237,242,0.5); }
-    .guide-foot label { display: flex; align-items: center; gap: 6px; cursor: pointer; }
-    #guide-skip { padding: 6px 12px; font-size: 11px; }
+    .guide-nav button:hover, #guide-skip:hover { background: #fff; color: #000; transform: translateY(-2px); }
+    #guide-next { min-width: 170px; border-color: rgba(255,255,255,0.45); }
+    #guide-back[disabled] { display: none; }
+    .guide-foot {
+      display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap;
+      margin-top: 20px; padding-top: 14px; border-top: 1px solid rgba(255,255,255,0.08);
+      font-size: 0.72em; letter-spacing: 2px; text-transform: uppercase; color: rgba(232,237,242,0.45);
+    }
+    .guide-foot label { display: flex; align-items: center; gap: 8px; cursor: pointer; }
+    .guide-foot input { accent-color: #00c8ff; }
+    #guide-skip { padding: 9px 16px; font-size: 0.95em; letter-spacing: 2px; color: rgba(232,237,242,0.75); }
 
     #wide-close {
       background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.25); border-radius: 4px;
@@ -215,6 +225,7 @@
 </button>
 <div id="guide" role="dialog" aria-modal="true" aria-labelledby="guide-title">
   <div class="guide-card">
+    <img class="guide-logo" src="images/logo.png" alt="Digital Arc Media">
     <div class="guide-step-no" id="guide-step-no"></div>
     <div class="guide-title" id="guide-title"></div>
     <div class="guide-text" id="guide-text"></div>
@@ -874,7 +885,7 @@ function controllerSVG (hand, on, arrows) {
   const top = { x: L ? 104 : 56, y: 76, t: L ? 'Y' : 'B' }, bottom = { x: L ? 94 : 66, y: 106, t: L ? 'X' : 'A' };
   const cls = part => on.includes(part) ? 'ctl-hl' : 'ctl-part';
   return `<svg viewBox="0 -26 160 236" role="img" aria-label="${hand} controller">
-    <text class="ctl-label" x="80" y="-16" style="${on.includes('trigger') ? 'fill:#4fc3f7' : ''}">Trigger</text>
+    <text class="ctl-label" x="80" y="-16" style="${on.includes('trigger') ? 'fill:#00c8ff' : ''}">Trigger</text>
     <path class="${cls('trigger')}" d="M58 12 Q80 0 102 12 L98 21 Q80 11 62 21 Z"/>
     <path class="ctl-body" d="M40 42 Q40 16 80 16 Q120 16 120 42 L120 100 Q120 128 104 140 L96 196 Q80 206 64 196 L56 140 Q40 128 40 100 Z"/>
     <circle class="${cls('stick')}" cx="${stick.x}" cy="${stick.y}" r="17"/>
