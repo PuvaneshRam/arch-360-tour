@@ -104,6 +104,36 @@
       cursor: pointer;
       pointer-events: auto;
     }
+
+    /* Wide view — the whole 2:1 panorama image, flat, with the circles marked on it */
+    #wide-btn {
+      position: fixed; top: 18px; left: 66px; z-index: 10;
+      background: rgba(8,12,18,0.7); border: 1px solid rgba(255,255,255,0.1); border-radius: 4px;
+      color: rgba(232,237,242,0.8); font: 0.8em 'Segoe UI', system-ui, sans-serif; letter-spacing: 1.5px;
+      text-transform: uppercase; padding: 9px 14px; cursor: pointer; backdrop-filter: blur(12px);
+    }
+    #wide-btn:hover { color: #e8edf2; border-color: rgba(255,255,255,0.25); }
+    #wide-overlay {
+      position: fixed; inset: 0; z-index: 10000; background: #000;
+      display: none; flex-direction: column; align-items: center; justify-content: center; gap: 14px;
+      font-family: 'Segoe UI', system-ui, sans-serif; color: #e8edf2;
+    }
+    #wide-overlay.open { display: flex; }
+    #wide-title { font-size: clamp(12px, 2.2vw, 16px); font-weight: 300; letter-spacing: 3px; text-transform: uppercase; }
+    #wide-frame { position: relative; width: min(96vw, calc((100vh - 110px) * 2)); aspect-ratio: 2 / 1; }
+    #wide-img { width: 100%; height: 100%; display: block; }
+    .wide-pin {
+      position: absolute; transform: translate(-50%, -50%); cursor: pointer;
+      display: flex; flex-direction: column; align-items: center; gap: 4px;
+      background: none; border: 0; color: #fff; font: inherit;
+    }
+    .wide-pin .ring { width: 22px; height: 22px; border: 3px solid #fff; border-radius: 50%; background: rgba(255,255,255,0.25); }
+    .wide-pin .name { order: -1; font-size: 11px; background: rgba(0,0,0,0.7); padding: 2px 7px; border-radius: 3px; white-space: nowrap; }
+    .wide-pin:hover .ring { border-color: #4fc3f7; background: rgba(79,195,247,0.35); }
+    #wide-close {
+      background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.25); border-radius: 4px;
+      color: #e8edf2; padding: 9px 18px; letter-spacing: 1.5px; text-transform: uppercase; font: 0.8em inherit; cursor: pointer;
+    }
   </style>
 </head>
 <body>
@@ -119,7 +149,13 @@
 <a href="index.html" id="back-btn">
   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
 </a>
+<button id="wide-btn" title="See the whole panorama at once">Wide</button>
 <select id="scene-select"></select>
+<div id="wide-overlay">
+  <div id="wide-title"></div>
+  <div id="wide-frame"><img id="wide-img" alt="Full panorama"><div id="wide-pins"></div></div>
+  <button id="wide-close">Back to 360 view</button>
+</div>
 <div id="hud">
   <div id="scene-name">Loading…</div>
   <div id="nav-hint">Click a circle on the floor to walk there</div>
@@ -715,13 +751,42 @@ const aScene = document.querySelector('#a-scene');
 aScene.addEventListener('enter-vr', () => {
   document.querySelector('#hud').style.opacity = '0';
   document.querySelector('#back-btn').style.opacity = '0';
+  document.querySelector('#wide-btn').style.opacity = '0';
   selectEl.style.opacity = '0';
+  closeWide();
 });
 aScene.addEventListener('exit-vr', () => {
   document.querySelector('#hud').style.opacity = '1';
   document.querySelector('#back-btn').style.opacity = '1';
+  document.querySelector('#wide-btn').style.opacity = '1';
   selectEl.style.opacity = '1';
 });
+
+/* ── Wide view (page): the whole 2:1 panorama image with the circles marked on it ── */
+const wideOverlay = document.querySelector('#wide-overlay');
+function renderWide () {
+  const s = SCENES[currentScene];
+  document.querySelector('#wide-title').textContent = sceneNameEl.textContent;
+  document.querySelector('#wide-img').src = s.image;
+  const pins = document.querySelector('#wide-pins');
+  pins.innerHTML = '';
+  for (const id of s.neighbours) {
+    if (!SCENES[id]) continue;
+    const p = markerPosition(currentScene, id), { u, v } = directionToUV(p.x, p.y, p.z), t = SCENES[id];
+    const pin = document.createElement('button');
+    pin.className = 'wide-pin';
+    pin.style.left = (u * 100) + '%'; pin.style.top = ((1 - v) * 100) + '%';
+    pin.innerHTML = '<span class="ring"></span><span class="name"></span>';
+    pin.querySelector('.name').textContent = (t.area !== s.area && !t.name.toLowerCase().startsWith(t.area.toLowerCase())) ? `${t.area} · ${t.name}` : t.name;
+    pin.addEventListener('click', async () => { await navigateTo(id); renderWide(); });
+    pins.appendChild(pin);
+  }
+}
+function openWide () { renderWide(); wideOverlay.classList.add('open'); }
+function closeWide () { wideOverlay.classList.remove('open'); }
+document.querySelector('#wide-btn').addEventListener('click', openWide);
+document.querySelector('#wide-close').addEventListener('click', closeWide);
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeWide(); });
 aScene.addEventListener('loaded', init);
 </script>
 </body>
