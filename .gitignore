@@ -1,2 +1,5 @@
 # Local build tools (Blender export, image conversion, test server) — not part of the website
 tools/
+
+# Quest + Android app projects, signing key and APKs — kept with the project folder, not published on the website
+apps/
