@@ -145,6 +145,7 @@
     segments-height="64"
     segments-width="128"
     rotation="0 -90 0"
+    material="depthWrite: false"
     color="#0d1a28">
   </a-sky>
 
@@ -443,8 +444,19 @@ function preloadImg (url) {
   });
 }
 
+/* Panorama sphere radius = the depth both eyes perceive for the whole image in a headset.
+   Far away (490 m) makes rooms feel giant; room-sized distances make them feel life-size.
+   ?r=<metres> overrides it everywhere (for trying values on the Quest). */
+const SKY_R_OVERRIDE = parseFloat(new URLSearchParams(location.search).get('r'));
+const OPEN_AIR = /^(out_|tf_terrace|tf_roof|tf_covered)/;
+function skyRadius (sceneId) {
+  if (SKY_R_OVERRIDE >= 1 && SKY_R_OVERRIDE <= 490) return SKY_R_OVERRIDE;
+  return OPEN_AIR.test(sceneId) ? 15 : 3.5;
+}
+
 function applySky (sceneId) {
   const s = SCENES[sceneId];
+  skyEl.setAttribute('radius', skyRadius(sceneId));
   if (s.image && loadedUrls.has(s.image)) { skyEl.removeAttribute('color'); skyEl.setAttribute('src', s.image); }
   else { skyEl.removeAttribute('src'); skyEl.setAttribute('color', s.placeholderColor); }
 }
@@ -511,9 +523,6 @@ async function init () {
 
 /* ?r=<metres> — panorama sphere radius. In a headset this sets the depth the eyes perceive
    for the whole image (small = close, room-sized; large = far away). For trying values on Quest. */
-const skyR = parseFloat(new URLSearchParams(location.search).get('r'));
-if (skyR >= 1 && skyR <= 490) skyEl.setAttribute('radius', skyR);
-
 const aScene = document.querySelector('#a-scene');
 aScene.addEventListener('enter-vr', () => {
   document.querySelector('#hud').style.opacity = '0';
