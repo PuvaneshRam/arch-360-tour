@@ -325,7 +325,7 @@ window.TOUR_SCENES = [
    "gf_staircase_3",
    "ff_staircase_1",
    "ff_hall",
-   "ff_passage",
+   "ff_kitchen_entrance",
    "ff_bedroom_02_entry"
   ]
  },
@@ -346,7 +346,7 @@ window.TOUR_SCENES = [
    "ff_stair_lobby",
    "ff_staircase_1",
    "ff_hall",
-   "ff_passage",
+   "ff_kitchen_entrance",
    "ff_bedroom_02_entry",
    "ff_staircase_2",
    "ff_bedroom_02"
@@ -410,11 +410,11 @@ window.TOUR_SCENES = [
   ]
  },
  {
-  "id": "ff_passage",
-  "name": "Passage",
+  "id": "ff_kitchen_entrance",
+  "name": "Kitchen Entrance",
   "camera": "Camera 024",
   "area": "First Floor",
-  "image": "ff_passage.jpg",
+  "image": "ff_kitchen_entrance.jpg",
   "pos": [
    3.142,
    2.5,
@@ -502,7 +502,7 @@ window.TOUR_SCENES = [
   "floorZ": 3.656,
   "placeholder": false,
   "neighbours": [
-   "ff_passage"
+   "ff_kitchen_entrance"
   ]
  },
  {
@@ -525,7 +525,7 @@ window.TOUR_SCENES = [
    "ff_entrance",
    "ff_staircase_2",
    "ff_bedroom_02_entry",
-   "ff_passage",
+   "ff_kitchen_entrance",
    "ff_hall"
   ]
  },
@@ -546,7 +546,7 @@ window.TOUR_SCENES = [
    "ff_staircase_3",
    "ff_staircase_1",
    "sf_entrance",
-   "ff_passage"
+   "ff_kitchen_entrance"
   ]
  },
  {
@@ -569,7 +569,7 @@ window.TOUR_SCENES = [
    "ff_staircase_1",
    "sf_bedroom_03_entry",
    "sf_passage",
-   "ff_passage"
+   "ff_kitchen_entrance"
   ]
  },
  {
