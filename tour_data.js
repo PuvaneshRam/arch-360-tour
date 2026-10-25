@@ -146,7 +146,7 @@ window.TOUR_SCENES = [
    "gf_entrance_lobby",
    "out_main_door",
    "gf_staircase_1",
-   "gf_multipurpose_bedroom_entry"
+   "gf_bedroom_01_entry"
   ]
  },
  {
@@ -166,7 +166,7 @@ window.TOUR_SCENES = [
    "gf_foyer",
    "gf_lobby_passage",
    "gf_staircase_1",
-   "gf_multipurpose_bedroom_entry"
+   "gf_bedroom_01_entry"
   ]
  },
  {
@@ -183,8 +183,7 @@ window.TOUR_SCENES = [
   "floorZ": 0.656,
   "placeholder": false,
   "neighbours": [
-   "gf_multipurpose_bedroom_entry",
-   "gf_lift",
+   "gf_bedroom_01_entry",
    "gf_staircase_1",
    "gf_entrance_lobby",
    "gf_staircase_2",
@@ -192,11 +191,11 @@ window.TOUR_SCENES = [
   ]
  },
  {
-  "id": "gf_multipurpose_bedroom_entry",
-  "name": "Multipurpose / Bedroom Entry",
+  "id": "gf_bedroom_01_entry",
+  "name": "Bedroom 01 Entry",
   "camera": "Camera 011",
   "area": "Ground Floor",
-  "image": "gf_multipurpose_bedroom_entry.jpg",
+  "image": "gf_bedroom_01_entry.jpg",
   "pos": [
    4.251,
    2.922,
@@ -206,18 +205,17 @@ window.TOUR_SCENES = [
   "placeholder": false,
   "neighbours": [
    "gf_lobby_passage",
-   "gf_multipurpose_bedroom",
-   "gf_lift",
+   "gf_bedroom_01",
    "gf_entrance_lobby",
    "gf_staircase_1"
   ]
  },
  {
-  "id": "gf_multipurpose_bedroom",
-  "name": "Multipurpose / Bedroom",
+  "id": "gf_bedroom_01",
+  "name": "Bedroom 01",
   "camera": "Camera 012",
   "area": "Ground Floor",
-  "image": "gf_multipurpose_bedroom.jpg",
+  "image": "gf_bedroom_01.jpg",
   "pos": [
    5.181,
    4.283,
@@ -226,27 +224,8 @@ window.TOUR_SCENES = [
   "floorZ": 0.656,
   "placeholder": false,
   "neighbours": [
-   "gf_multipurpose_bedroom_entry",
+   "gf_bedroom_01_entry",
    "gf_washroom"
-  ]
- },
- {
-  "id": "gf_lift",
-  "name": "Lift",
-  "camera": "Camera 013",
-  "area": "Ground Floor",
-  "image": "gf_lift.jpg",
-  "pos": [
-   6.395,
-   2.021,
-   2.048
-  ],
-  "floorZ": 0.656,
-  "placeholder": false,
-  "neighbours": [
-   "gf_lobby_passage",
-   "gf_multipurpose_bedroom_entry",
-   "gf_entrance_lobby"
   ]
  },
  {
@@ -263,7 +242,7 @@ window.TOUR_SCENES = [
   "floorZ": 0.656,
   "placeholder": false,
   "neighbours": [
-   "gf_multipurpose_bedroom"
+   "gf_bedroom_01"
   ]
  },
  {
@@ -284,7 +263,7 @@ window.TOUR_SCENES = [
    "gf_lobby_passage",
    "gf_staircase_2",
    "gf_entrance_lobby",
-   "gf_multipurpose_bedroom_entry",
+   "gf_bedroom_01_entry",
    "gf_foyer"
   ]
  },
@@ -347,7 +326,7 @@ window.TOUR_SCENES = [
    "ff_staircase_1",
    "ff_hall",
    "ff_passage",
-   "ff_bedroom_01_entry"
+   "ff_bedroom_02_entry"
   ]
  },
  {
@@ -368,9 +347,9 @@ window.TOUR_SCENES = [
    "ff_staircase_1",
    "ff_hall",
    "ff_passage",
-   "ff_bedroom_01_entry",
+   "ff_bedroom_02_entry",
    "ff_staircase_2",
-   "ff_bedroom_01"
+   "ff_bedroom_02"
   ]
  },
  {
@@ -391,7 +370,7 @@ window.TOUR_SCENES = [
    "ff_lounge",
    "ff_entrance",
    "ff_living_room",
-   "ff_bedroom_01_entry"
+   "ff_bedroom_02_entry"
   ]
  },
  {
@@ -453,11 +432,11 @@ window.TOUR_SCENES = [
   ]
  },
  {
-  "id": "ff_bedroom_01_entry",
-  "name": "Bedroom 01 Entry",
+  "id": "ff_bedroom_02_entry",
+  "name": "Bedroom 02 Entry",
   "camera": "Camera 025",
   "area": "First Floor",
-  "image": "ff_bedroom_01_entry.jpg",
+  "image": "ff_bedroom_02_entry.jpg",
   "pos": [
    4.181,
    2.953,
@@ -466,18 +445,18 @@ window.TOUR_SCENES = [
   "floorZ": 3.656,
   "placeholder": false,
   "neighbours": [
-   "ff_bedroom_01_bath",
-   "ff_bedroom_01",
+   "ff_bedroom_02_bath",
+   "ff_bedroom_02",
    "ff_entrance",
    "ff_stair_lobby"
   ]
  },
  {
-  "id": "ff_bedroom_01_bath",
-  "name": "Bedroom 01 Bathroom",
+  "id": "ff_bedroom_02_bath",
+  "name": "Bedroom 02 Bathroom",
   "camera": "Camera 026",
   "area": "First Floor",
-  "image": "ff_bedroom_01_bath.jpg",
+  "image": "ff_bedroom_02_bath.jpg",
   "pos": [
    3.544,
    4.421,
@@ -486,16 +465,16 @@ window.TOUR_SCENES = [
   "floorZ": 3.673,
   "placeholder": false,
   "neighbours": [
-   "ff_bedroom_01_entry",
-   "ff_bedroom_01"
+   "ff_bedroom_02_entry",
+   "ff_bedroom_02"
   ]
  },
  {
-  "id": "ff_bedroom_01",
-  "name": "Bedroom 01",
+  "id": "ff_bedroom_02",
+  "name": "Bedroom 02",
   "camera": "Camera 027",
   "area": "First Floor",
-  "image": "ff_bedroom_01.jpg",
+  "image": "ff_bedroom_02.jpg",
   "pos": [
    5.439,
    4.911,
@@ -504,8 +483,8 @@ window.TOUR_SCENES = [
   "floorZ": 3.656,
   "placeholder": false,
   "neighbours": [
-   "ff_bedroom_01_bath",
-   "ff_bedroom_01_entry",
+   "ff_bedroom_02_bath",
+   "ff_bedroom_02_entry",
    "ff_entrance"
   ]
  },
@@ -545,7 +524,7 @@ window.TOUR_SCENES = [
    "ff_staircase_3",
    "ff_entrance",
    "ff_staircase_2",
-   "ff_bedroom_01_entry",
+   "ff_bedroom_02_entry",
    "ff_passage",
    "ff_hall"
   ]
@@ -588,17 +567,17 @@ window.TOUR_SCENES = [
    "sf_staircase_1",
    "ff_staircase_2",
    "ff_staircase_1",
-   "sf_bedroom_02_entry",
+   "sf_bedroom_03_entry",
    "sf_passage",
    "ff_passage"
   ]
  },
  {
-  "id": "sf_bedroom_02_bath_entry",
-  "name": "Bedroom 02 Bath Entry",
+  "id": "sf_bedroom_03_bath_entry",
+  "name": "Bedroom 03 Bath Entry",
   "camera": "Camera 032",
   "area": "Second Floor",
-  "image": "sf_bedroom_02_bath_entry.jpg",
+  "image": "sf_bedroom_03_bath_entry.jpg",
   "pos": [
    6.076,
    -1.851,
@@ -607,17 +586,17 @@ window.TOUR_SCENES = [
   "floorZ": 6.656,
   "placeholder": false,
   "neighbours": [
-   "sf_bedroom_02_bath",
-   "sf_bedroom_02_entry",
-   "sf_bedroom_02"
+   "sf_bedroom_03_bath",
+   "sf_bedroom_03_entry",
+   "sf_bedroom_03"
   ]
  },
  {
-  "id": "sf_bedroom_02_bath",
-  "name": "Bedroom 02 Bathroom",
+  "id": "sf_bedroom_03_bath",
+  "name": "Bedroom 03 Bathroom",
   "camera": "Camera 033",
   "area": "Second Floor",
-  "image": "sf_bedroom_02_bath.jpg",
+  "image": "sf_bedroom_03_bath.jpg",
   "pos": [
    6.762,
    -3.068,
@@ -626,15 +605,15 @@ window.TOUR_SCENES = [
   "floorZ": 6.667,
   "placeholder": false,
   "neighbours": [
-   "sf_bedroom_02_bath_entry"
+   "sf_bedroom_03_bath_entry"
   ]
  },
  {
-  "id": "sf_bedroom_02",
-  "name": "Bedroom 02",
+  "id": "sf_bedroom_03",
+  "name": "Bedroom 03",
   "camera": "Camera 034",
   "area": "Second Floor",
-  "image": "sf_bedroom_02.jpg",
+  "image": "sf_bedroom_03.jpg",
   "pos": [
    2.966,
    -3.534,
@@ -643,16 +622,16 @@ window.TOUR_SCENES = [
   "floorZ": 6.656,
   "placeholder": false,
   "neighbours": [
-   "sf_bedroom_02_entry",
-   "sf_bedroom_02_bath_entry"
+   "sf_bedroom_03_entry",
+   "sf_bedroom_03_bath_entry"
   ]
  },
  {
-  "id": "sf_bedroom_02_entry",
-  "name": "Bedroom 02 Entry",
+  "id": "sf_bedroom_03_entry",
+  "name": "Bedroom 03 Entry",
   "camera": "Camera 035",
   "area": "Second Floor",
-  "image": "sf_bedroom_02_entry.jpg",
+  "image": "sf_bedroom_03_entry.jpg",
   "pos": [
    3.04,
    -1.184,
@@ -663,10 +642,10 @@ window.TOUR_SCENES = [
   "neighbours": [
    "sf_entrance",
    "sf_lobby",
-   "sf_bedroom_02",
+   "sf_bedroom_03",
    "ff_staircase_3",
    "sf_staircase_1",
-   "sf_bedroom_02_bath_entry"
+   "sf_bedroom_03_bath_entry"
   ]
  },
  {
@@ -684,13 +663,13 @@ window.TOUR_SCENES = [
   "placeholder": false,
   "neighbours": [
    "sf_lobby",
-   "sf_bedroom_02_entry",
+   "sf_bedroom_03_entry",
    "ff_staircase_3",
    "sf_staircase_1",
    "sf_passage",
-   "sf_bedroom_02",
+   "sf_bedroom_03",
    "ff_staircase_2",
-   "sf_bedroom_03"
+   "sf_bedroom_04"
   ]
  },
  {
@@ -708,7 +687,7 @@ window.TOUR_SCENES = [
   "placeholder": false,
   "neighbours": [
    "sf_entrance",
-   "sf_bedroom_02_entry",
+   "sf_bedroom_03_entry",
    "sf_passage",
    "sf_staircase_1",
    "ff_staircase_3",
@@ -729,7 +708,7 @@ window.TOUR_SCENES = [
   "floorZ": 6.656,
   "placeholder": false,
   "neighbours": [
-   "sf_bedroom_03",
+   "sf_bedroom_04",
    "sf_lobby",
    "sf_entrance",
    "sf_staircase_1",
@@ -750,15 +729,15 @@ window.TOUR_SCENES = [
   "floorZ": 6.673,
   "placeholder": false,
   "neighbours": [
-   "sf_bedroom_03_wardrobe"
+   "sf_bedroom_04_wardrobe"
   ]
  },
  {
-  "id": "sf_bedroom_03_wardrobe",
-  "name": "Bedroom 03 Wardrobe",
+  "id": "sf_bedroom_04_wardrobe",
+  "name": "Bedroom 04 Wardrobe",
   "camera": "Camera 040",
   "area": "Second Floor",
-  "image": "sf_bedroom_03_wardrobe.jpg",
+  "image": "sf_bedroom_04_wardrobe.jpg",
   "pos": [
    1.781,
    4.024,
@@ -768,15 +747,15 @@ window.TOUR_SCENES = [
   "placeholder": false,
   "neighbours": [
    "sf_bathroom",
-   "sf_bedroom_03"
+   "sf_bedroom_04"
   ]
  },
  {
-  "id": "sf_bedroom_03",
-  "name": "Bedroom 03",
+  "id": "sf_bedroom_04",
+  "name": "Bedroom 04",
   "camera": "Camera 041",
   "area": "Second Floor",
-  "image": "sf_bedroom_03.jpg",
+  "image": "sf_bedroom_04.jpg",
   "pos": [
    3.931,
    4.382,
@@ -785,7 +764,7 @@ window.TOUR_SCENES = [
   "floorZ": 6.656,
   "placeholder": false,
   "neighbours": [
-   "sf_bedroom_03_wardrobe",
+   "sf_bedroom_04_wardrobe",
    "sf_passage",
    "sf_entrance"
   ]
@@ -809,7 +788,7 @@ window.TOUR_SCENES = [
    "sf_entrance",
    "sf_staircase_2",
    "sf_lobby",
-   "sf_bedroom_02_entry",
+   "sf_bedroom_03_entry",
    "sf_passage"
   ]
  },
@@ -829,7 +808,7 @@ window.TOUR_SCENES = [
   "neighbours": [
    "sf_staircase_3",
    "sf_staircase_1",
-   "tf_lobby",
+   "tf_back_terrace_view",
    "sf_lobby"
   ]
  },
@@ -847,19 +826,19 @@ window.TOUR_SCENES = [
   "floorZ": 8.979,
   "placeholder": false,
   "neighbours": [
-   "tf_entrance",
+   "tf_terrace_lobby",
    "sf_staircase_1",
    "sf_staircase_2",
-   "tf_lobby",
+   "tf_back_terrace_view",
    "sf_passage"
   ]
  },
  {
-  "id": "tf_entrance",
-  "name": "Third Floor Entrance",
+  "id": "tf_terrace_lobby",
+  "name": "Terrace Lobby",
   "camera": "Camera 045",
-  "area": "Third Floor",
-  "image": "tf_entrance.jpg",
+  "area": "Terrace",
+  "image": "tf_terrace_lobby.jpg",
   "pos": [
    3.606,
    -0.495,
@@ -868,18 +847,18 @@ window.TOUR_SCENES = [
   "floorZ": 9.656,
   "placeholder": false,
   "neighbours": [
-   "tf_lobby",
+   "tf_back_terrace_view",
    "sf_staircase_3",
-   "tf_covered_terrace",
+   "tf_front_terrace_view",
    "sf_staircase_1"
   ]
  },
  {
-  "id": "tf_lobby",
-  "name": "Lobby",
+  "id": "tf_back_terrace_view",
+  "name": "Back Terrace View",
   "camera": "Camera 046",
-  "area": "Third Floor",
-  "image": "tf_lobby.jpg",
+  "area": "Terrace",
+  "image": "tf_back_terrace_view.jpg",
   "pos": [
    3.403,
    0.857,
@@ -889,10 +868,10 @@ window.TOUR_SCENES = [
   "placeholder": false,
   "neighbours": [
    "tf_terrace_door",
-   "tf_entrance",
+   "tf_terrace_lobby",
    "sf_staircase_3",
    "sf_staircase_1",
-   "tf_covered_terrace",
+   "tf_front_terrace_view",
    "sf_staircase_2"
   ]
  },
@@ -900,7 +879,7 @@ window.TOUR_SCENES = [
   "id": "tf_terrace_door",
   "name": "Terrace Door",
   "camera": "Camera 047",
-  "area": "Third Floor",
+  "area": "Terrace",
   "image": "tf_terrace_door.jpg",
   "pos": [
    3.426,
@@ -910,7 +889,7 @@ window.TOUR_SCENES = [
   "floorZ": 9.656,
   "placeholder": false,
   "neighbours": [
-   "tf_lobby",
+   "tf_back_terrace_view",
    "tf_terrace_entry"
   ]
  },
@@ -918,7 +897,7 @@ window.TOUR_SCENES = [
   "id": "tf_terrace_entry",
   "name": "Terrace Entry",
   "camera": "Camera 048",
-  "area": "Third Floor",
+  "area": "Terrace",
   "image": "tf_terrace_entry.jpg",
   "pos": [
    1.134,
@@ -936,7 +915,7 @@ window.TOUR_SCENES = [
   "id": "tf_terrace_02",
   "name": "Terrace 02",
   "camera": "Camera 049",
-  "area": "Third Floor",
+  "area": "Terrace",
   "image": "tf_terrace_02.jpg",
   "pos": [
    3.144,
@@ -952,11 +931,11 @@ window.TOUR_SCENES = [
   ]
  },
  {
-  "id": "tf_covered_terrace",
-  "name": "Covered Terrace",
+  "id": "tf_front_terrace_view",
+  "name": "Front Terrace View",
   "camera": "Camera 050",
-  "area": "Third Floor",
-  "image": "tf_covered_terrace.jpg",
+  "area": "Terrace",
+  "image": "tf_front_terrace_view.jpg",
   "pos": [
    3.166,
    -2.474,
@@ -965,7 +944,7 @@ window.TOUR_SCENES = [
   "floorZ": 9.656,
   "placeholder": false,
   "neighbours": [
-   "tf_entrance",
+   "tf_terrace_lobby",
    "tf_terrace_walkway",
    "tf_terrace_01"
   ]
@@ -974,7 +953,7 @@ window.TOUR_SCENES = [
   "id": "tf_terrace_walkway",
   "name": "Terrace Walkway",
   "camera": "Camera 051",
-  "area": "Third Floor",
+  "area": "Terrace",
   "image": "tf_terrace_walkway.jpg",
   "pos": [
    0.904,
@@ -984,52 +963,14 @@ window.TOUR_SCENES = [
   "floorZ": 9.656,
   "placeholder": false,
   "neighbours": [
-   "tf_terrace_view",
-   "tf_covered_terrace"
-  ]
- },
- {
-  "id": "tf_terrace_view",
-  "name": "Terrace View",
-  "camera": "Camera 052",
-  "area": "Third Floor",
-  "image": "tf_terrace_view.jpg",
-  "pos": [
-   1.229,
-   -4.565,
-   11.047
-  ],
-  "floorZ": 9.656,
-  "placeholder": false,
-  "neighbours": [
-   "tf_terrace_walkway",
-   "tf_terrace_lounge",
-   "tf_terrace_01"
-  ]
- },
- {
-  "id": "tf_terrace_lounge",
-  "name": "Terrace Lounge",
-  "camera": "Camera 053",
-  "area": "Third Floor",
-  "image": "tf_terrace_lounge.jpg",
-  "pos": [
-   4.711,
-   -4.575,
-   11.047
-  ],
-  "floorZ": 9.656,
-  "placeholder": false,
-  "neighbours": [
-   "tf_terrace_01",
-   "tf_terrace_view"
+   "tf_front_terrace_view"
   ]
  },
  {
   "id": "tf_terrace_01",
   "name": "Terrace 01 (Seating)",
   "camera": "Camera 054",
-  "area": "Third Floor",
+  "area": "Terrace",
   "image": "tf_terrace_01.jpg",
   "pos": [
    5.933,
@@ -1039,9 +980,7 @@ window.TOUR_SCENES = [
   "floorZ": 9.656,
   "placeholder": false,
   "neighbours": [
-   "tf_terrace_lounge",
-   "tf_covered_terrace",
-   "tf_terrace_view",
+   "tf_front_terrace_view",
    "tf_terrace_03"
   ]
  },
@@ -1049,7 +988,7 @@ window.TOUR_SCENES = [
   "id": "tf_roof_deck",
   "name": "Roof Deck",
   "camera": "Camera 055",
-  "area": "Third Floor",
+  "area": "Terrace",
   "image": "tf_roof_deck.jpg",
   "pos": [
    6.224,
@@ -1067,7 +1006,7 @@ window.TOUR_SCENES = [
   "id": "tf_terrace_03",
   "name": "Terrace 03",
   "camera": "Camera 056",
-  "area": "Third Floor",
+  "area": "Terrace",
   "image": "tf_terrace_03.jpg",
   "pos": [
    3.863,

@@ -785,7 +785,7 @@ async function navigateTo (targetId) {
    INIT
 ══════════════════════════════════════════════════════════════════════ */
 /* Dropdown grouped by floor / area, in walking order */
-const AREA_ORDER = ['Outdoor', 'Turf', 'Ground Floor', 'First Floor', 'Second Floor', 'Third Floor'];
+const AREA_ORDER = ['Outdoor', 'Turf', 'Ground Floor', 'First Floor', 'Second Floor', 'Terrace'];
 const areas = [...new Set(SCENE_IDS.map(id => SCENES[id].area))]
   .sort((a, b) => (AREA_ORDER.indexOf(a) + 99) % 99 - (AREA_ORDER.indexOf(b) + 99) % 99);
 for (const area of areas) {
