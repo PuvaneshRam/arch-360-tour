@@ -1,6 +1,6 @@
 # ARCH 360 Tour
 
-A web-based 360° virtual walk-through of the project — 55 panoramic locations across the
+A web-based 360° virtual walk-through of the project — 52 panoramic locations across the
 outdoor area, turf, and the ground, first, second and third floors.
 
 **Live site:** https://puvaneshram.github.io/arch-360-tour/

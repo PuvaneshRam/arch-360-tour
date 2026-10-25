@@ -2,7 +2,7 @@
   "id": "./",
   "name": "ARCH 360 Tour",
   "short_name": "ARCH 360",
-  "description": "360° virtual walk-through — 55 locations across the outdoor pathway, turf and four floors. Powered by Digital Arc Media.",
+  "description": "360° virtual walk-through — 52 locations across the outdoor pathway, turf and four floors. Powered by Digital Arc Media.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
