@@ -12,7 +12,7 @@ window.TOUR_SCENES = [
    -66.566,
    1.7
   ],
-  "floorZ": 0.0,
+  "floorZ": 0,
   "placeholder": false,
   "neighbours": [
    "out_pergola_walkway",
@@ -30,7 +30,7 @@ window.TOUR_SCENES = [
    -46.899,
    1.7
   ],
-  "floorZ": -0.0,
+  "floorZ": 0,
   "placeholder": false,
   "neighbours": [
    "out_turf",
@@ -67,7 +67,7 @@ window.TOUR_SCENES = [
    -14.441,
    1.7
   ],
-  "floorZ": -0.0,
+  "floorZ": 0,
   "placeholder": false,
   "neighbours": [
    "out_house_front",
@@ -85,7 +85,7 @@ window.TOUR_SCENES = [
    -9.529,
    1.7
   ],
-  "floorZ": 0.0,
+  "floorZ": 0,
   "placeholder": false,
   "neighbours": [
    "out_driveway",
@@ -645,7 +645,8 @@ window.TOUR_SCENES = [
    "sf_bedroom_03",
    "ff_staircase_3",
    "sf_staircase_1",
-   "sf_bedroom_03_bath_entry"
+   "sf_bedroom_03_bath_entry",
+   "sf_passage"
   ]
  },
  {
@@ -662,8 +663,8 @@ window.TOUR_SCENES = [
   "floorZ": 6.656,
   "placeholder": false,
   "neighbours": [
-   "sf_lobby",
    "sf_bedroom_03_entry",
+   "sf_lobby",
    "ff_staircase_3",
    "sf_staircase_1",
    "sf_passage",
@@ -679,7 +680,7 @@ window.TOUR_SCENES = [
   "area": "Second Floor",
   "image": "sf_lobby.jpg",
   "pos": [
-   2.719,
+   2.278,
    0.206,
    8.036
   ],
@@ -690,8 +691,7 @@ window.TOUR_SCENES = [
    "sf_bedroom_03_entry",
    "sf_passage",
    "sf_staircase_1",
-   "ff_staircase_3",
-   "sf_staircase_2"
+   "ff_staircase_3"
   ]
  },
  {
@@ -712,6 +712,7 @@ window.TOUR_SCENES = [
    "sf_lobby",
    "sf_entrance",
    "sf_staircase_1",
+   "sf_bedroom_03_entry",
    "sf_staircase_3"
   ]
  },
@@ -787,8 +788,8 @@ window.TOUR_SCENES = [
    "sf_staircase_3",
    "sf_entrance",
    "sf_staircase_2",
-   "sf_lobby",
    "sf_bedroom_03_entry",
+   "sf_lobby",
    "sf_passage"
   ]
  },
@@ -808,7 +809,6 @@ window.TOUR_SCENES = [
   "neighbours": [
    "sf_staircase_3",
    "sf_staircase_1",
-   "tf_back_terrace_view",
    "sf_lobby"
   ]
  },
@@ -847,8 +847,8 @@ window.TOUR_SCENES = [
   "floorZ": 9.656,
   "placeholder": false,
   "neighbours": [
-   "tf_back_terrace_view",
    "sf_staircase_3",
+   "tf_back_terrace_view",
    "tf_front_terrace_view",
    "sf_staircase_1"
   ]
@@ -861,7 +861,7 @@ window.TOUR_SCENES = [
   "image": "tf_back_terrace_view.jpg",
   "pos": [
    3.403,
-   0.857,
+   1.438,
    11.047
   ],
   "floorZ": 9.656,
@@ -869,10 +869,8 @@ window.TOUR_SCENES = [
   "neighbours": [
    "tf_terrace_door",
    "tf_terrace_lobby",
-   "sf_staircase_3",
-   "sf_staircase_1",
-   "tf_front_terrace_view",
-   "sf_staircase_2"
+   "tf_terrace_entry",
+   "sf_staircase_3"
   ]
  },
  {
@@ -908,6 +906,7 @@ window.TOUR_SCENES = [
   "placeholder": false,
   "neighbours": [
    "tf_terrace_door",
+   "tf_back_terrace_view",
    "tf_terrace_02"
   ]
  },
