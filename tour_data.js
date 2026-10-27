@@ -717,23 +717,6 @@ window.TOUR_SCENES = [
   ]
  },
  {
-  "id": "sf_bathroom",
-  "name": "Bathroom",
-  "camera": "Camera 039",
-  "area": "Second Floor",
-  "image": "sf_bathroom.jpg",
-  "pos": [
-   1.28,
-   2.235,
-   8.036
-  ],
-  "floorZ": 6.673,
-  "placeholder": false,
-  "neighbours": [
-   "sf_bedroom_04_wardrobe"
-  ]
- },
- {
   "id": "sf_bedroom_04_wardrobe",
   "name": "Bedroom 04 Wardrobe",
   "camera": "Camera 040",
@@ -747,7 +730,6 @@ window.TOUR_SCENES = [
   "floorZ": 6.656,
   "placeholder": false,
   "neighbours": [
-   "sf_bathroom",
    "sf_bedroom_04"
   ]
  },
