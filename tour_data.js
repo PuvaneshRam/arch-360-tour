@@ -867,28 +867,9 @@ window.TOUR_SCENES = [
   "floorZ": 9.656,
   "placeholder": false,
   "neighbours": [
-   "tf_terrace_door",
    "tf_terrace_lobby",
    "tf_terrace_entry",
    "sf_staircase_3"
-  ]
- },
- {
-  "id": "tf_terrace_door",
-  "name": "Terrace Door",
-  "camera": "Camera 047",
-  "area": "Terrace",
-  "image": "tf_terrace_door.jpg",
-  "pos": [
-   3.426,
-   2.117,
-   11.047
-  ],
-  "floorZ": 9.656,
-  "placeholder": false,
-  "neighbours": [
-   "tf_back_terrace_view",
-   "tf_terrace_entry"
   ]
  },
  {
@@ -905,7 +886,6 @@ window.TOUR_SCENES = [
   "floorZ": 9.656,
   "placeholder": false,
   "neighbours": [
-   "tf_terrace_door",
    "tf_back_terrace_view",
    "tf_terrace_02"
   ]
