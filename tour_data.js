@@ -564,7 +564,7 @@ window.TOUR_SCENES = [
   "placeholder": false,
   "neighbours": [
    "sf_entrance",
-   "sf_staircase_1",
+   "tf_staircase_1",
    "ff_staircase_2",
    "ff_staircase_1",
    "sf_bedroom_03_entry",
@@ -644,7 +644,7 @@ window.TOUR_SCENES = [
    "sf_lobby",
    "sf_bedroom_03",
    "ff_staircase_3",
-   "sf_staircase_1",
+   "tf_staircase_1",
    "sf_bedroom_03_bath_entry",
    "sf_passage"
   ]
@@ -666,7 +666,7 @@ window.TOUR_SCENES = [
    "sf_bedroom_03_entry",
    "sf_lobby",
    "ff_staircase_3",
-   "sf_staircase_1",
+   "tf_staircase_1",
    "sf_passage",
    "sf_bedroom_03",
    "ff_staircase_2",
@@ -690,7 +690,7 @@ window.TOUR_SCENES = [
    "sf_entrance",
    "sf_bedroom_03_entry",
    "sf_passage",
-   "sf_staircase_1",
+   "tf_staircase_1",
    "ff_staircase_3"
   ]
  },
@@ -711,9 +711,9 @@ window.TOUR_SCENES = [
    "sf_bedroom_04",
    "sf_lobby",
    "sf_entrance",
-   "sf_staircase_1",
+   "tf_staircase_1",
    "sf_bedroom_03_entry",
-   "sf_staircase_3"
+   "tf_staircase_3"
   ]
  },
  {
@@ -771,11 +771,11 @@ window.TOUR_SCENES = [
   ]
  },
  {
-  "id": "sf_staircase_1",
-  "name": "Staircase 1",
+  "id": "tf_staircase_1",
+  "name": "Terrace Staircase 01",
   "camera": "Camera 042",
-  "area": "Second Floor",
-  "image": "sf_staircase_1.jpg",
+  "area": "Terrace",
+  "image": "tf_staircase_1.jpg",
   "pos": [
    5.358,
    0.595,
@@ -785,20 +785,20 @@ window.TOUR_SCENES = [
   "placeholder": false,
   "neighbours": [
    "ff_staircase_3",
-   "sf_staircase_3",
+   "tf_staircase_3",
    "sf_entrance",
-   "sf_staircase_2",
+   "tf_staircase_2",
    "sf_bedroom_03_entry",
    "sf_lobby",
    "sf_passage"
   ]
  },
  {
-  "id": "sf_staircase_2",
-  "name": "Staircase 2",
+  "id": "tf_staircase_2",
+  "name": "Terrace Staircase 02",
   "camera": "Camera 043",
-  "area": "Second Floor",
-  "image": "sf_staircase_2.jpg",
+  "area": "Terrace",
+  "image": "tf_staircase_2.jpg",
   "pos": [
    7.175,
    -0.141,
@@ -807,17 +807,17 @@ window.TOUR_SCENES = [
   "floorZ": 8.272,
   "placeholder": false,
   "neighbours": [
-   "sf_staircase_3",
-   "sf_staircase_1",
+   "tf_staircase_3",
+   "tf_staircase_1",
    "sf_lobby"
   ]
  },
  {
-  "id": "sf_staircase_3",
-  "name": "Staircase 3",
+  "id": "tf_staircase_3",
+  "name": "Terrace Staircase 03",
   "camera": "Camera 044",
-  "area": "Second Floor",
-  "image": "sf_staircase_3.jpg",
+  "area": "Terrace",
+  "image": "tf_staircase_3.jpg",
   "pos": [
    5.303,
    -0.57,
@@ -827,8 +827,8 @@ window.TOUR_SCENES = [
   "placeholder": false,
   "neighbours": [
    "tf_terrace_lobby",
-   "sf_staircase_1",
-   "sf_staircase_2",
+   "tf_staircase_1",
+   "tf_staircase_2",
    "tf_back_terrace_view",
    "sf_passage"
   ]
@@ -847,10 +847,10 @@ window.TOUR_SCENES = [
   "floorZ": 9.656,
   "placeholder": false,
   "neighbours": [
-   "sf_staircase_3",
+   "tf_staircase_3",
    "tf_back_terrace_view",
    "tf_front_terrace_view",
-   "sf_staircase_1"
+   "tf_staircase_1"
   ]
  },
  {
@@ -869,7 +869,7 @@ window.TOUR_SCENES = [
   "neighbours": [
    "tf_terrace_lobby",
    "tf_terrace_entry",
-   "sf_staircase_3"
+   "tf_staircase_3"
   ]
  },
  {
