@@ -1,4 +1,4 @@
-/* ARCH 360 Tour â€” service worker.
+/* ARCH 360 Tour — service worker.
    Pages & data: network first (so updates show up), falling back to cache when offline.
    Panoramas, icons and the A-Frame library: cache first (they rarely change, and they're big).
    Bump CACHE when you want every installed app to drop its old cache. */
